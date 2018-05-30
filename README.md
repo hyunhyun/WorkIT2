@@ -13,7 +13,7 @@
 
 3.api 사용법: [end point 설계](ss)
 
-4.db 스키마 설계 : [db 스키마](ss)
+4.db 스키마 설계 : [db 스키마](https://oss.navercorp.com/2018-nbp-internship-team1/jeonghyun.yi/blob/master/Schema.pdf)
 
 
 
