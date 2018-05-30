@@ -7,7 +7,7 @@
 업무 일정 정리 웹사이트를 개발합니다
 </pre>
 
-1.개발 내용 : [feature list]("")  
+1.개발 내용 : [feature list](https://oss.navercorp.com/2018-nbp-internship-team1/jeonghyun.yi/wiki/featurelist&milestone)  
 
 2.프로토타입 : [prototype](https://www.fluidui.com/editor/live/project/p_5gU7gCtkbfdNQPd5rsu1fqei5xvrXP1e)  
 
