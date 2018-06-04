@@ -88,21 +88,22 @@ public class LoginController {
 		@RequestParam("password") String password,
 		@RequestParam("nickname") String nickname) {
 
-		MemberVO vo = new MemberVO();
-		vo.setMemberID(memberID);
-		//		vo.setPassword(password);
+		if (!memberID.isEmpty() && !password.isEmpty() && !nickname.isEmpty()) {
+			MemberVO vo = new MemberVO();
+			vo.setMemberID(memberID);
+			//		vo.setPassword(password);
 
-		try {
-			String hashedPW = hashWith256(password);
-			vo.setPassword(hashedPW);
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			try {
+				String hashedPW = hashWith256(password);
+				vo.setPassword(hashedPW);
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			vo.setNickname(nickname);
+
+			memberService.register(vo);
 		}
-		vo.setNickname(nickname);
-		System.out.println("register");
-
-		memberService.register(vo);
 
 		return "redirect:/login";
 	}

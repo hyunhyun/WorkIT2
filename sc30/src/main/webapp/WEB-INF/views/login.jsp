@@ -94,6 +94,8 @@ perspective: 800;
     transform: rotatey(-180deg);
 }
   .inner{margin:0px !important;}
+  
+
   </style>
 	<!-- <title>Home</title> -->
 </head>
@@ -104,18 +106,9 @@ perspective: 800;
 </h1>
 
 <P>  ${logintest}. </P>
-<c:if test="${checkID}">
-<script>
-$('.btn btn-primary btn-block').disabled = false;
-</script>
+<%-- <c:if test="${checkID}">
 </c:if>
-
-<c:if test="!${checkID}">
-<script>
-$('.btn btn-primary btn-block').disabled = true;
-</script>
-</c:if>
-
+ --%>
 
  <div class="container">
 
@@ -173,7 +166,7 @@ $('.btn btn-primary btn-block').disabled = true;
 
               <div class="panel panel-default">
 
-              <form class="form-horizontal" action="register" method="post">
+              <form class="form-horizontal"  name="fr" action="register" method="post">
                 
                 <br>
 
@@ -183,13 +176,13 @@ $('.btn btn-primary btn-block').disabled = true;
                 <label>Basic Information</label>
                  <input class="form-control" placeholder="ID" name="memberID" id="memberID"/>
                
-                <input type="button" onclick="checkID()" value="checkID"/>
+                <input type="button" onclick="checkID()" value="checkID" class="checkID">
 
                <input class="form-control" placeholder="nickname" name="nickname"/>
                 <label>Private Information</label>
                 <input class="form-control" placeholder="Password" name="password"/>
                 <!-- <input class="form-control" placeholder="Mobile Number"/>-->
-                <button class="btn btn-primary btn-block">SIGN UP</button>
+                <button class="btn btn-primary btn-block" id="signup">SIGN UP</button>
 
 
                 <p class="text-center">
@@ -217,22 +210,41 @@ $('.btn btn-primary btn-block').disabled = true;
 
     </div><!-- /.container -->
     <script>
+
+ 	$(document).ready(function(){
+      var IDchecked = false;
+        var flipped = false;
+        
+        $('#signup').prop("disabled", true);
+        
+        /*  if(fr.memberID.value.length != 0 && 
+        		fr.password.value.length != 0 && fr.nickname.value.length!= 0
+        		&& IDchecked){
+        	 $('#signup').prop("disabled", false);
+        }   */
+    }); 
+    
+    
     $('.fliper-btn').click(function(){
         $('.flip').find('.card').toggleClass('flipped');
+        if(flipped){
+        	flipped = false;
+        }else{
+        	flipped = true;
+        }
 
     });
     
-    
     function checkID(){
     	var id = $('#memberID').val();
-    	alert(id);
     	$.ajax({
     		type: "GET",
     		url: "http://localhost:8080/sc30/checkID?memberID="+id,
     		success: function(result){
     			alert("you can use ID");
-    			
-    			
+    			$('.checkID').prop("disabled", true);
+    			 $('#signup').prop("disabled", false);
+    			IDchecked = true;
     		},
     		error: function(){
     			alert("use another ID");
@@ -240,6 +252,6 @@ $('.btn btn-primary btn-block').disabled = true;
     	})
     }</script>
 </body>
-
+<!-- form에 값써지는거 계속 보고 있다가 sign up버튼 disable 버튼 false로 바꿔줘야함-->
 
 </html>
