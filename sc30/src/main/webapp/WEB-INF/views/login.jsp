@@ -104,6 +104,18 @@ perspective: 800;
 </h1>
 
 <P>  ${logintest}. </P>
+<c:if test="${checkID}">
+<script>
+$('.btn btn-primary btn-block').disabled = false;
+</script>
+</c:if>
+
+<c:if test="!${checkID}">
+<script>
+$('.btn btn-primary btn-block').disabled = true;
+</script>
+</c:if>
+
 
  <div class="container">
 
@@ -169,8 +181,11 @@ perspective: 800;
 
                 <br>
                 <label>Basic Information</label>
-                <input class="form-control" placeholder="nickname" name="nickname"/>
-                <input class="form-control" placeholder="ID" name="memberID"/>
+                 <input class="form-control" placeholder="ID" name="memberID" id="memberID"/>
+               
+                <input type="button" onclick="checkID()" value="checkID"/>
+
+               <input class="form-control" placeholder="nickname" name="nickname"/>
                 <label>Private Information</label>
                 <input class="form-control" placeholder="Password" name="password"/>
                 <!-- <input class="form-control" placeholder="Mobile Number"/>-->
@@ -205,7 +220,25 @@ perspective: 800;
     $('.fliper-btn').click(function(){
         $('.flip').find('.card').toggleClass('flipped');
 
-    });</script>
+    });
+    
+    
+    function checkID(){
+    	var id = $('#memberID').val();
+    	alert(id);
+    	$.ajax({
+    		type: "GET",
+    		url: "http://localhost:8080/sc30/checkID?memberID="+id,
+    		success: function(result){
+    			alert("you can use ID");
+    			
+    			
+    		},
+    		error: function(){
+    			alert("use another ID");
+    		}
+    	})
+    }</script>
 </body>
 
 

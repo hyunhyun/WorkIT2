@@ -1,5 +1,7 @@
 package com.spring.user.impl;
 
+import javax.inject.Inject;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,6 +14,9 @@ public class MemberDAO {
 	@Autowired
 	static SqlSession mybatis;
 
+	@Inject
+	SqlSession sqlSession;
+
 	//	private final String USER_GET = "SELECT * FROM Memeber WHERE memberID = ? AND password = ?";
 	//
 	//	public MemberVO getUser(MemberVO vo) {
@@ -23,6 +28,10 @@ public class MemberDAO {
 			mybatis = SqlSessionFactoryBean.getSqlSessionInstance();
 		}
 	*/
+
+	public int insertMember(MemberVO vo) {
+		return mybatis.insert("MemberDAO.insertMember");
+	}
 
 	public MemberVO getMember(MemberVO vo) {
 		return mybatis.selectOne("MemberDAO.selectMember");
