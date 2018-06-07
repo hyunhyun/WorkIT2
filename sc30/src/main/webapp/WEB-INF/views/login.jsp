@@ -1,8 +1,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="true" %>
+
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
 <!------ Include the above in your HEAD tag ---------->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"  rel="stylesheet">
 <html>
@@ -132,7 +134,7 @@ perspective: 800;
  	<br>
       <h1 class="text-center">LOGO</h1>
     <br>
-     <input class="form-control" name="memberID" type="placeholder="Username"/>
+     <input class="form-control" name="memberID" "placeholder="Username"/>
 	 <input class="form-control" name="password" placeholder="Password"/>
 
 	<button class="btn btn-primary btn-block" type="submit">LOG IN</button>
@@ -173,13 +175,13 @@ perspective: 800;
                 <h1 class="text-center">LOGO</h1>
 
                 <br>
-                <label>Basic Information</label>
+             <label>Member Information</label>
                  <input class="form-control" placeholder="ID" name="memberID" id="memberID"/>
                
                 <input type="button" onclick="checkID()" value="checkID" class="checkID">
 
                <input class="form-control" placeholder="nickname" name="nickname"/>
-                <label>Private Information</label>
+               <!--  <label>Private Information</label> -->
                 <input class="form-control" placeholder="Password" name="password"/>
                 <!-- <input class="form-control" placeholder="Mobile Number"/>-->
                 <button class="btn btn-primary btn-block" id="signup">SIGN UP</button>

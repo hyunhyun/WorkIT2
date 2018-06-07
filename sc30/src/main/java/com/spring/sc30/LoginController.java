@@ -69,7 +69,7 @@ public class LoginController {
 			model.addAttribute("logintest", "loginprocess" + member.toString());
 			session.setAttribute("memberID", member.getMemberID());
 
-			return "redirect:/main";
+			return "redirect:/board";
 		}
 		return "login";
 	}
