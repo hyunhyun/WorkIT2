@@ -1,18 +1,15 @@
-package com.spring.sc30;
+package com.spring.controller;
 
 import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.spring.model.MemoVO;
 import com.spring.model.TeamMemberVO;
 import com.spring.model.TopicVO;
 import com.spring.service.MemberService;
@@ -50,31 +47,24 @@ public class MainController {
 	//	}
 
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
-	public String home(Locale locale, Model model, @RequestParam("teamID") int teamID) {
+	public ModelAndView home(Locale locale, @RequestParam("teamID") int teamID) {
 		//화면 키자마자 보여야할거 - 해당 팀의 topic,(첫번째 topic의 글 리스트)
 
 		List<TopicVO> topicList = topicService.getTopiclist(teamID);
-		model.addAttribute("topicList", topicList);
 
 		List<TeamMemberVO> memberList = teamService.getTeamMember(teamID);
-		model.addAttribute("members", memberList);
+
+		System.out.println("teamID : " + teamID);
+
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("topicList", topicList);
+		mv.addObject("members", memberList);
+		mv.addObject("teamID", teamID);
+		mv.setViewName("main");
 
 		//mywork
 
-		return "main";
-	}
-
-	@RequestMapping(value = "/getTopicMemo", method = RequestMethod.GET)
-	public ResponseEntity<Void> getTeamTopic(Model model, @RequestParam("topicID") int topicID) {
-
-		List<MemoVO> memoList = memoService.getMemoList(topicID);
-		if (memoList != null && !memoList.isEmpty()) {
-			model.addAttribute("topicMemo", memoList);
-
-			return new ResponseEntity<Void>(HttpStatus.OK);
-		} else {
-			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-		}
+		return mv;
 	}
 
 }

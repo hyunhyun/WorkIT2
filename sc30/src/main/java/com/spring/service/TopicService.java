@@ -12,4 +12,6 @@ public interface TopicService {
 	//	update
 
 	public List<TopicVO> getTopiclist(int teamID);
+
+	public int deleteTopic(int topicID);
 }

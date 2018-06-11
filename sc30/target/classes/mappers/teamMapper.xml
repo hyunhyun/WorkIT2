@@ -41,13 +41,25 @@
 		select *
 		from TeamMember join Team 
 		using(teamID)
-		where TeamMember.memberID = #{memberID};
+		where TeamMember.memberID = #{memberID}
 	</select>
 	
 	<select id="getTeamMember" resultType="com.spring.model.TeamMemberVO">
 		select *
 		from TeamMember
-		where teamID = #{teamID};
+		where teamID = #{teamID}
 	</select>
+	
+	<update id="updateTeamName" parameterType="com.spring.model.TeamVO">
+		update Team
+		set teamName = ${teamName}
+		where teamID = ${teamID}
+	</update>
+	
+	<delete id="deleteTeam">
+		delete 
+		from Team
+		where teamID = #{teamID}
+	</delete>
 	
 </mapper>

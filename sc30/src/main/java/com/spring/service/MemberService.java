@@ -6,4 +6,6 @@ public interface MemberService {
 	MemberVO getMember(String memberID);
 
 	void register(MemberVO member);
+
+	String login(MemberVO member);
 }

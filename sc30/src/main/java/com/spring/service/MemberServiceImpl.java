@@ -1,11 +1,16 @@
 package com.spring.service;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.spring.dao.MemberDAO;
 import com.spring.model.MemberVO;
-import com.spring.persistence.MemberDAO;
 
 @Service("memberService")
 public class MemberServiceImpl implements MemberService {
@@ -20,9 +25,45 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void register(MemberVO member) {
 
-		// DB에 넣고 DB테이블에서 직접 확인해봐야 한다.
+		String hashedPW;
+
+		try {
+			hashedPW = hashWith256(member.getPassword());
+			member.setPassword(hashedPW);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
 
 		memberDao.register(member);
 		return;
+	}
+
+	String hashWith256(String textToHash) throws NoSuchAlgorithmException {
+		MessageDigest digest = MessageDigest.getInstance("SHA-256");
+		byte[] byteOfTextToHash = textToHash.getBytes(StandardCharsets.UTF_8);
+		byte[] hashedByteArray = digest.digest(byteOfTextToHash);
+		//	    String encoded = Base64.encode(hashedByetArray);
+		String encoded = Base64.getEncoder().encodeToString(hashedByteArray);
+		return encoded;
+	}
+
+	@Override
+	public String login(MemberVO member) {
+		String hashedPW = null;
+		try {
+			hashedPW = hashWith256(member.getPassword());
+			member.setPassword(hashedPW);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		MemberVO vo = memberDao.get(member.getMemberID());
+		if (vo == null) {
+			return "no ID";
+		} else if (!vo.getPassword().equals(hashedPW)) {
+			return "authentication fail";
+		} else {
+			return "success";
+		}
+
 	}
 }

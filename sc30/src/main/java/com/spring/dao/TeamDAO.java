@@ -1,4 +1,4 @@
-package com.spring.persistence;
+package com.spring.dao;
 
 import java.util.List;
 
@@ -49,4 +49,11 @@ public class TeamDAO {
 		return listTeam;
 	}
 
+	public int updateTeamName(TeamVO teamVO) {
+		return sqlSession.update(namespace + ".updateTeamName", teamVO);
+	}
+
+	public int deleteTeam(int teamID) {
+		return sqlSession.delete(namespace + ".deleteTeam", teamID);
+	}
 }

@@ -130,7 +130,7 @@ perspective: 800;
 
             <div class="panel panel-default">
 
-<form class="form-horizontal" action="loginProcess" method="post">
+<form class="form-horizontal" action="login" method="post">
  	<br>
       <h1 class="text-center">LOGO</h1>
     <br>
@@ -154,7 +154,7 @@ perspective: 800;
 		
 	</script>
 	
-	<!-- <form action="logout" method="get">
+	<!-- <form action="auth/logout" method="get">
 	
 	<input type="submit" name="logout" value="logout"/>
 	<a href="logout">logout</a>
@@ -194,16 +194,9 @@ perspective: 800;
               </form>
 
             </div>
-
-
-
-
           </div>
         </div>   
       </div>
-
-
-
 
         </div>
         <div class="col-md-4"></div>
@@ -239,19 +232,28 @@ perspective: 800;
     
     function checkID(){
     	var id = $('#memberID').val();
+    	if(id.length > 10){
+    		$('#memberID').attr("placeholder","아이디는 10자리 이하");
+    	}
+    	
     	$.ajax({
     		type: "GET",
-    		url: "http://localhost:8080/sc30/checkID?memberID="+id,
+    		url: "http://localhost:8080/sc30/auth/checkID?memberID="+id,
     		success: function(result){
     			alert("you can use ID");
     			$('.checkID').prop("disabled", true);
     			 $('#signup').prop("disabled", false);
     			IDchecked = true;
     		},
-    		error: function(){
-    			alert("use another ID");
+    		error: function(request, error){
+    			if(request.status = 409){
+    				alert("use another ID");
+    			}else{
+    				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+    			}		
     		}
     	})
+    	
     }</script>
 </body>
 <!-- form에 값써지는거 계속 보고 있다가 sign up버튼 disable 버튼 false로 바꿔줘야함-->

@@ -7,8 +7,9 @@ package sc30;
 import javax.inject.Inject;
 
 import org.junit.Test;
+
+import com.spring.dao.MemberDAO;
 import com.spring.model.MemberVO;
-import com.spring.persistence.MemberDAO;
 
 public class MemberDAOImplTest extends AbstractTest{
 

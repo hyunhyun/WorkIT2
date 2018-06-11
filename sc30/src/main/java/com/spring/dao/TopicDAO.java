@@ -1,4 +1,4 @@
-package com.spring.persistence;
+package com.spring.dao;
 
 import java.util.List;
 
@@ -16,8 +16,8 @@ public class TopicDAO {
 
 	private static final String namespace = "com.spring.mapper.TopicMapper";
 
-	public void registerTopic(TopicVO vo) {
-		sqlSession.insert(namespace + ".registerTopic", vo);
+	public int registerTopic(TopicVO vo) {
+		return sqlSession.insert(namespace + ".registerTopic", vo);
 	}
 
 	public TopicVO getTopic(int topicID) {
@@ -28,6 +28,10 @@ public class TopicDAO {
 
 	public List<TopicVO> getTopicList(int teamID) {
 		return sqlSession.selectList(namespace + ".getTopicList", teamID);
+	}
+
+	public int deleteTopic(int topicID) {
+		return sqlSession.delete(namespace + ".deleteTopic", topicID);
 	}
 
 }

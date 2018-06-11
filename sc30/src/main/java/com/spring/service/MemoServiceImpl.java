@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.dao.MemoDAO;
 import com.spring.model.MemoVO;
-import com.spring.persistence.MemoDAO;
 
 @Service("memoService")
 public class MemoServiceImpl implements MemoService {

@@ -9,9 +9,10 @@ public class TeamVO {
 		return teamID;
 	}
 
-	//	public void setGroupID(int groupID) {
-	//		this.groupID = groupID;
-	//	}
+	public void setTeamID(int teamID) {
+		this.teamID = teamID;
+	}
+
 	public String getTeamName() {
 		return teamName;
 	}

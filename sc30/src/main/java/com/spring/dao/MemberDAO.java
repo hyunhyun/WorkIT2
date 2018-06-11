@@ -1,4 +1,4 @@
-package com.spring.persistence;
+package com.spring.dao;
 
 import com.spring.model.MemberVO;
 

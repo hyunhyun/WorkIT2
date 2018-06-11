@@ -6,7 +6,7 @@
 
 	<!-- 이거에 접근할 때 namespace.id 로 접근한다. -->
 	<!-- resultType은 자바의 타입과 매핑되는 것이 있다. 여기선 string이 java.lang.String과 매핑 -->
-	<insert id="register">
+	<insert id="register" parameterType="com.spring.model.MemberVO">
 		insert into Member(memberID, password, nickname)
 		values( #{memberID} , #{password}, #{nickname});
 	</insert>
@@ -28,5 +28,11 @@
 	<select id="getList" resultType="com.spring.model.MemberVO">
 		select *
 		from Member;
+	</select>
+	
+	<select id="searchID" resultType="com.spring.model.MemberVO">
+		select * 
+		from Member
+		where nickname LIKE #{nickname}+"%" ;
 	</select>
 </mapper>
