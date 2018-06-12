@@ -122,11 +122,16 @@ createTopic
 	<input type="text" name="responsable" placeholder="responsable" id="responsable_create"/>
 	<input type="button" value="완료" onclick="submitMemo()">
 </div>
-<div id="readMemoDiv">
-	<div id="title_read">제목</div>
-	<div id="content_read">내용</div>
-	<div id="responsable_read">책임자</div>
+
+<div id="memoContainer">
+	<input type="button" onclick="updateMemo()" value="수정하기">
+	<input type="button" onclick="deleteMemo()" value="삭제하기">
+	<div id="readMemoDiv">
+		<div id="title_read">제목</div>
+		<div id="content_read">내용</div>
+		<div id="responsable_read">책임자</div>
 	</div>
+</div>
 	
 	
 	<!-- Modal -->
@@ -156,6 +161,7 @@ createTopic
 	</div>
 	<script>
 	var globalTopicID = null;
+	var globalMemoID = null;
 	
 	function createTopic(){
 		var topicName = $("#tName").val();
@@ -207,7 +213,7 @@ createTopic
 					
 					for(var i=0; i<jLength; i++){
 						var title = jObject[i].title;
-						var div = $("<div id= 'memo_"+i+"'>"+title+"</div>");
+						var div = $("<div id= 'memo_"+i+"' onclick='selectMemo("+jObject[i].memoID+")'>"+title+"</div>");
 						$("#memoContainer").append(div);
 					}
 					
@@ -366,6 +372,75 @@ createTopic
 			            }
 			        }
 			})	
+		}
+		
+		function selectMemo(memoID){
+			globalMemoID = memoID;
+			
+			$.ajax({
+				type:"GET",
+				url:"http://localhost:8080/sc30/memo/"+memoID,
+				success: function(result, status,xhr){
+					alert("memo select success");
+					
+					var jsonString = JSON.stringify(result);
+					var jObject = JSON.parse(jsonString);
+					$("#title_read").text(jObject.title);
+					$("#content_read").text(jObject.content);
+					$("#responsable_read").text(jObject.responsable);
+					
+				},
+				error :function(jqXHR,request, error){
+					console.log(jqXHR);
+					console.log(status);
+					console.log(error);
+				},
+				statusCode: {
+			        200: function () {
+			            console.log("200 - Success");
+			        },
+			        404: function(request, status, error) {
+			            console.log("404 - Not Found");
+			            console.log(error);
+			        },
+			        500: function(request, status, error){
+			        	console.log("500 - Internal Server Error");
+			            console.log(error);			
+			            }
+			        }
+			})
+		}
+		
+		function updateMemo(){
+			
+		}
+		
+		function deleteMemo(){
+			$.ajax({
+				type:"DELETE",
+				url:"http://localhost:8080/sc30/memo/"+globalMemoID,
+				success: function(result, status,xhr){
+					alert("memo deleted");
+				},
+				error :function(jqXHR,request, error){
+					console.log(jqXHR);
+					console.log(status);
+					console.log(error);
+				},
+				statusCode: {
+			        200: function () {
+			            console.log("200 - Success");
+			        },
+			        404: function(request, status, error) {
+			            console.log("404 - Not Found");
+			            console.log(error);
+			        },
+			        500: function(request, status, error){
+			        	console.log("500 - Internal Server Error");
+			            console.log(error);			
+			            }
+			        }
+			})
 		}
 		
 	</script>

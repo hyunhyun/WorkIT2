@@ -34,4 +34,15 @@ public class MemoServiceImpl implements MemoService {
 		}
 	}
 
+	@Override
+	public MemoVO getMemo(int memoID) {
+		MemoVO vo = memoDao.getMemo(memoID);
+		return vo;
+	}
+
+	@Override
+	public int deleteMemo(int memoID) {
+		return memoDao.deleteMemo(memoID);
+	}
+
 }

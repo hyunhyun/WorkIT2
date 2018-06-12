@@ -27,4 +27,8 @@ public class MemoDAO {
 	public MemoVO getMemo(int memoID) {
 		return sqlSession.selectOne(namespace + ".getMemo", memoID);
 	}
+
+	public int deleteMemo(int memoID) {
+		return sqlSession.delete(namespace + ".deleteMemo", memoID);
+	}
 }

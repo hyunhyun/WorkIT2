@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,41 +51,41 @@ public class MemoController {
 
 	// /memo/{memoID} PUT
 	@RequestMapping(value = "/memo", method = RequestMethod.PUT)
-	public void updateMemo(@RequestParam("memoID") int memoID) {}
+	public void updateMemo(@RequestParam("memoID") int memoID) {
+
+	}
 
 	@RequestMapping(value = "/memo/list/{topicID}", method = RequestMethod.GET)
 	@ResponseBody
 	public List<MemoVO> getTopicMemo(Model model, @PathVariable(value = "topicID") int topicID) {
-		System.out.println("controller start");
-
 		List<MemoVO> memoList = memoService.getMemoList(topicID);
-		System.out.println("getMemolist done");
 
 		if (memoList != null && !memoList.isEmpty()) {
 			model.addAttribute("topicMemo", memoList);
-
-			System.out.println("before return if");
-			//return new ResponseEntity<List<MemoVO>>(memoList, HttpStatus.OK);
-
-			//before return if 까지찍힘
-			//return 하고 문제 javascript랑 받는문제
-		} else {
-
-			System.out.println("before return else");
-			//return new ResponseEntity<List<MemoVO>>(HttpStatus.SERVICE_UNAVAILABLE);
 		}
 
 		return memoList;
 
 	}
 
-	@RequestMapping(value = "/memo", method = RequestMethod.GET)
-	public MemoVO getMemo(@RequestParam("memoID") int memoID) {
-		return null;
+	@RequestMapping(value = "/memo/{memoID}", method = RequestMethod.GET)
+	@ResponseBody
+	public MemoVO getMemo(@PathVariable(value = "memoID") int memoID) {
+		MemoVO vo = memoService.getMemo(memoID);
+
+		return vo;
 	}
 
-	@RequestMapping(value = "/memo", method = RequestMethod.DELETE)
-	public void deleteMemo(@RequestParam("memoID") int memoID) {}
+	@RequestMapping(value = "/memo/{memoID}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> deleteMemo(@PathVariable(value = "memoID") int memoID) {
+		int rowCount = memoService.deleteMemo(memoID);
+
+		if (rowCount > 0) {
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 
 	@RequestMapping(value = "/memo/mylist", method = RequestMethod.GET)
 	public List<MemoVO> myWorkMemoList(@RequestParam("memberID") String memberID) {
