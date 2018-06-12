@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -74,24 +75,30 @@ public class TeamController {
 	}
 
 	@RequestMapping(value = "/team", method = RequestMethod.PUT)
-	//	public ResponseEntity<Void> updateTeamName(@RequestParam("teamID") int teamID,
-	//		@RequestParam("teamName") String teamName) {
-	//public String updateTeamName(@RequestBody String data) throws ParseException {
-	public String update(@RequestParam("teamID") int teamID, @RequestParam("teamName") String teamName) {
+	public ResponseEntity<Void> updateTeamName(@RequestParam("teamID") int teamID,
+		@RequestParam("teamName") String teamName) {
+		//public String updateTeamName(@RequestBody String data) throws ParseException {
+		//public String update(@RequestParam("teamID") int teamID, @RequestParam("teamName") String teamName) {
 		System.out.println("team update Controller");
 		//System.out.println(data);
-		//		return teamService.updateTeamName(teamID, teamName);
+		return teamService.updateTeamName(teamID, teamName);
 		//JSONParser jsonParser = new JSONParser();
 
 		//JSONObject jsonObject = (JSONObject)jsonParser.parse(data);
 		//int teamID = (int)jsonObject.get("teamID");
 		//System.out.println("teamID : " + teamID);
 
-		return "board";
+		//return "board";
 	}
 
-	@RequestMapping(value = "/team", method = RequestMethod.DELETE)
-	public ResponseEntity<Void> deleteTeam(@RequestParam("teamID") int teamID) {
+	//	@RequestMapping(value = "/team", method = RequestMethod.DELETE)
+	//	public ResponseEntity<Void> deleteTeam(@RequestParam("teamID") int teamID) {
+	//		System.out.println("team delete start");
+	//		return teamService.deleteTeam(teamID);
+	//	}
+
+	@RequestMapping(value = "/team/{teamID}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> deleteTeam(@PathVariable(value = "teamID") int teamID) {
 		System.out.println("team delete start");
 		return teamService.deleteTeam(teamID);
 	}

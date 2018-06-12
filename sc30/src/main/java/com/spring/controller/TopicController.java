@@ -58,8 +58,10 @@ public class TopicController {
 	}
 
 	@RequestMapping(value = "/topic", method = RequestMethod.PUT)
-	public void updateTopic() {
+	public ResponseEntity<Void> updateTopic(@RequestParam("topicID") int topicID,
+		@RequestParam("topicName") String topicName) {
 
+		return topicService.updateTopic(topicID, topicName);
 	}
 
 	@RequestMapping(value = "/topic", method = RequestMethod.GET)

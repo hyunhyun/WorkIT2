@@ -34,4 +34,8 @@ public class TopicDAO {
 		return sqlSession.delete(namespace + ".deleteTopic", topicID);
 	}
 
+	public int updateTopic(TopicVO vo) {
+		return sqlSession.update(namespace + ".updateTopic", vo);
+	}
+
 }

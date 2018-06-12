@@ -3,6 +3,8 @@ package com.spring.controller;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,8 +49,11 @@ public class MainController {
 	//	}
 
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
-	public ModelAndView home(Locale locale, @RequestParam("teamID") int teamID) {
+	public ModelAndView showMain(Locale locale, @RequestParam("teamID") int teamID, HttpSession session) {
 		//화면 키자마자 보여야할거 - 해당 팀의 topic,(첫번째 topic의 글 리스트)
+
+		//		if (session.getAttribute("memberID") != null) {
+		String memberID = (String)session.getAttribute("memberID");
 
 		List<TopicVO> topicList = topicService.getTopiclist(teamID);
 
@@ -60,11 +65,20 @@ public class MainController {
 		mv.addObject("topicList", topicList);
 		mv.addObject("members", memberList);
 		mv.addObject("teamID", teamID);
+		mv.addObject("memberID", memberID);
 		mv.setViewName("main");
+
+		return mv;
+		//		}
+		//		else {
+		//			ModelAndView mv = new ModelAndView();
+		//			mv.setViewName("auth/login");
+		//
+		//			return mv;
+		//		}
 
 		//mywork
 
-		return mv;
 	}
 
 }

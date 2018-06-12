@@ -1,18 +1,16 @@
 package com.spring.model;
 
-import java.security.Timestamp;
-
 public class MemoVO {
 
 	private int memoID;
 	private int topicID;
 	private String title;
 	private String content;
-	private Timestamp date;
+	private java.sql.Timestamp date;
 	private String writer;
 	private String responsable;
-	//	private file;
 
+	//	private file;
 	public int getMemoID() {
 		return memoID;
 	}
@@ -45,11 +43,11 @@ public class MemoVO {
 		this.content = content;
 	}
 
-	public Timestamp getDate() {
+	public java.sql.Timestamp getDate() {
 		return date;
 	}
 
-	public void setDate(Timestamp date) {
+	public void setDate(java.sql.Timestamp date) {
 		this.date = date;
 	}
 

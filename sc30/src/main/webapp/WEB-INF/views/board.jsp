@@ -157,16 +157,18 @@
 			totalInfo.teamID = teamID;
 			
 			console.log(totalInfo);
+			var jsonInfo = JSON.stringify(totalInfo);
 			alert(JSON.stringify(totalInfo))
 			
 			$.ajax({
 				type:"DELETE",
-				url:"http://localhost:8080/sc30/team",
-				data: totalInfo,
-				datatype: "JSON",
+				//url:"http://localhost:8080/sc30/team",
+				url:"http://localhost:8080/sc30/team/"+teamID,
+				//data: jsonInfo,
+				//datatype: "JSON",
 				contentType : "application/json; charset=UTF-8",
 				success: function(data){
-					alert("teamName updated");
+					alert("teamName deleted");
 				},
 				error :function(jqXHR,request, error){
 					console.log(jqXHR);
@@ -190,7 +192,7 @@
 		}
 		
 		function show(teamID, teamName){
-			alert("show");
+			//alert("show");
 			globalTeamID = teamID
 			//$(".modal-content").modal('show');
 			$("#updateTeamModal").modal('show');
@@ -210,8 +212,8 @@
 				type:"PUT",
 				url:"http://localhost:8080/sc30/team",
 				data: totalInfo,
-				//datatype: "JSON",
-				//contentType : "application/json; charset=UTF-8",
+				//datatype: "JSON",			//default
+				//contentType : "application/json; charset=UTF-8",		//default
 				success: function(data){
 					alert("teamName updated");
 				},

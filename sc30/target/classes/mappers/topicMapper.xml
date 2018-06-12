@@ -36,15 +36,19 @@
 	<select id="getTopicList" resultType="com.spring.model.TopicVO">
 		select *
 		from Topic
-		where teamID = #{teamID};
+		where teamID = #{teamID}
 	</select>
 	
 	<delete id="deleteTopic" parameterType="java.lang.Integer">
 		delete 
 		from Topic
-		where topicID = #{topicID};
+		where topicID = #{topicID}
 	</delete>
 	
-	
+	<update id="updateTopic" parameterType="com.spring.model.TopicVO">
+		update Topic
+		set topicName = #{topicName}
+		where topicID = #{topicID}	
+	</update>
 	
 </mapper>

@@ -52,7 +52,7 @@
 	
 	<update id="updateTeamName" parameterType="com.spring.model.TeamVO">
 		update Team
-		set teamName = ${teamName}
+		set teamName = '${teamName}'
 		where teamID = ${teamID}
 	</update>
 	

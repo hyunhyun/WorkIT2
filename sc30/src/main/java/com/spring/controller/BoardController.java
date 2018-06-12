@@ -42,6 +42,10 @@ public class BoardController {
 	@RequestMapping(value = "/board", method = RequestMethod.GET)
 	public String showBoard(Locale locale, Model model, HttpSession session) {
 		String memberID = (String)session.getAttribute("memberID");
+		//		if (memberID == null || memberID.equals("")) {
+		//			return "auth/login";
+		//		}
+
 		List<MyTeamVO> listTeam = teamService.getmyTeamList(memberID);
 
 		model.addAttribute("listTeam", listTeam);

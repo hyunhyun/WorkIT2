@@ -19,4 +19,12 @@ public class MemoDAO {
 	public List<MemoVO> getMemoList(int topicID) {
 		return sqlSession.selectList(namespace + ".getMemoList", topicID);
 	}
+
+	public int createMemo(MemoVO memoVO) {
+		return sqlSession.insert(namespace + ".createMemo", memoVO);
+	}
+
+	public MemoVO getMemo(int memoID) {
+		return sqlSession.selectOne(namespace + ".getMemo", memoID);
+	}
 }
