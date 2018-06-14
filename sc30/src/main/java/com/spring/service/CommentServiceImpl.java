@@ -44,14 +44,12 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public int deleteComment(int commentID) {
-		// TODO Auto-generated method stub
-		return 0;
+		return commentDao.deleteComment(commentID);
 	}
 
 	@Override
-	public CommentVO updateComment(CommentVO vo) {
-		// TODO Auto-generated method stub
-		return null;
+	public int updateComment(CommentVO vo) {
+		return commentDao.updateComment(vo);
 	}
 
 }

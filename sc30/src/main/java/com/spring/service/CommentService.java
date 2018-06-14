@@ -16,5 +16,5 @@ public interface CommentService {
 
 	public int deleteComment(int commentID);
 
-	public CommentVO updateComment(CommentVO vo);
+	public int updateComment(CommentVO vo);
 }

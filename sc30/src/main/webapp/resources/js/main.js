@@ -1,5 +1,6 @@
 	var globalTopicID = null;
 	var globalMemoID = null;
+	var globalOpenComment = false;
 	
 	function createTopic(){
 		var topicName = $("#tName").val();
@@ -49,6 +50,8 @@
 					//alert(jObject[0].memoID);
 					//alert(jObject[0].title);
 					
+		
+					
 					for(var i=0; i<jLength; i++){
 						var title = jObject[i].title;
 						var div = $("<div id= 'memo_"+i+"' onclick='selectMemo("+jObject[i].memoID+")'>"+title+"</div>");
@@ -75,7 +78,7 @@
 		
 		function createMemo(){
 			var createMemoDiv= $("#createMemoDiv");
-			createMemoDiv.prop('hidden', false);			
+			createMemoDiv.prop('hidden', false);		
 		}
 		
 		function submitMemo(){		
@@ -113,6 +116,9 @@
 					
 					console.log(result);
 					
+					$("#memoContainer").prop('hidden', true);
+					
+					$("#readMemoDiv").prop
 				/* var obj = JSON.parse(json);
 					var data_title = obj.title;
 					var data_content= obj.content;
@@ -363,6 +369,10 @@
 				data: jObject,
 				success: function(result, status,xhr){
 					alert("comment created");
+					
+					globalOpenComment = false;
+					$("#commentList").empty();
+					getMemoComment();
 				},
 				error :function(jqXHR,request, error){
 					console.log(jqXHR);
@@ -387,13 +397,106 @@
 		
 		
 		function getMemoComment(){
+			if(!globalOpenComment){
 			$.ajax({
 				type:"GET",
 				url:"http://localhost:8080/sc30/comment/list/"+globalMemoID,
-				data: jObject,
 				success: function(result, status,xhr){
 					alert("memoList success");
+					//comment 붙이기
+					
+					//var jsonString = JSON.stringify(result);
+					//var jObject = JSON.parse(jsonString);
+					//var jLength = jObject.length;
+					//alert("length: " + jObject.length);
+					
+					//alert(jObject[0].memoID);
+					//alert(jObject[0].title);
+					
+					alert("length : "+result.length);
+					alert("content:"+result[0].content);
+					
+					
+					for(var i=0; i<result.length; i++){
+
+						var commentList = $("#commentList");
+						var div = "<div class='commentContainer' id='commentContainer_"+result[i].commentID+"'></div>"; 
+						var readDiv = "<div id='commentReadContainer_"+result[i].commentID+"'></div>";
+						var writer = "<div class='commentWriter'>글쓴이 : "+result[i].writer+"</div>";
+						var contentDiv = "<div class='commentContent' id='commentContentRead_"+result[i].commentID+"'>"+result[i].content+"</div>";
+						var updateBtn = "<input type='button' class='commentUpdateBtn' onclick='showUpdateComment("+result[i].commentID+")' value='수정'/>";
+						var deleteBtn = "<input type='button' class='commentDeleteBtn' onclick='deleteComment("+result[i].commentID+")' value='삭제'/>";
+						
+						var updateDiv = "<div id='commentUpdateContainer_"+result[i].commentID+"'  hidden='true'></div>";
+						var contentUpdate = "<input type='text' class='commentContent' id='commentContentUpdate_"+result[i].commentID+"' placeholder='"+result[i].content+"'/>";
+						var updateSendBtn = "<input type='button' class='commentUpdateSend' onclick='updateComment("+result[i].commentID+")' value='저장'/>";
+						
+//						var comment = commentList.append(div);
+						commentList.append(div);
+//						var commentRead = comment.append(readDiv);
+						var comment = $("#commentContainer_"+result[i].commentID);
+						comment.append(readDiv);
+						
+						
+						commentRead = $("#commentReadContainer_"+result[i].commentID);
+						
+						commentRead.append(writer);
+						commentRead.append(contentDiv);
+					
+						if(result[i].writer == memberID){
+							commentRead.append(updateBtn);
+							commentRead.append(deleteBtn);	
+						}
+						comment.append(updateDiv);
+						var commentUpdate = $("#commentUpdateContainer_"+result[i].commentID);
+						commentUpdate.append(contentUpdate);
+						commentUpdate.append(updateSendBtn);
+//						comment.append(contentUpdate);
+					}
+					
+					globalOpenComment = true;
+					
 				},
+			
+				error :function(jqXHR,request, error){
+					console.log(jqXHR);
+					console.log(status);
+					console.log(error);
+				},
+				statusCode: {
+			        200: function () {
+			            console.log("200 - Success");
+			        },
+			        404: function(request, status, error) {
+			            console.log("404 - Not Found");
+			            console.log(error);
+			        },
+			        500: function(request, status, error){
+			        	console.log("500 - Internal Server Error");
+			            console.log(error);			
+			            }
+			        }
+			})
+			}else{
+				$("#commentList").empty();
+				globalOpenComment = false;
+			}
+			
+		}
+		
+		
+		function deleteComment(commentID){
+			$.ajax({
+				type:"DELETE",
+				url:"http://localhost:8080/sc30/comment/"+commentID,
+				success: function(result, status,xhr){
+					alert("comment deleted");
+					
+					globalOpenComment = false;
+					$("#commentList").empty();
+					getMemoComment();
+				},
+			
 				error :function(jqXHR,request, error){
 					console.log(jqXHR);
 					console.log(status);
@@ -414,3 +517,62 @@
 			        }
 			})
 		}
+		
+		function showUpdateComment(commentID){
+			
+//			$("#commentUpdateContainer_"+commentID).prop('hidden', 'false');
+//			$("#commentReadContainer_"+commentID).prop('hidden', 'true');
+			
+			var content = $("#commentContentRead_"+commentID).text();
+			alert(content);
+			$("#commentContentUpdate_"+commentID).val(content);
+			
+			$("#commentUpdateContainer_"+commentID).toggle();
+			$("#commentReadContainer_"+commentID).toggle();
+			
+//			$("#commentUpdateContainer_"+commentID).show();
+//			$("#commentReadContainer_"+commentID).hide();
+			
+			
+//			$().attr('value',content);
+		}
+		
+		function updateComment(commentID){
+			var content =$("#commentContentUpdate_"+commentID).val();
+			
+			var jObject = new Object();
+			jObject.content = content;
+			
+			$.ajax({
+				type:"PUT",
+				url:"http://localhost:8080/sc30/comment/"+commentID,
+				data: jObject,
+				success: function(result, status,xhr){
+					alert("comment updated");	
+					globalOpenComment = false;
+					$("#commentList").empty();
+					getMemoComment();
+				},
+			
+				error :function(jqXHR,request, error){
+					console.log(jqXHR);
+					console.log(status);
+					console.log(error);
+				},
+				statusCode: {
+			        200: function () {
+			            console.log("200 - Success");
+			        },
+			        404: function(request, status, error) {
+			            console.log("404 - Not Found");
+			            console.log(error);
+			        },
+			        500: function(request, status, error){
+			        	console.log("500 - Internal Server Error");
+			            console.log(error);			
+			            }
+			        }
+			})
+		}
+		
+

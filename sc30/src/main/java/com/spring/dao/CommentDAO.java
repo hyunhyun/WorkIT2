@@ -32,7 +32,7 @@ public class CommentDAO {
 		return sqlSession.delete(namespace + ".deleteComment", commentID);
 	}
 
-	public CommentVO updateComment(CommentVO vo) {
-		return sqlSession.selectOne(namespace + ".updateComment", vo);
+	public int updateComment(CommentVO vo) {
+		return sqlSession.update(namespace + ".updateComment", vo);
 	}
 }

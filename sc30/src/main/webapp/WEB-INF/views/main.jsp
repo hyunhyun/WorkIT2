@@ -32,6 +32,7 @@
 
 	<script>
 		var teamID =  ${teamID};
+		var memberID = '<%= session.getAttribute("memberID") %>';
 	</script>
 	<script src="resources/js/main.js"></script>
 	
@@ -109,7 +110,7 @@ createTopic
 <div class="container-fluid" id="memoContainer">
 <div id="insideMemoContainer">memocontainer</div>
 
-<input type="button" value="create Memo" onclick="createMemo()"/>
+<input type="button" id="createMemoBtn"value="create Memo" onclick="createMemo()"/>
 
 
 </div>
@@ -125,7 +126,7 @@ createTopic
 <div id="memoContainer">
 
 
-	<div id="noMemoDiv">
+	<div id="noMemoDiv" hiddent="true">
 		<div>제목</div>
 		<div>내용</div>
 		<div>책임자</div>
@@ -138,13 +139,15 @@ createTopic
 		<div id="title_read">제목</div>
 		<div id="content_read">내용</div>
 		<div id="responsable_read">책임자</div>
-		<input type="button" value="댓글 숨기기"/>
+		<input type="button" value="댓글" onclick="getMemoComment()"/>
 		<!-- <input type="button" onclick="addComment()" value="+댓글"/> -->
 		
 		<div id="createComment">
 		<input type="text" id="commentText" placeholder="댓글 작성"/>
 		<input type="button" onclick="registerComment();" value="댓글 저장"/>
 		</div>
+		
+		<div id="commentList"></div>
 	</div>
 	
 	<div id="updateMemoDiv" hidden="true">

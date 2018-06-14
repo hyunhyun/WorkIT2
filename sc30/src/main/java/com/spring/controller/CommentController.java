@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,8 +40,30 @@ public class CommentController {
 	}
 
 	@RequestMapping(value = "/comment/{commentID}", method = RequestMethod.PUT)
-	public void updateMemo(@PathVariable(value = "commentID") int commentID) {
-		//TODO update
+	public ResponseEntity<Void> updateComment(@PathVariable(value = "commentID") int commentID,
+		@RequestParam("content") String content) {
+
+		long retryDate = System.currentTimeMillis();
+		CommentVO commentVO = new CommentVO();
+		commentVO.setCommentID(commentID);
+		commentVO.setContent(content);
+		commentVO.setDate(new Timestamp(retryDate));
+
+		int rowCount = commentService.updateComment(commentVO);
+
+		if (rowCount == 1) {
+
+			CommentVO vo = null;
+			vo = commentService.getComment(commentID);
+			if (vo == null) {
+				return new ResponseEntity<Void>(HttpStatus.OK);
+			} else {
+				return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+
+		} else {
+			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	@RequestMapping(value = "/comment/list/{memoID}", method = RequestMethod.GET)
@@ -53,12 +76,23 @@ public class CommentController {
 		//		}
 	}
 
-	//	@RequestMapping(value = "/memo/{memoID}", method = RequestMethod.GET)
-	//	@ResponseBody
-	//	public MemoVO getMemo(@PathVariable(value = "memoID") int memoID) {
-	//		//		MemoVO vo = commentService.getMemo(memoID);
-	//
-	//		return vo;
-	//	}
+	@RequestMapping(value = "/comment/{commentID}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> deleteComment(@PathVariable(value = "commentID") int commentID) {
+		int rowCount = commentService.deleteComment(commentID);
+
+		if (rowCount == 1) {
+
+			CommentVO vo = null;
+			vo = commentService.getComment(commentID);
+			if (vo == null) {
+				return new ResponseEntity<Void>(HttpStatus.OK);
+			} else {
+				return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+
+		} else {
+			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 
 }
