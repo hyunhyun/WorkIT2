@@ -42,8 +42,6 @@ public class MemoController {
 		memoVO.setDate(new Timestamp(retryDate));
 		memoVO.setTopicID(topicID);
 		memoVO.setWriter((String)session.getAttribute("memberID"));
-
-		//writer
 		///file
 
 		return memoService.createMemo(memoVO);
@@ -107,8 +105,11 @@ public class MemoController {
 		}
 	}
 
-	@RequestMapping(value = "/memo/mylist", method = RequestMethod.GET)
-	public List<MemoVO> myWorkMemoList(@RequestParam("memberID") String memberID) {
-		return null;
+	@RequestMapping(value = "/memo/myList/{memberID}", method = RequestMethod.GET)
+	@ResponseBody
+	public List<MemoVO> myWorkMemoList(@PathVariable(value = "memberID") String memberID) {
+		List<MemoVO> memoList = memoService.getMemoResponsable(memberID);
+		return memoList;
 	}
+
 }

@@ -35,4 +35,8 @@ public class MemoDAO {
 	public int updateMemo(MemoVO memoVO) {
 		return sqlSession.update(namespace + ".updateMemo", memoVO);
 	}
+
+	public List<MemoVO> getMemoResponsable(String memberID) {
+		return sqlSession.selectList(namespace + ".getMemoResponsable", memberID);
+	}
 }

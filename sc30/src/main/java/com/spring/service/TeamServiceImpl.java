@@ -28,11 +28,11 @@ public class TeamServiceImpl implements TeamService {
 		int teamID = vo.getTeamID();
 
 		//그룹 만든 사용자 멤버로 등록
-		TeamMemberVO gm = new TeamMemberVO();
-		gm.setTeamID(teamID);
-		gm.setMemberID(vo.getmadeBy());
+		//		TeamMemberVO gm = new TeamMemberVO();
+		//		gm.setTeamID(teamID);
+		//		gm.setMemberID(vo.getmadeBy());
 
-		teamDao.registerTeamMember(gm);
+		//teamDao.registerTeamMember(gm);
 
 		return;
 	}
@@ -51,17 +51,29 @@ public class TeamServiceImpl implements TeamService {
 	//	}
 
 	@Override
+	//	public void registerTeamMember(List<Map<String, String>> teamMembers, int teamID) {
 	public void registerTeamMember(JSONArray teamMembers, int teamID) {
 		for (int i = 0; i < teamMembers.size(); i++) {
 			JSONObject jobject = (JSONObject)teamMembers.get(i);
 			String memberID = (String)jobject.get("memberID");
 
+			System.out.println(memberID);
 			TeamMemberVO vo = new TeamMemberVO();
 			vo.setMemberID(memberID);
 			vo.setTeamID(teamID);
 
 			teamDao.registerTeamMember(vo);
 		}
+
+		//		for (Map<String, String> item : teamMembers) {
+		//			String memberID = item.get("memberID");
+		//
+		//			TeamMemberVO vo = new TeamMemberVO();
+		//			vo.setMemberID(memberID);
+		//			vo.setTeamID(teamID);
+		//
+		//			teamDao.registerTeamMember(vo);
+		//		}
 	}
 
 	@Override

@@ -50,4 +50,9 @@ public class MemoServiceImpl implements MemoService {
 		return memoDao.updateMemo(memoVO);
 	}
 
+	@Override
+	public List<MemoVO> getMemoResponsable(String memberID) {
+		return memoDao.getMemoResponsable(memberID);
+	}
+
 }

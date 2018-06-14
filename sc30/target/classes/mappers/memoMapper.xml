@@ -34,6 +34,12 @@
 		where memoID = #{memoID}
 	</select>
 	
+	<select id="getMemoResponsable" resultType="com.spring.model.MemoVO">
+		select *
+		from Memo
+		where responsable = #{memberID};
+	</select>
+	
 	<delete id="deleteMemo">
 		delete from Memo
 		where memoID = #{memoID}

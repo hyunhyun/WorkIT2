@@ -41,20 +41,12 @@
 					console.log("status : "+status);
 					console.log("xhr : "+xhr);
 					
-						
-					var jsonString = JSON.stringify(result);
-					var jObject = JSON.parse(jsonString);
-					var jLength = jObject.length;
-					//alert("length: " + jObject.length);
-					
-					//alert(jObject[0].memoID);
-					//alert(jObject[0].title);
-					
-		
+					var jLength = result.length;
 					
 					for(var i=0; i<jLength; i++){
-						var title = jObject[i].title;
-						var div = $("<div id= 'memo_"+i+"' onclick='selectMemo("+jObject[i].memoID+")'>"+title+"</div>");
+						var title = result[i].title;
+						var div = $("<div id= 'memo_"+result[i].memoID+"' onclick='selectMemo("+result[i].memoID+")'>"+title+"</div>");
+						$("#memoContainer").empty();
 						$("#memoContainer").append(div);
 					}
 					
@@ -552,6 +544,47 @@
 					globalOpenComment = false;
 					$("#commentList").empty();
 					getMemoComment();
+				},
+			
+				error :function(jqXHR,request, error){
+					console.log(jqXHR);
+					console.log(status);
+					console.log(error);
+				},
+				statusCode: {
+			        200: function () {
+			            console.log("200 - Success");
+			        },
+			        404: function(request, status, error) {
+			            console.log("404 - Not Found");
+			            console.log(error);
+			        },
+			        500: function(request, status, error){
+			        	console.log("500 - Internal Server Error");
+			            console.log(error);			
+			            }
+			        }
+			})
+		}
+		
+		function getMyWorkList(){
+			alert(memberID);
+			$.ajax({
+				type:"GET",
+				url:"http://localhost:8080/sc30/memo/myList/"+memberID,
+				success: function(result, status,xhr){
+					alert("get myWork success");
+					
+					alert("result length"+result.length);
+					
+					if(result.length > 0){
+						$("#memoContainer").empty();
+						for(var i=0; i<result.length; i++){
+							var title = result[i].title;
+							var div = $("<div id= 'memo_"+result[i].memoID+"' onclick='selectMemo("+result[i].memoID+")'>"+title+"</div>");							
+							$("#memoContainer").append(div);
+						}
+					}
 				},
 			
 				error :function(jqXHR,request, error){

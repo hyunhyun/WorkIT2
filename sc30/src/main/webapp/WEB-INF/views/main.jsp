@@ -92,6 +92,10 @@
 </ul>
 </c:if> --%>
 
+<!-- myWorkList -->
+<input type="button" onclick="getMyWorkList()" value="myWorkList"/>
+
+
 <%
 	/* if(session.getAttribute("memberID") = null){
 		response.sendRedirect("login");
@@ -100,11 +104,7 @@
 	
 %>
 
-createTopic
-
-
-
-<input type="text" name="topicName" placeholder="topicName" id="tName"/>
+createTopic<input type="text" name="topicName" placeholder="topicName" id="tName"/>
 <input type="button" value="ok" onclick="createTopic()"/>
 
 <div class="container-fluid" id="memoContainer">
@@ -126,7 +126,7 @@ createTopic
 <div id="memoContainer">
 
 
-	<div id="noMemoDiv" hiddent="true">
+	<div id="noMemoDiv" hidden="true">
 		<div>제목</div>
 		<div>내용</div>
 		<div>책임자</div>

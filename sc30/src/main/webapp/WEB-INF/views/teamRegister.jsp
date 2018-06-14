@@ -1,26 +1,31 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="true" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+
+<!DOCTYPE html>
+<html lang="ko">
+
 <!-- autocomplete from jQuery Ui -->
-   
-    <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
-    <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
- -->    
-<html>
+
+<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+
 <head>
-	<title>Home</title>
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<title>Home</title>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 </head>
 <body>
-<h1></h1>
+	<h1></h1>
 
-<!-- <form action="/team" method="post" id="fr"> -->
-	<input type="text" name="teamName" placeholder="teamName" id="teamName"/>
-	<input type="text" id="addMember" placeholder="memberADD"/>
-	<input type="button" onclick="add()" value="add Member"/>
+	<!-- <form action="/team" method="post" id="fr"> -->
+	<input type="text" name="teamName" placeholder="teamName" id="teamName" />
+	<input type="text" id="addMember" placeholder="memberADD" />
+	<input type="button" onclick="add()" value="add Member" />
 	<input type="button" onclick="send()" value="submit">
-<!-- </form> -->
+	<!-- </form> -->
 
-<script type = 'text/javascript'>
+	<script type='text/javascript'>
 var teamMemberArray;
 $(document).ready(function(){
 	teamMemberArray = new Array();
@@ -29,16 +34,6 @@ $(document).ready(function(){
 
 	function add(){
 		alert("addMember");
-	/* 	var form = $('#fr');
-		//var form = $("form");
-		//var form = document.getElementById("fr");
-		
-		var memberID = $('#addMember').val();
-		
-		alert(memberID);
-		
-		var member = $("<input type='hidden' value="+memberID+" name='memberID' id='memberID'/>");
-		form.append(member); */
 		
 		var teamMember = new Object();
 		teamMember.memberID = $('#addMember').val();
@@ -48,31 +43,6 @@ $(document).ready(function(){
 	}
 	
 	function send(){
-		<%-- alert("send");
-		var form = $('#fr');
-		//var form = $("form");
-		
-		alert("teamName"+$("#teamName").val());
-		alert("memberID"+$("#memberID").val())
-	
-		
-		<% String test_s = (String)request.getSession().getAttribute("memberID"); %>
-		var userID = '<%=test_s %>';
-
-		alert("userID"+userID);
-		
-		var madeBy = $("<input type='hidden' value='"+userID+"'  name='madeBy'/>");
-		var memberMadeBy =  $("<input type='hidden' value="+userID+" name='memberID' id='memberID'/>");
-		var teamID = 
-		//var madeBy = $("<input type='text' value='me' name='madeBy'/>");
-		alert(userID);
-		//alert(madeBy);
-		form.append(madeBy);
-		form.append(memberMadeBy);
-		
-		form.submit(); --%>
-		
-		
 		alert("send");
 		
 		<% String test_s = (String)request.getSession().getAttribute("memberID"); %>
@@ -103,8 +73,27 @@ $(document).ready(function(){
 			datatype: "JSON",
 			data: jsonInfo, 
 			contentType : "application/json; charset=UTF-8",
-			success: function(){},
-			error: function(){}
+			success: function(result){
+				alert("success");
+			},
+			error: function(jqXHR,request, error){
+				console.log(jqXHR);
+				console.log(status);
+				console.log(error);
+			},
+			statusCode: {
+		        200: function () {
+		            console.log("200 - Success");
+		        },
+		        404: function(request, status, error) {
+		            console.log("404 - Not Found");
+		            console.log(error);
+		        },
+		        500: function(request, status, error){
+		        	console.log("500 - Internal Server Error");
+		            console.log(error);			
+		            }
+		        }
 			
 		})
 	}

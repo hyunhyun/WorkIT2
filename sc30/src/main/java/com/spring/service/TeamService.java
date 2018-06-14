@@ -12,7 +12,7 @@ import com.spring.model.TeamVO;
 public interface TeamService {
 	public void registerTeam(TeamVO vo);
 
-	//public void registerTeamMember(List<Map<String, String>> teamMembers, int teamID);
+	//	public void registerTeamMember(List<Map<String, String>> teamMembers, int teamID);
 	public void registerTeamMember(JSONArray teamMembers, int teamID);
 
 	public TeamVO getTeam(String teamID);

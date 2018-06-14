@@ -37,7 +37,7 @@
 		where teamName = #{teamName} and madeBy = #{madeBy}	
 	</select> -->
 	
-	<select id="getmyTeamList" resultType="com.spring.model.MyTeamVO">
+	<select id="getMyTeamList" resultType="com.spring.model.MyTeamVO">
 		select *
 		from TeamMember join Team 
 		using(teamID)

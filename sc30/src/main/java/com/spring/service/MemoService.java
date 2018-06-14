@@ -16,4 +16,6 @@ public interface MemoService {
 	public int deleteMemo(int memoID);
 
 	public int updateMemo(MemoVO memoVO);
+
+	public List<MemoVO> getMemoResponsable(String memberID);
 }

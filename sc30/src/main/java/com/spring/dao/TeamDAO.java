@@ -44,7 +44,7 @@ public class TeamDAO {
 
 	public List<MyTeamVO> getmyTeamList(String memberID) {
 
-		List<MyTeamVO> listTeam = sqlSession.selectList(namespace + ".getmyTeamList", memberID);
+		List<MyTeamVO> listTeam = sqlSession.selectList(namespace + ".getMyTeamList", memberID);
 
 		return listTeam;
 	}

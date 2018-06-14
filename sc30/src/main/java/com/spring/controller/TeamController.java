@@ -35,8 +35,8 @@ public class TeamController {
 
 	//TODO jsonarray 안들어옴 Map으로 매핑 안됨 처리하기
 	@RequestMapping(value = "/team", method = RequestMethod.POST)
-	//public String makeTeam(@RequestBody TeamRegister data) {
-	//	public String makeTeam(@RequestParam("teamMembers") List<Map<String, String>> teamMembers,
+	//	public String makeTeam(@RequestBody TeamRegister data) {
+	//	public String makeTeam(@RequestParam("teamMembers") String teamMembers,
 	//		@RequestParam("madeBy") String madeBy,
 	//		@RequestParam("teamName") String teamName) {
 	public String makeTeam(@RequestBody String data) throws ParseException {
