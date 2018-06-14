@@ -39,5 +39,13 @@
 		where memoID = #{memoID}
 	</delete>
 	
+	<update id="updateMemo">
+		update Memo 
+		set 
+		title = #{title}, 
+		content = #{content},
+		responsable = #{responsable} 
+		where memoID = #{memoID}
+	</update>
 
 </mapper>

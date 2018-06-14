@@ -31,4 +31,8 @@ public class MemoDAO {
 	public int deleteMemo(int memoID) {
 		return sqlSession.delete(namespace + ".deleteMemo", memoID);
 	}
+
+	public int updateMemo(MemoVO memoVO) {
+		return sqlSession.update(namespace + ".updateMemo", memoVO);
+	}
 }

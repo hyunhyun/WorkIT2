@@ -14,4 +14,6 @@ public interface MemoService {
 	public MemoVO getMemo(int memoID);
 
 	public int deleteMemo(int memoID);
+
+	public int updateMemo(MemoVO memoVO);
 }

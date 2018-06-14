@@ -87,6 +87,26 @@ public class MemoController {
 		}
 	}
 
+	@RequestMapping(value = "/memo/{memoID}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> updateMemo(@PathVariable(value = "memoID") int memoID,
+		@RequestParam("title") String title,
+		@RequestParam("content") String content,
+		@RequestParam("responsable") String responsable) {
+
+		MemoVO memoVO = new MemoVO();
+		memoVO.setTitle(title);
+		memoVO.setContent(content);
+		memoVO.setResponsable(responsable);
+
+		int rowCount = memoService.updateMemo(memoVO);
+
+		if (rowCount > 0) {
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
 	@RequestMapping(value = "/memo/mylist", method = RequestMethod.GET)
 	public List<MemoVO> myWorkMemoList(@RequestParam("memberID") String memberID) {
 		return null;
