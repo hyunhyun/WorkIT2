@@ -30,6 +30,12 @@
 		from Member;
 	</select>
 	
+	<select id="getListAutoComplete" resultType="com.spring.model.MemberVO">
+		select *
+		from Member
+		where memberID LIKE CONCAT('%', #{search}, '%');
+	</select>
+	
 	<select id="searchID" resultType="com.spring.model.MemberVO">
 		select * 
 		from Member

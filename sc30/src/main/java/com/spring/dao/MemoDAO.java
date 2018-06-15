@@ -39,4 +39,5 @@ public class MemoDAO {
 	public List<MemoVO> getMemoResponsable(String memberID) {
 		return sqlSession.selectList(namespace + ".getMemoResponsable", memberID);
 	}
+
 }

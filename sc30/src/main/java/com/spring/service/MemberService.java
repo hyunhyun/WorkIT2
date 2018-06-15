@@ -1,5 +1,7 @@
 package com.spring.service;
 
+import java.util.List;
+
 import com.spring.model.MemberVO;
 
 public interface MemberService {
@@ -8,4 +10,8 @@ public interface MemberService {
 	void register(MemberVO member);
 
 	String login(MemberVO member);
+
+	List<MemberVO> getMemberList();
+
+	List<MemberVO> getListAutoComplete(String search);
 }

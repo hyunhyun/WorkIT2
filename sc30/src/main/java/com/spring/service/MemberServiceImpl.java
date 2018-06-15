@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -65,5 +66,16 @@ public class MemberServiceImpl implements MemberService {
 			return "success";
 		}
 
+	}
+
+	@Override
+	public List<MemberVO> getMemberList() {
+		return memberDao.getList();
+	}
+
+	@Override
+	public List<MemberVO> getListAutoComplete(String search) {
+		System.out.println("searchService : " + search);
+		return memberDao.getListAutoComplete(search);
 	}
 }

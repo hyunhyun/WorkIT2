@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.spring.dao.MemberDAO;
 import com.spring.dao.TeamDAO;
+import com.spring.model.MemberVO;
 import com.spring.model.MyTeamVO;
 import com.spring.model.TeamMemberVO;
 import com.spring.model.TeamVO;
@@ -18,6 +20,9 @@ import com.spring.model.TeamVO;
 public class TeamServiceImpl implements TeamService {
 	@Autowired
 	TeamDAO teamDao;
+
+	@Autowired
+	MemberDAO memberDao;
 
 	@Override
 	public void registerTeam(TeamVO vo) {
@@ -62,7 +67,13 @@ public class TeamServiceImpl implements TeamService {
 			vo.setMemberID(memberID);
 			vo.setTeamID(teamID);
 
-			teamDao.registerTeamMember(vo);
+			//현재 회원등록되어 있는 member테이블에 있는 회원만 추가 할 수있게
+			MemberVO checkvo = memberDao.get(memberID);
+			if (checkvo != null) {
+				teamDao.registerTeamMember(vo);
+			} else {
+				System.out.println("not in Member Table");
+			}
 		}
 
 		//		for (Map<String, String> item : teamMembers) {
