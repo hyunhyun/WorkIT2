@@ -1,3 +1,4 @@
+	
 	var globalTopicID = null;
 	var globalMemoID = null;
 	var globalOpenComment = false;
@@ -608,4 +609,52 @@
 			})
 		}
 		
+		//ajax 방식으로 file 업로드하기
+		$(document).ready(function(){
+	        $(".fileDrop").on("dragenter dragover", function(event){
+	            event.preventDefault(); // 기본효과를 막음
+	        });
+	        // event : jQuery의 이벤트
+	        // originalEvent : javascript의 이벤트
+	        $(".fileDrop").on("drop", function(event){
+	            event.preventDefault(); // 기본효과를 막음
+          	            // 드래그된 파일의 정보
+	            var files = event.originalEvent.dataTransfer.files;
+	            // 첫번째 파일
+	            var file = files[0];
+	            // 콘솔에서 파일정보 확인
+	            console.log(file);
 
+	            // ajax로 전달할 폼 객체
+	            var formData = new FormData();
+	            // 폼 객체에 파일추가, append("변수명", 값)
+	            formData.append("file", file);
+
+
+	            $.ajax({
+	                type: "POST",
+	                url: "http://localhost:8080/sc30/upload/uploadAjax",
+	                data: formData,
+	                // processData: true=> get방식, false => post방식
+	                dataType: "text",
+	                // contentType: true => application/x-www-form-urlencoded, 
+	                //                false => multipart/form-data
+	                processData: false,
+	                contentType: false,
+	                success: function(data){
+	                    alert(data);
+	                },
+	                error :function(jqXHR,request, error){
+						console.log(jqXHR);
+						console.log(status);
+						console.log(error);
+					}
+	                
+	            });
+	        });
+	    });
+	
+	  function addFilePath(msg){
+	        console.log(msg); // 파일명 콘솔 출력
+	        document.getElementById("formFile").reset(); // ifream에 업로드결과를 출력 후 form에 저장된 데이터 초기화
+	    }

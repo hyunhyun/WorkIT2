@@ -7,10 +7,13 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -64,14 +67,16 @@ public class UploadController {
 		return savedName;
 	}
 
-	//	// produces="text/plain;charset=utf-8" : 파일 한글처리
-	//	@ResponseBody
-	//	@RequestMapping(value = "/upload/uploadAjax", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
-	//	public ResponseEntity<String> uploadAjax(MultipartFile file) throws Exception {
-	//		logger.info("originalName : " + file.getOriginalFilename());
-	//		logger.info("size : " + file.getSize());
-	//		logger.info("contentType : " + file.getContentType());
-	//		return new ResponseEntity<String>(
-	//			UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes()), HttpStatus.OK);
-	//	}
+	// produces="text/plain;charset=utf-8" : 파일 한글처리
+	@ResponseBody
+	@RequestMapping(value = "/upload/uploadAjax", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
+	public ResponseEntity<String> uploadAjax(MultipartFile file) throws Exception {
+
+		System.out.println("upload/uploadAjax");
+		logger.error("originalName : " + file.getOriginalFilename());
+		logger.error("size : " + file.getSize());
+		logger.error("contentType : " + file.getContentType());
+		return new ResponseEntity<String>(
+			UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes()), HttpStatus.OK);
+	}
 }

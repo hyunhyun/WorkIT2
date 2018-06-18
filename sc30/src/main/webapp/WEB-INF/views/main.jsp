@@ -34,7 +34,7 @@
 		var teamID =  ${teamID};
 		var memberID = '<%= session.getAttribute("memberID") %>';
 	</script>
-	<script src="resources/js/main.js"></script>
+	
 	
 	<style>
 /* 첨부파일을 드래그할 영역의 스타일 */
@@ -58,7 +58,7 @@
        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
       <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
     <script src="resources/js/bootstrap.min.js"></script>
-
+<script src="resources/js/main.js"></script>
 
 <c:if test="${topicList != '' || topicList ne null}">
 <div class="col-sm-3 col-md-2 sidebar">x
@@ -130,19 +130,20 @@ createTopic<input type="text" name="topicName" placeholder="topicName" id="tName
 	<input type= "text" name="title" placeholder="title" id="title_create"/>
 	<input type= "textarea" name="content" placeholder="content" id="content_create"/>
 	<input type="text" name="responsable" placeholder="responsable" id="responsable_create"/>
-	<!-- <input type= "file" />
+	<!-- <input type= "file" />-->
 	<div>
-    첨부파일 등록영역
-    <div class="fileDrop"></div>
-    첨부파일의 목록 출력영역
+   <!--  첨부파일 등록영역 -->
+    <div class="fileDrop">여기에 파일을 드롭해주세요</div>
+    <!-- 첨부파일의 목록 출력영역 -->
     <div id="uploadedList"></div>
 </div> -->
 
- <form target="iframePhoto" action="upload/uploadForm" method="post" id="formFile" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <input type="submit" value="업로드">    
+<!-- 일반적 방식 파일업로드 -->
+<!--  <form target="iframePhoto" action="upload/uploadForm" method="post" id="formFile" enctype="multipart/form-data">
+        <input type="file" name="file"/>
+        <input type="submit" value="업로드"/>    
     </form>
-    <iframe name="iframePhoto"></iframe>
+    <iframe name="iframePhoto"></iframe> -->
 
 	<input type="button" 
 	value="완료" onclick="submitMemo()">
@@ -166,11 +167,11 @@ createTopic<input type="text" name="topicName" placeholder="topicName" id="tName
 		<div id="responsable_read">책임자</div>
 		<input type="button" value="댓글" onclick="getMemoComment()"/>
 		<!-- <input type="button" onclick="addComment()" value="+댓글"/> -->
-		<!-- <h2>AJAX File Upload</h2>
-    파일을 업로드할 영역
+		<!-- <h2>AJAX File Upload</h2>-->
+    <!--  파일을 업로드할 영역 -->
     <div class="fileDrop"></div>
-    업로드된 파일 목록
-    <div class="uploadedList"></div> -->
+    <!-- 업로드된 파일 목록-->
+    <div class="uploadedList"></div> 
     
 		
 		<div id="createComment">
@@ -214,51 +215,5 @@ createTopic<input type="text" name="topicName" placeholder="topicName" id="tName
 </div>
 	</div>
 	
-	<script>
-	 $(document).ready(function(){
-	        $(".fileDrop").on("dragenter dragover", function(event){
-	            event.preventDefault(); // 기본효과를 막음
-	        });
-	        // event : jQuery의 이벤트
-	        // originalEvent : javascript의 이벤트
-	        $(".fileDrop").on("drop", function(event){
-	            event.preventDefault(); // 기본효과를 막음
-	            // 드래그된 파일의 정보
-	            var files = event.originalEvent.dataTransfer.files;
-	            // 첫번째 파일
-	            var file = files[0];
-	            // 콘솔에서 파일정보 확인
-	            console.log(file);
-
-	            // ajax로 전달할 폼 객체
-	            var formData = new FormData();
-	            // 폼 객체에 파일추가, append("변수명", 값)
-	            formData.append("file", file);
-
-
-	            $.ajax({
-	                type: "post",
-	                url: "${path}/upload/uploadAjax",
-	                data: formData,
-	                // processData: true=> get방식, false => post방식
-	                dataType: "text",
-	                // contentType: true => application/x-www-form-urlencoded, 
-	                //                false => multipart/form-data
-	                processData: false,
-	                contentType: false,
-	                success: function(data){
-	                    alert(data);
-	                }
-	            });
-	        });
-	    });
-	
-	  function addFilePath(msg){
-	        console.log(msg); // 파일명 콘솔 출력
-	        document.getElementById("formFile").reset(); // ifream에 업로드결과를 출력 후 form에 저장된 데이터 초기화
-	    }
-	  
-	  
-	</script>
 </body>
 </html>
