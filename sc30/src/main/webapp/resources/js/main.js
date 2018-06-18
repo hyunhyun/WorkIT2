@@ -331,21 +331,6 @@
 			})
 		}
 		
-//		function addComment(){
-//			alert("addComment");
-//			var readMemoDiv = $("#readMemoDiv");
-//			var div = "<div class='commentContainer'></div>"; 
-//			var id = "<div class='commentWriter'></div>";
-//			var content = "<div class='commentContent'></div>";
-//			var updateBtn = "<input type='button' class='commentUpdateBtn' value='수정'/>";
-//			var deleteBtn = "<input type='button' class='commentDeleteBtn' value='삭제'/>";
-//		
-//			readMemoDiv.append(div);
-//			
-//			$('.commentContainer').append(id);
-//			$('.commentContainer').append(content);
-//			$('.commentContainer').append(updateBtn);
-//			$('.commentContainer').append(deleteBtn);
 //		}
 		
 		function registerComment(){
@@ -658,3 +643,72 @@
 	        console.log(msg); // 파일명 콘솔 출력
 	        document.getElementById("formFile").reset(); // ifream에 업로드결과를 출력 후 form에 저장된 데이터 초기화
 	    }
+	  
+	  
+	  
+	  //autocomplete 얘 안되는중
+		$("#searchContent").autocomplete({
+			source: function(request, response){
+				$.ajax({
+					url: "http://localhost:8080/sc30/memo",
+					method: "GET",
+					data: {searchContent: $("#searchContent").val()},
+					success: function(data){
+						console.log(data);
+						response($.map(data, function(item){
+							return {label: item.title, value: item.content};
+						}));
+					},
+					error : function(jqXHR,request, error){
+						console.log(jqXHR);
+						console.log(status);
+						console.log(error);
+					}
+				})	
+			}
+		})
+	  
+	  function searchContent(){
+			var searchContent = $("#searchContent").val();
+			alert(searchContent);
+			var totalInfo = new Object();
+			totalInfo.searchContent = searchContent;
+
+			$.ajax({
+				type: "GET",
+				url: "http://localhost:8080/sc30/memo",
+				data: totalInfo,
+				success: function(data){
+					alert("success");
+					//success 하면 뭐해야되지?
+					console.log(data);
+					
+					
+					for(var i=0; i<data.length; i++){
+						var title = data[i].title;
+						var div = $("<div id= 'memo_"+data[i].memoID+"' onclick='selectMemo("+data[i].memoID+")'>"+title+"</div>");
+						$("#memoContainer").empty();
+						$("#memoContainer").append(div);
+					}
+				},
+				error :function(jqXHR,request, error){
+					console.log(jqXHR);
+					console.log(status);
+					console.log(error);
+				},
+				statusCode: {
+			        200: function () {
+			            console.log("200 - Success");
+			        },
+			        404: function(request, status, error) {
+			            console.log("404 - Not Found");
+			            console.log(error);
+			        },
+			        500: function(request, status, error){
+			        	console.log("500 - Internal Server Error");
+			            console.log(error);			
+			            }
+			        }
+				
+			}) 
+		}

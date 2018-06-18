@@ -24,7 +24,6 @@
     <![endif]-->
     
     
-	<title>Main</title>
 	
 	<!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -58,6 +57,10 @@
        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
       <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
     <script src="resources/js/bootstrap.min.js"></script>
+    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <script src="resources/js/main.js"></script>
 
 <c:if test="${topicList != '' || topicList ne null}">
@@ -86,9 +89,7 @@
    <button class="btn btn-default" onclick="showModal(${topic.topicID}, '${topic.topicName}')">수정</button>
    <button class="btn btn-default" onclick="deleteTopic(${topic.topicID})">삭제</button>
    </li>
-   
-  <%--  </c:otherwise>
-   </c:choose> --%>
+
    </c:forEach>
     </ul>
     </div>
@@ -149,6 +150,10 @@ createTopic<input type="text" name="topicName" placeholder="topicName" id="tName
 	value="완료" onclick="submitMemo()">
 </div>
 
+<div id="searchContainer">
+<input type="text" id="searchContent" placeholder="검색내용"/>
+<input type="button" onclick="searchContent()" value="검색"/>
+</div>
 <div id="memoContainer">
 
 
@@ -160,17 +165,17 @@ createTopic<input type="text" name="topicName" placeholder="topicName" id="tName
 		
 		
 	<div id="readMemoDiv" hidden="true">
-	<input type="button" onclick="updateBtn()" value="수정하기">
-	<input type="button" onclick="deleteMemo()" value="삭제하기">
+	<input type="button" onclick="updateBtn()" value="수정하기"/>
+	<input type="button" onclick="deleteMemo()" value="삭제하기"/>
 		<div id="title_read">제목</div>
 		<div id="content_read">내용</div>
 		<div id="responsable_read">책임자</div>
 		<input type="button" value="댓글" onclick="getMemoComment()"/>
 		<!-- <input type="button" onclick="addComment()" value="+댓글"/> -->
 		<!-- <h2>AJAX File Upload</h2>-->
-    <!--  파일을 업로드할 영역 -->
+  <!--   <!--  파일을 업로드할 영역 -->
     <div class="fileDrop"></div>
-    <!-- 업로드된 파일 목록-->
+  <!--   업로드된 파일 목록 -->
     <div class="uploadedList"></div> 
     
 		
@@ -183,7 +188,7 @@ createTopic<input type="text" name="topicName" placeholder="topicName" id="tName
 	</div>
 	
 	<div id="updateMemoDiv" hidden="true">
-	<input type="button"  value="저장하기" onclick="updateMemo()">
+	<input type="button"  value="저장하기" onclick="updateMemo()"/>
 		<input type="text" id="title_update"/>
 		<input type="text" id="content_update"/>
 		<input type="text" id="responsable_update"/>

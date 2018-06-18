@@ -55,4 +55,9 @@ public class MemoServiceImpl implements MemoService {
 		return memoDao.getMemoResponsable(memberID);
 	}
 
+	@Override
+	public List<MemoVO> searchMemoContent(String content) {
+		return memoDao.searchMemoContent(content);
+	}
+
 }

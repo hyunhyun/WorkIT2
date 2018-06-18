@@ -72,7 +72,11 @@ public class LoginController {
 			vo.setPassword(password);
 			vo.setNickname(nickname);
 
-			memberService.register(vo);
+			try {
+				memberService.register(vo);
+			} catch (Exception e) {
+
+			}
 		}
 
 		return "redirect:/login";

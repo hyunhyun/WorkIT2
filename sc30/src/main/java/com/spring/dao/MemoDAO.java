@@ -40,4 +40,8 @@ public class MemoDAO {
 		return sqlSession.selectList(namespace + ".getMemoResponsable", memberID);
 	}
 
+	public List<MemoVO> searchMemoContent(String content) {
+		return sqlSession.selectList(namespace + ".searchMemoContent", content);
+	}
+
 }

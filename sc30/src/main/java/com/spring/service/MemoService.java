@@ -18,4 +18,6 @@ public interface MemoService {
 	public int updateMemo(MemoVO memoVO);
 
 	public List<MemoVO> getMemoResponsable(String memberID);
+
+	public List<MemoVO> searchMemoContent(String content);
 }

@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,8 @@ import com.spring.service.MemoService;
 public class MemoController {
 	@Autowired
 	MemoService memoService;
+
+	private static final Logger logger = LoggerFactory.getLogger(MemoController.class);
 
 	@RequestMapping(value = "/memo", method = RequestMethod.POST)
 	public ResponseEntity<MemoVO> createMemo(Model model, HttpSession session,
@@ -109,6 +113,26 @@ public class MemoController {
 	@ResponseBody
 	public List<MemoVO> myWorkMemoList(@PathVariable(value = "memberID") String memberID) {
 		List<MemoVO> memoList = memoService.getMemoResponsable(memberID);
+		return memoList;
+	}
+
+	@RequestMapping(value = "/memo", method = RequestMethod.GET)
+	@ResponseBody
+	public List<MemoVO> searchContentMemo(@RequestParam("searchContent") String search) {
+
+		System.out.println("controller 왜 안와");
+
+		logger.error("updateMemo Controller start");
+		List<MemoVO> memoList = memoService.searchMemoContent(search);
+
+		logger.error("memoList search size : " + memoList.size());
+
+		//		if (!memoList.isEmpty() && memoList != null) {
+		//			return new ResponseEntity<Void>(HttpStatus.OK);
+		//		} else {
+		//			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+		//		}
+
 		return memoList;
 	}
 

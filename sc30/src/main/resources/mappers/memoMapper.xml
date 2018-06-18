@@ -25,7 +25,7 @@
 	<select id="getMemoList" resultType="com.spring.model.MemoVO">
 		select *
 		from Memo 
-		where topicID = #{topicID};
+		where topicID = #{topicID}
 	</select>
 	
 	<select id="getMemo" resultType="com.spring.model.MemoVO">
@@ -37,7 +37,13 @@
 	<select id="getMemoResponsable" resultType="com.spring.model.MemoVO">
 		select *
 		from Memo
-		where responsable = #{memberID};
+		where responsable = #{memberID}
+	</select>
+	
+	<select id="searchMemoContent" resultType="com.spring.model.MemoVO">
+		select *
+		from Memo
+		where content LIKE CONCAT('%',#{content},'%')
 	</select>
 	
 	<delete id="deleteMemo">

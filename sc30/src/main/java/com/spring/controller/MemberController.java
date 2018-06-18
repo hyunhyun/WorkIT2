@@ -37,4 +37,5 @@ public class MemberController {
 	//		//		model.addAttribute("logintest", "login");
 	//		//		return "login";
 	//	}
+
 }
