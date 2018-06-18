@@ -51,7 +51,16 @@ public class HomeController {
 	@RequestMapping(value = "/bootstrap")
 	public String bootstrap() {
 		return "bootstrap3";
+	}
 
+	@RequestMapping(value = "/charts")
+	public String chart() {
+		return "charts";
+	}
+
+	@RequestMapping(value = "/cards")
+	public String cards() {
+		return "cards";
 	}
 
 }

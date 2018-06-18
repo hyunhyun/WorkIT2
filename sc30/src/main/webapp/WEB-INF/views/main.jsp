@@ -6,10 +6,11 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-
-<meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
     <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
     
 	<title>Main</title>
@@ -23,7 +24,13 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     
-    
+  <link href="resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom fonts for this template-->
+  <link href="resources/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <!-- Page level plugin CSS-->
+  <link href="resources/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+  <!-- Custom styles for this template-->
+  <link href="resources/css/sb-admin.css" rel="stylesheet">
 	
 	<!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -43,14 +50,201 @@
     border: 2px dotted gray;
     background-color: gray;
 }
+
+
+/* . navbar-expand-lg{
+	overflow-y: scroll;
+} */
+
+/* #navbarResponsive{
+	overflow-y:scroll;
+} */
+
 </style>
 	
 </head>
-<body>
-<div class="container">
-<h1>
-	MainPage  
-</h1>
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+
+ <!-- Navigation-->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+  <!-- TODO teamID 변수 넘기는거 -->
+    <a class="navbar-brand" href="main?teamID=">Main</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+        
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+          <a class="nav-link" href="index.html">
+            <i class="fa fa-fw fa-dashboard"></i>
+            <span class="nav-link-text">Dashboard</span>
+          </a>
+        </li>
+        
+
+        
+<c:if test="${topicList != '' || topicList ne null}">
+<!-- <div class="col-sm-3 col-md-2 sidebar">x -->
+<!-- <ul class="nav nav-pills nav-stacked"> -->
+<c:forEach var="topic" items="${topicList}">
+<%-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+      <a class="nav-link nav-link-collapse collapsed" onclick="topicSelected(${topic.topicID})" data-toggle="collapse" data-parent="#exampleAccordion" >
+        <i class="fa fa-fw fa-wrench"></i>
+          <span class="nav-link-text">${topic.topicName}</span>
+       </a>
+  <ul class="sidenav-second-level collapse" id="collapseComponents">
+            <li>
+              <a  onclick="showModal(${topic.topicID}, '${topic.topicName}')">수정</a>
+            </li>
+            <li>
+              <a onclick="deleteTopic(${topic.topicID})">삭제</a>
+            </li>
+          </ul>
+   </li> --%>
+   
+   
+   <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapse_${topic.topicID}"  data-parent="#exampleAccordion" id="nav-link-collapse_"+${topic.topicID}>
+            <i class="fa fa-fw fa-wrench"></i>
+            <span class="nav-link-text" onclick="topicSelected(${topic.topicID})">${topic.topicName}</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapse_${topic.topicID}">
+            <li>
+              <a onclick="showModal(${topic.topicID}, '${topic.topicName}')">수정</a>
+            </li>
+            <li>
+              <a onclick="deleteTopic(${topic.topicID})">삭제</a>
+            </li>
+          </ul>
+        </li>
+   
+   
+   
+    </c:forEach>
+    <!-- </ul> -->
+    <!-- </div> -->
+   </c:if>        
+      </ul>
+      <!-- nav : navbar-nav navbar-sidenav END -->
+      
+      <ul class="navbar-nav sidenav-toggler">
+        <li class="nav-item">
+          <a class="nav-link text-center" id="sidenavToggler">
+            <i class="fa fa-fw fa-angle-left"></i>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-fw fa-envelope"></i>
+            <span class="d-lg-none">Messages
+              <span class="badge badge-pill badge-primary">12 New</span>
+            </span>
+            <span class="indicator text-primary d-none d-lg-block">
+              <i class="fa fa-fw fa-circle"></i>
+            </span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="messagesDropdown">
+            <h6 class="dropdown-header">New Messages:</h6>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <strong>David Miller</strong>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">Hey there! This new version of SB Admin is pretty awesome! These messages clip off when they reach the end of the box so they don't overflow over to the sides!</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <strong>Jane Smith</strong>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">I was wondering if you could meet for an appointment at 3:00 instead of 4:00. Thanks!</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <strong>John Doe</strong>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">I've sent the final files over to you for review. When you're able to sign off of them let me know and we can discuss distribution.</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item small" href="#">View all messages</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-fw fa-bell"></i>
+            <span class="d-lg-none">Alerts
+              <span class="badge badge-pill badge-warning">6 New</span>
+            </span>
+            <span class="indicator text-warning d-none d-lg-block">
+              <i class="fa fa-fw fa-circle"></i>
+            </span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="alertsDropdown">
+            <h6 class="dropdown-header">New Alerts:</h6>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <span class="text-success">
+                <strong>
+                  <i class="fa fa-long-arrow-up fa-fw"></i>Status Update</strong>
+              </span>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <span class="text-danger">
+                <strong>
+                  <i class="fa fa-long-arrow-down fa-fw"></i>Status Update</strong>
+              </span>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <span class="text-success">
+                <strong>
+                  <i class="fa fa-long-arrow-up fa-fw"></i>Status Update</strong>
+              </span>
+              <span class="small float-right text-muted">11:21 AM</span>
+              <div class="dropdown-message small">This is an automated server response message. All systems are online.</div>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item small" href="#">View all alerts</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <form class="form-inline my-2 my-lg-0 mr-lg-2">
+            <div class="input-group">
+              <input class="form-control" type="text" placeholder="Search for...">
+              <span class="input-group-append">
+                <button class="btn btn-primary" type="button">
+                  <i class="fa fa-search"></i>
+                </button>
+              </span>
+            </div>
+          </form>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
+            <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!-- Navigation end -->
+<!-- <div class="container"> -->
+<div class="content-wrapper">
+ <div class="container-fluid">
+  <!-- Breadcrumbs-->
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="#">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Cards</li>
+      </ol>
+<h1>MainPage</h1>
+<hr>
 
 <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -63,29 +257,19 @@
 
 <script src="resources/js/main.js"></script>
 
-<c:if test="${topicList != '' || topicList ne null}">
+<%-- <c:if test="${topicList != '' || topicList ne null}">
 <div class="col-sm-3 col-md-2 sidebar">x
 <ul class="nav nav-pills nav-stacked">
-<%-- 	<c:set var="i" value="1"/> --%>
+	<c:set var="i" value="1"/>
 	<c:forEach var="topic" items="${topicList}">
-	<%-- <c:if test="${i == 1}">
+	<c:if test="${i == 1}">
     <li role="presentation" class="active" onclick="topicSelected(${topic.topicID})"><a>${topic.topicName}</a></li>
    </c:if>
    <c:choose>
-   <c:otherwise> --%>
+   <c:otherwise>
    <li role="presentation" >
    <a onclick="topicSelected(${topic.topicID})">${topic.topicName}</a>
-  <!-- <div class="dropdown">
-  <button class="btn btn-default dropdown-toggle" type="button" id="topicDropDown" data-toggle="dropdown" aria-expanded="true">
-    update
-    <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" role="menu" aria-labelledby="topicDropDown">
-   <li role="presentation"><a role="menuitem" tabindex="-1" href="#">수정</a></li>
-   <li role="presentation"><a role="menuitem" tabindex="-1" href="#">삭제</a></li>
-   </ul>
-   </div> -->
-   
+
    <button class="btn btn-default" onclick="showModal(${topic.topicID}, '${topic.topicName}')">수정</button>
    <button class="btn btn-default" onclick="deleteTopic(${topic.topicID})">삭제</button>
    </li>
@@ -93,15 +277,7 @@
    </c:forEach>
     </ul>
     </div>
-   </c:if>
-
-<%-- <c:if test="${topicList ne null}">
-<ul class="nav nav-pills nav-stacked">
-<c:forEach var="topic" items="${topicList}">
-  <li role="presentation"> <a href="#">${topic.topicName}</a></li>
-  </c:forEach>
-</ul>
-</c:if> --%>
+   </c:if> --%>
 
 <!-- myWorkList -->
 <input type="button" onclick="getMyWorkList()" value="myWorkList"/>
@@ -118,10 +294,22 @@
 createTopic<input type="text" name="topicName" placeholder="topicName" id="tName"/>
 <input type="button" value="ok" onclick="createTopic()"/>
 
-<div class="container-fluid" id="memoContainer">
-<div id="insideMemoContainer">memocontainer</div>
+<div id="searchContainer">
+<input type="text" id="searchContent" placeholder="검색내용"/>
+<input type="button" onclick="searchContent()" value="검색"/>
+</div>
+<!-- <input type="button" id="createMemoBtn" value="create Memo" onclick="createMemo()"/> -->
+<button type="button" id="createMemoBtn" onclick="createMemo()">
+<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+</button>
 
-<input type="button" id="createMemoBtn"value="create Memo" onclick="createMemo()"/>
+<div class="container-fluid" id="memoContainer">
+
+<div id="insideMemoContainer"><span>memoContainer</span>
+<div class="row"></div>
+</div>
+
+
 
 
 </div>
@@ -150,11 +338,8 @@ createTopic<input type="text" name="topicName" placeholder="topicName" id="tName
 	value="완료" onclick="submitMemo()">
 </div>
 
-<div id="searchContainer">
-<input type="text" id="searchContent" placeholder="검색내용"/>
-<input type="button" onclick="searchContent()" value="검색"/>
-</div>
-<div id="memoContainer">
+
+<!-- <div id="memoContainer"> -->
 
 
 	<div id="noMemoDiv" hidden="true">
@@ -194,7 +379,7 @@ createTopic<input type="text" name="topicName" placeholder="topicName" id="tName
 		<input type="text" id="responsable_update"/>
 	</div>
 </div>
-	
+<!-- .container-fluid div  END-->	
 	
 	<!-- Modal -->
 <div id="updateTopicModal" class="modal fade" role="dialog">
@@ -218,7 +403,24 @@ createTopic<input type="text" name="topicName" placeholder="topicName" id="tName
 
   </div>
 </div>
+<!-- Modal End -->
+
+ <!-- Bootstrap core JavaScript-->
+    <script src="resources/vendor/jquery/jquery.min.js"></script>
+    <script src="resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Page level plugin JavaScript-->
+    <!-- <script src="resources/vendor/chart.js/Chart.min.js"></script> -->
+    <script src="resources/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="resources/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="resources/js/sb-admin.min.js"></script>
+    <!-- Custom scripts for this page-->
+    <script src="resources/js/sb-admin-datatables.min.js"></script>
+    <!-- <script src="resources/js/sb-admin-charts.min.js"></script> -->
 	</div>
+	<!-- content-wrapper end -->
 	
 </body>
 </html>

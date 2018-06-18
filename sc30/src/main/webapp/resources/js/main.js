@@ -24,6 +24,7 @@
 		})
 	}
 		
+	//이거 페이지 넘어가는걸로 바뀔거임
 		function topicSelected(topicID){
 			globalTopicID = topicID;
 			//var data = {"topicID" : topicID};
@@ -44,14 +45,31 @@
 					
 					var jLength = result.length;
 					
+//					$("#memoContainer > .row").empty();
+					$("#insideMemoContainer > .row").empty();
 					for(var i=0; i<jLength; i++){
 						var title = result[i].title;
-						var div = $("<div id= 'memo_"+result[i].memoID+"' onclick='selectMemo("+result[i].memoID+")'>"+title+"</div>");
-						$("#memoContainer").empty();
-						$("#memoContainer").append(div);
+//						 bg-primary -파, bg-warning-노, bg-success-초, bg-danger-빨
+						$("#insideMemoContainer > .row").append(`<div class="col-xl-3 col-sm-6 mb-3">
+						          <div class="card text-white bg-warning o-hidden h-100">
+						            <div class="card-body">
+						              <div class="card-body-icon">
+						                <i class="fa fa-fw fa-comments"></i>
+						              </div>
+						              <div class="mr-5">26 `+title+`</div>
+						            </div>
+						            <a class="card-footer text-white clearfix small z-1" href="#" onclick="selectMemo(`+result[i].memoID+`)">
+						              <span class="float-left" >View Details</span>
+						              <span class="float-right">
+						                <i class="fa fa-angle-right"></i>
+						              </span>
+						            </a>
+						          </div>
+						        </div>`);
+							
+//						var div1 = $("<div id= 'memo_"+result[i].memoID+"' onclick='selectMemo("+result[i].memoID+")'>"+title+"</div>");
+
 					}
-					
-					
 				},
 				error : function(jqXHR,request, error){
 					console.log(jqXHR);
@@ -180,7 +198,8 @@
 			totalInfo.topicID = topicID;
 			
 			console.log("lets delete");
-			alert("topicID"+topicID);
+			alert("topicID: "+topicID);
+			alert(totalInfo);
 			$.ajax({
 				type:"DELETE",
 				url:"http://localhost:8080/sc30/topic",
@@ -226,8 +245,9 @@
 					$("#content_read").text(jObject.content);
 					$("#responsable_read").text(jObject.responsable);
 					
-					$("#readMemoDiv").prop('hidden', false);
-					$("#noMemoDiv").prop('hidden', true);
+//					$("#readMemoDiv").prop('display', 'block');
+//					$("#insideMemoDiv > .row").prop('display', 'none');
+//					$("#noMemoDiv").prop('display', 'none');
 				},
 				error :function(jqXHR,request, error){
 					console.log(jqXHR);
@@ -564,11 +584,35 @@
 					alert("result length"+result.length);
 					
 					if(result.length > 0){
-						$("#memoContainer").empty();
-						for(var i=0; i<result.length; i++){
-							var title = result[i].title;
-							var div = $("<div id= 'memo_"+result[i].memoID+"' onclick='selectMemo("+result[i].memoID+")'>"+title+"</div>");							
-							$("#memoContainer").append(div);
+//						$("#memoContainer").empty();
+//						for(var i=0; i<result.length; i++){
+//							var title = result[i].title;
+//							var div = $("<div id= 'memo_"+result[i].memoID+"' onclick='selectMemo("+result[i].memoID+")'>"+title+"</div>");							
+//							$("#memoContainer").append(div);
+		
+							$("#insideMemoContainer > .row").empty();
+							for(var i=0; i<result.length; i++){
+								var title = result[i].title;
+//								 bg-primary -파, bg-warning-노, bg-success-초, bg-danger-빨
+								$("#insideMemoContainer > .row").append(`<div class="col-xl-3 col-sm-6 mb-3">
+								          <div class="card text-white bg-warning o-hidden h-100">
+								            <div class="card-body">
+								              <div class="card-body-icon">
+								                <i class="fa fa-fw fa-comments"></i>
+								              </div>
+								              <div class="mr-5">26 `+title+`</div>
+								            </div>
+								            <a class="card-footer text-white clearfix small z-1" href="#" onclick="selectMemo(`+result[i].memoID+`)">
+								              <span class="float-left">View Details</span>
+								              <span class="float-right">
+								                <i class="fa fa-angle-right"></i>
+								              </span>
+								            </a>
+								          </div>
+								        </div>`);
+									
+//								var div1 = $("<div id= 'memo_"+result[i].memoID+"' onclick='selectMemo("+result[i].memoID+")'>"+title+"</div>");
+
 						}
 					}
 				},
@@ -678,18 +722,46 @@
 				type: "GET",
 				url: "http://localhost:8080/sc30/memo",
 				data: totalInfo,
-				success: function(data){
+				success: function(result){
 					alert("success");
 					//success 하면 뭐해야되지?
-					console.log(data);
+//					console.log(data);
 					
 					
-					for(var i=0; i<data.length; i++){
-						var title = data[i].title;
-						var div = $("<div id= 'memo_"+data[i].memoID+"' onclick='selectMemo("+data[i].memoID+")'>"+title+"</div>");
-						$("#memoContainer").empty();
-						$("#memoContainer").append(div);
-					}
+//					for(var i=0; i<result.length; i++){
+//						var title = result[i].title;
+//						var div = $("<div id= 'memo_"+data[i].memoID+"' onclick='selectMemo("+data[i].memoID+")'>"+title+"</div>");
+//						$("#memoContainer").empty();
+//						$("#memoContainer").append(div);
+						
+						
+						$("#insideMemoContainer > .row").empty();
+						for(var i=0; i<result.length; i++){
+							var title = result[i].title;
+//							 bg-primary -파, bg-warning-노, bg-success-초, bg-danger-빨
+							$("#insideMemoContainer > .row").append(`<div class="col-xl-3 col-sm-6 mb-3">
+							          <div class="card text-white bg-warning o-hidden h-100">
+							            <div class="card-body">
+							              <div class="card-body-icon">
+							                <i class="fa fa-fw fa-comments"></i>
+							              </div>
+							              <div class="mr-5">26 `+title+`</div>
+							            </div>
+							            <a class="card-footer text-white clearfix small z-1" href="#" onclick="selectMemo(`+result[i].memoID+`)">
+							              <span class="float-left">View Details</span>
+							              <span class="float-right">
+							                <i class="fa fa-angle-right"></i>
+							              </span>
+							            </a>
+							          </div>
+							        </div>`);
+								
+//							var div1 = $("<div id= 'memo_"+result[i].memoID+"' onclick='selectMemo("+result[i].memoID+")'>"+title+"</div>");
+
+						}
+						
+						
+						
 				},
 				error :function(jqXHR,request, error){
 					console.log(jqXHR);
