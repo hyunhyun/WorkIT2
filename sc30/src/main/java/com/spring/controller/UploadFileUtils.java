@@ -17,7 +17,7 @@ public class UploadFileUtils {
 		UUID uuid = UUID.randomUUID();
 		// 저장할 파일명 = UUID + 원본이름
 		String savedName = uuid.toString() + "_" + originalName;
-		// 업로드할 디렉토리(날짜별 폴더) 생성 
+		// 업로드할 디렉토리(날짜별 폴더) 생성
 		String savedPath = calcPath(uploadPath);
 		// 파일 경로(기존의 업로드경로+날짜별경로), 파일명을 받아 파일 객체 생성
 		File target = new File(uploadPath + savedPath, savedName);
@@ -43,7 +43,7 @@ public class UploadFileUtils {
 	private static String calcPath(String uploadPath) {
 		Calendar cal = Calendar.getInstance();
 		// File.separator : 디렉토리 구분자(\\)
-		// 연도, ex) \\2017 
+		// 연도, ex) \\2017
 		String yearPath = File.separator + cal.get(Calendar.YEAR);
 		System.out.println(yearPath);
 		// 월, ex) \\2017\\03
@@ -65,7 +65,7 @@ public class UploadFileUtils {
 		}
 		// 디렉토리가 존재하지 않으면
 		for (String path : paths) {
-			// 
+			//
 			File dirPath = new File(uploadPath + path);
 			// 디렉토리가 존재하지 않으면
 			if (!dirPath.exists()) {
@@ -96,7 +96,7 @@ public class UploadFileUtils {
 		String iconName = uploadPath + path + File.separator + fileName;
 		// 아이콘 이름을 리턴
 		// File.separatorChar : 디렉토리 구분자
-		// 윈도우 \ , 유닉스(리눅스) /         
+		// 윈도우 \ , 유닉스(리눅스) /
 		return iconName.substring(uploadPath.length()).replace(File.separatorChar, '/');
 	}
 }
