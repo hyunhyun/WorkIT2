@@ -16,7 +16,7 @@
 	<title>Main</title>
 	
 <!-- 부트스트랩 -->
-    <link href="resources/css/bootstrap.min.css" rel="stylesheet">
+<!--     <link href="resources/css/bootstrap.min.css" rel="stylesheet"> -->
   <!-- IE8 에서 HTML5 요소와 미디어 쿼리를 위한 HTML5 shim 와 Respond.js -->
     <!-- WARNING: Respond.js 는 당신이 file:// 을 통해 페이지를 볼 때는 동작하지 않습니다. -->
     <!--[if lt IE 9]>
@@ -28,8 +28,8 @@
   <!-- Custom fonts for this template-->
   <link href="resources/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <!-- Page level plugin CSS-->
-  <link href="resources/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
-  <!-- Custom styles for this template-->
+<!--   <link href="resources/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+ -->  <!-- Custom styles for this template-->
   <link href="resources/css/sb-admin.css" rel="stylesheet">
 	
 	<!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
@@ -59,6 +59,91 @@
 /* #navbarResponsive{
 	overflow-y:scroll;
 } */
+
+#readMemoDiv{
+	display: none;
+}
+
+#createMemoDiv{
+	display: none;
+}
+
+#noMemoDiv{
+	display : none;
+}
+
+#updateMemoDiv {
+	display: none;
+}
+
+
+.blog-post-title {
+    margin-bottom: .25rem;
+    font-size: 2.5rem;
+}
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    color: #333;
+}
+.h2, h2 {
+    font-size: 2rem;
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin-bottom: .5rem;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    color: inherit;
+}
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: .5rem;
+}
+*, ::after, ::before {
+    -webkit-box-sizing: inherit;
+    box-sizing: inherit;
+}
+user agent stylesheet
+h2 {
+    display: block;
+    font-size: 1.5em;
+    -webkit-margin-before: 0.83em;
+    -webkit-margin-after: 0.83em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-weight: bold;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+*, ::after, ::before {
+    -webkit-box-sizing: inherit;
+    box-sizing: inherit;
+}
+
+p {
+    display: block;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+}
+
+body {
+    font-family: Georgia, "Times New Roman", Times, serif;
+    color: #555;
+}
+body {
+    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #292b2c;
+    background-color: #fff;
+}
 
 </style>
 	
@@ -315,7 +400,7 @@ createTopic<input type="text" name="topicName" placeholder="topicName" id="tName
 </div>
 
 
-<div id="createMemoDiv" hidden="true">
+<div id="createMemoDiv">
 	<input type= "text" name="title" placeholder="title" id="title_create"/>
 	<input type= "textarea" name="content" placeholder="content" id="content_create"/>
 	<input type="text" name="responsable" placeholder="responsable" id="responsable_create"/>
@@ -342,18 +427,20 @@ createTopic<input type="text" name="topicName" placeholder="topicName" id="tName
 <!-- <div id="memoContainer"> -->
 
 
-	<div id="noMemoDiv" hidden="true">
+	<div id="noMemoDiv">
 		<div>제목</div>
 		<div>내용</div>
 		<div>책임자</div>
 		</div>
 		
 		
-	<div id="readMemoDiv" hidden="true">
+	<div id="readMemoDiv">
 	<input type="button" onclick="updateBtn()" value="수정하기"/>
 	<input type="button" onclick="deleteMemo()" value="삭제하기"/>
-		<div id="title_read">제목</div>
-		<div id="content_read">내용</div>
+	<div class="blog-post">
+		<h2 class="blog-post-title" id="title_read">제목</h2>
+		<!-- <div id="title_read">제목</div> -->
+		<div id="content_read"><p>내용</p></div>
 		<div id="responsable_read">책임자</div>
 		<input type="button" value="댓글" onclick="getMemoComment()"/>
 		<!-- <input type="button" onclick="addComment()" value="+댓글"/> -->
@@ -363,7 +450,7 @@ createTopic<input type="text" name="topicName" placeholder="topicName" id="tName
   <!--   업로드된 파일 목록 -->
     <div class="uploadedList"></div> 
     
-		
+		</div>
 		<div id="createComment">
 		<input type="text" id="commentText" placeholder="댓글 작성"/>
 		<input type="button" onclick="registerComment();" value="댓글 저장"/>
@@ -372,7 +459,7 @@ createTopic<input type="text" name="topicName" placeholder="topicName" id="tName
 		<div id="commentList"></div>
 	</div>
 	
-	<div id="updateMemoDiv" hidden="true">
+	<div id="updateMemoDiv">
 	<input type="button"  value="저장하기" onclick="updateMemo()"/>
 		<input type="text" id="title_update"/>
 		<input type="text" id="content_update"/>

@@ -238,7 +238,7 @@ perspective: 800;
     	
     	$.ajax({
     		type: "GET",
-    		url: "http://localhost:8080/sc30/auth/checkID?memberID="+id,
+    		url: "http://localhost:8080/ProjectManger2/auth/checkID?memberID="+id,
     		success: function(result){
     			alert("you can use ID");
     			$('.checkID').prop("disabled", true);

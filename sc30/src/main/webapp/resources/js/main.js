@@ -11,7 +11,7 @@
 		//var data = {"topicName": topicName, "teamID": $.cookie("teamID")};
 		$.ajax({
 			type : "POST", 
-			url : "http://localhost:8080/sc30/topic",
+			url : "http://localhost:8080/ProjectManger2/topic",
 			data : data,
 			success : function(){},
 			error: function(){},
@@ -31,7 +31,7 @@
 			alert("topicID: "+topicID);
 			$.ajax({
 				type: "GET",
-				url : "http://localhost:8080/sc30/memo/list/"+topicID,
+				url : "http://localhost:8080/ProjectManger2/memo/list/"+topicID,
 				//data: data,
 				success: function(result, status,xhr){
 					//var memoContainer = $("#memoContainer");
@@ -108,7 +108,7 @@
 			//var data = {"title" : title, "content": content, "responsable" : responsable};
 			$.ajax({
 				type: "POST",
-				url: "http://localhost:8080/sc30/memo",
+				url: "http://localhost:8080/ProjectManger2/memo",
 				data: totalInfo,
 				//datatype: "JSON",
 				//contentType : "application/json; charset=UTF-8",
@@ -165,7 +165,7 @@
 			
 			$.ajax({
 				type: "PUT",
-				url: "http://localhost:8080/sc30/topic",
+				url: "http://localhost:8080/ProjectManger2/topic",
 				data: totalInfo,
 				success: function(data){
 					alert("topic updated");
@@ -202,7 +202,7 @@
 			alert(totalInfo);
 			$.ajax({
 				type:"DELETE",
-				url:"http://localhost:8080/sc30/topic",
+				url:"http://localhost:8080/ProjectManger2/topic",
 				data : totalInfo,
 				//datatype: "JSON",
 				//contentType : "application/json; charset=UTF-8",
@@ -235,7 +235,7 @@
 			
 			$.ajax({
 				type:"GET",
-				url:"http://localhost:8080/sc30/memo/"+memoID,
+				url:"http://localhost:8080/ProjectManger2/memo/"+memoID,
 				success: function(result, status,xhr){
 					alert("memo select success");
 					
@@ -246,8 +246,14 @@
 					$("#responsable_read").text(jObject.responsable);
 					
 //					$("#readMemoDiv").prop('display', 'block');
-//					$("#insideMemoDiv > .row").prop('display', 'none');
+//					$("#insideMemoContainer > .row").prop('display', 'none');
 //					$("#noMemoDiv").prop('display', 'none');
+					
+					$("#readMemoDiv").show();
+					$("#insideMemoContainer > .row").hide();
+					
+					alert($("#readMemoDiv"));
+					
 				},
 				error :function(jqXHR,request, error){
 					console.log(jqXHR);
@@ -296,7 +302,7 @@
 			
 			$.ajax({
 				type:"PUT",
-				url:"http://localhost:8080/sc30/memo"+globalMemoID,
+				url:"http://localhost:8080/ProjectManger2/memo"+globalMemoID,
 				data : totalInfo,
 				success: function(){
 					$("#readMemoDiv").show();
@@ -326,7 +332,7 @@
 		function deleteMemo(){
 			$.ajax({
 				type:"DELETE",
-				url:"http://localhost:8080/sc30/memo/"+globalMemoID,
+				url:"http://localhost:8080/ProjectManger2/memo/"+globalMemoID,
 				success: function(result, status,xhr){
 					alert("memo deleted");
 				},
@@ -363,7 +369,7 @@
 			
 			$.ajax({
 				type:"POST",
-				url:"http://localhost:8080/sc30/comment/"+globalMemoID,
+				url:"http://localhost:8080/ProjectManger2/comment/"+globalMemoID,
 				data: jObject,
 				success: function(result, status,xhr){
 					alert("comment created");
@@ -398,7 +404,7 @@
 			if(!globalOpenComment){
 			$.ajax({
 				type:"GET",
-				url:"http://localhost:8080/sc30/comment/list/"+globalMemoID,
+				url:"http://localhost:8080/ProjectManger2/comment/list/"+globalMemoID,
 				success: function(result, status,xhr){
 					alert("memoList success");
 					//comment 붙이기
@@ -486,7 +492,7 @@
 		function deleteComment(commentID){
 			$.ajax({
 				type:"DELETE",
-				url:"http://localhost:8080/sc30/comment/"+commentID,
+				url:"http://localhost:8080/ProjectManger2/comment/"+commentID,
 				success: function(result, status,xhr){
 					alert("comment deleted");
 					
@@ -543,7 +549,7 @@
 			
 			$.ajax({
 				type:"PUT",
-				url:"http://localhost:8080/sc30/comment/"+commentID,
+				url:"http://localhost:8080/ProjectManger2/comment/"+commentID,
 				data: jObject,
 				success: function(result, status,xhr){
 					alert("comment updated");	
@@ -577,7 +583,7 @@
 			alert(memberID);
 			$.ajax({
 				type:"GET",
-				url:"http://localhost:8080/sc30/memo/myList/"+memberID,
+				url:"http://localhost:8080/ProjectManger2/memo/myList/"+memberID,
 				success: function(result, status,xhr){
 					alert("get myWork success");
 					
@@ -662,7 +668,7 @@
 
 	            $.ajax({
 	                type: "POST",
-	                url: "http://localhost:8080/sc30/upload/uploadAjax",
+	                url: "http://localhost:8080/ProjectManger2/upload/uploadAjax",
 	                data: formData,
 	                // processData: true=> get방식, false => post방식
 	                dataType: "text",
@@ -672,6 +678,20 @@
 	                contentType: false,
 	                success: function(data){
 	                    alert(data);
+	                    
+	                    var str = "";
+	                    // 이미지 파일이면 썸네일 이미지 출력
+	                    if(checkImageType(data)){ 
+	                        str = "<div><a href='http://localhost:8080/ProjectManger2//upload/displayFile?fileName="+getImageLink(data)+"'>";
+	                        str += "<img src='http://localhost:8080/ProjectManger2//upload/displayFile?fileName="+data+"'></a>";
+	                    // 일반파일이면 다운로드링크
+	                    } else { 
+	                        str = "<div><a href='http://localhost:8080/ProjectManger2//upload/displayFile?fileName="+data+"'>"+getOriginalName(data)+"</a>";
+	                    }
+	                    // 삭제 버튼
+	                    str += "<span data-src="+data+">[삭제]</span></div>";
+	                    $(".uploadedList").append(str);
+	                    
 	                },
 	                error :function(jqXHR,request, error){
 						console.log(jqXHR);
@@ -694,7 +714,7 @@
 		$("#searchContent").autocomplete({
 			source: function(request, response){
 				$.ajax({
-					url: "http://localhost:8080/sc30/memo",
+					url: "http://localhost:8080/ProjectManger2/memo",
 					method: "GET",
 					data: {searchContent: $("#searchContent").val()},
 					success: function(data){
@@ -720,7 +740,7 @@
 
 			$.ajax({
 				type: "GET",
-				url: "http://localhost:8080/sc30/memo",
+				url: "http://localhost:8080/ProjectManger2/memo",
 				data: totalInfo,
 				success: function(result){
 					alert("success");
