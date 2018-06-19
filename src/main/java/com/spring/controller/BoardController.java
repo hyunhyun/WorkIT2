@@ -20,7 +20,8 @@ import com.spring.service.TeamService;
 public class BoardController {
 	@Autowired
 	TeamService teamService;
-
+//build Test
+	
 	//	@ModelAttribute("listTeam")
 	//	public List<MyTeamVO> initData(HttpSession session) {
 	//		String memberID = (String)session.getAttribute("memberID");
