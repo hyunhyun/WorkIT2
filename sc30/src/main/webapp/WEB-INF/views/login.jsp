@@ -1,8 +1,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="true" %>
+
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
 <!------ Include the above in your HEAD tag ---------->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"  rel="stylesheet">
 <html>
@@ -128,11 +130,11 @@ perspective: 800;
 
             <div class="panel panel-default">
 
-<form class="form-horizontal" action="loginProcess" method="post">
+<form class="form-horizontal" action="login" method="post">
  	<br>
       <h1 class="text-center">LOGO</h1>
     <br>
-     <input class="form-control" name="memberID" type="placeholder="Username"/>
+     <input class="form-control" name="memberID" "placeholder="Username"/>
 	 <input class="form-control" name="password" placeholder="Password"/>
 
 	<button class="btn btn-primary btn-block" type="submit">LOG IN</button>
@@ -152,7 +154,7 @@ perspective: 800;
 		
 	</script>
 	
-	<!-- <form action="logout" method="get">
+	<!-- <form action="auth/logout" method="get">
 	
 	<input type="submit" name="logout" value="logout"/>
 	<a href="logout">logout</a>
@@ -173,13 +175,13 @@ perspective: 800;
                 <h1 class="text-center">LOGO</h1>
 
                 <br>
-                <label>Basic Information</label>
+             <label>Member Information</label>
                  <input class="form-control" placeholder="ID" name="memberID" id="memberID"/>
                
                 <input type="button" onclick="checkID()" value="checkID" class="checkID">
 
                <input class="form-control" placeholder="nickname" name="nickname"/>
-                <label>Private Information</label>
+               <!--  <label>Private Information</label> -->
                 <input class="form-control" placeholder="Password" name="password"/>
                 <!-- <input class="form-control" placeholder="Mobile Number"/>-->
                 <button class="btn btn-primary btn-block" id="signup">SIGN UP</button>
@@ -192,16 +194,9 @@ perspective: 800;
               </form>
 
             </div>
-
-
-
-
           </div>
         </div>   
       </div>
-
-
-
 
         </div>
         <div class="col-md-4"></div>
@@ -237,19 +232,28 @@ perspective: 800;
     
     function checkID(){
     	var id = $('#memberID').val();
+    	if(id.length > 10){
+    		$('#memberID').attr("placeholder","아이디는 10자리 이하");
+    	}
+    	
     	$.ajax({
     		type: "GET",
-    		url: "http://localhost:8080/sc30/checkID?memberID="+id,
+    		url: "http://localhost:8080/ProjectManger2/auth/checkID?memberID="+id,
     		success: function(result){
     			alert("you can use ID");
     			$('.checkID').prop("disabled", true);
     			 $('#signup').prop("disabled", false);
     			IDchecked = true;
     		},
-    		error: function(){
-    			alert("use another ID");
+    		error: function(request, error){
+    			if(request.status = 409){
+    				alert("use another ID");
+    			}else{
+    				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+    			}		
     		}
     	})
+    	
     }</script>
 </body>
 <!-- form에 값써지는거 계속 보고 있다가 sign up버튼 disable 버튼 false로 바꿔줘야함-->
