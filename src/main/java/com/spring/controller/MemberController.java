@@ -3,6 +3,8 @@ package com.spring.controller;
 import java.util.List;
 import java.util.Locale;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,8 @@ import com.spring.service.MemberService;
 
 @Controller
 public class MemberController {
+	private static final Logger logger = LoggerFactory.getLogger(MemberController.class.getName());
+
 	@Autowired
 	MemberService memberService;
 
@@ -24,10 +28,12 @@ public class MemberController {
 	public List<MemberVO> allMembers(Locale locale, Model model,
 		@RequestParam("search") String search) {
 		//		return memberService.getMemberList();
-		System.out.println("search : " + search);
+		//		System.out.println("search : " + search);
+		logger.info("get AllMembers search : " + search);
 
 		List<MemberVO> list = memberService.getListAutoComplete(search);
-		System.out.println(list.size());
+		//		System.out.println(list.size());
+
 		return memberService.getListAutoComplete(search);
 	}
 

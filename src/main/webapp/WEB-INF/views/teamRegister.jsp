@@ -98,7 +98,7 @@ $(document).ready(function(){
 		console.log(jsonInfo);
 		alert(jsonInfo);
 		$.ajax({
-			url:"http://localhost:8080/ProjectManger2/team",
+			url:"http://localhost:8080/ProjectManager2/team",
 			method: "POST",
 			datatype: "JSON",
 			data: jsonInfo, 
@@ -131,7 +131,7 @@ $(document).ready(function(){
 	$("#addMember").autocomplete({
 		source: function(request, response){
 			$.ajax({
-				url: "http://localhost:8080/ProjectManger2/member",
+				url: "http://localhost:8080/ProjectManager2/member",
 				method: "GET",
 				data: {search: $("#addMember").val()},
 				success: function(data){

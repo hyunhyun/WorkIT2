@@ -60,6 +60,7 @@ public class MemoController {
 	@RequestMapping(value = "/memo/list/{topicID}", method = RequestMethod.GET)
 	@ResponseBody
 	public List<MemoVO> getTopicMemo(Model model, @PathVariable(value = "topicID") int topicID) {
+
 		List<MemoVO> memoList = memoService.getMemoList(topicID);
 
 		if (memoList != null && !memoList.isEmpty()) {

@@ -69,7 +69,6 @@ public class TopicController {
 
 	@RequestMapping(value = "/topic", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> deleteTopic(@RequestParam("topicID") int topicID) {
-		//	public ResponseEntity<Void> deleteTopic(@RequestBody String topicID) {
 		System.out.println("topicDelete start");
 		System.out.println(topicID);
 		int deletedRowCount = topicService.deleteTopic(topicID);
@@ -78,7 +77,6 @@ public class TopicController {
 		} else {
 			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		//		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
 }

@@ -205,6 +205,10 @@ perspective: 800;
 
     </div><!-- /.container -->
     <script>
+    
+    <% 	String contextPath  = request.getContextPath();	%>
+	var contextPath = "<%=contextPath%>";
+	
 
  	$(document).ready(function(){
       var IDchecked = false;
@@ -238,7 +242,7 @@ perspective: 800;
     	
     	$.ajax({
     		type: "GET",
-    		url: "http://localhost:8080/ProjectManger2/auth/checkID?memberID="+id,
+    		url: contextPath+"/auth/checkID?memberID="+id,
     		success: function(result){
     			alert("you can use ID");
     			$('.checkID').prop("disabled", true);

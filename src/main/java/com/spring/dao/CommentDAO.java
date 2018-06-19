@@ -18,6 +18,7 @@ public class CommentDAO {
 
 	public int createComment(CommentVO vo) {
 		return sqlSession.insert(namespace + ".createComment", vo);
+
 	}
 
 	public List<CommentVO> getCommentList(int memoID) {

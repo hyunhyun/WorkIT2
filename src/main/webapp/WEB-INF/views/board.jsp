@@ -130,12 +130,16 @@
     <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script> -->
 <!--     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
 	<script>
+	<% 	String contextPath  = request.getContextPath();	%>
+	var contextPath = "<%=contextPath%>";
+	
+	
 	var globalTeamID= null;
 		function teamSelected(teamID){
 			//var data = {"teamID": teamID};
 		//	$.ajax({
 		//		type: "GET",
-	//			url: "http://localhost:8080/ProjectManger2/main"
+	//			url: "http://localhost:8080/ProjectManager2/main"
 				
 				//data: data
 			//});
@@ -147,7 +151,7 @@
 			//도메인 fun25.co.kr 의 전체 패스에 값을 설정
 			//$.cookie("visits", 10, {path: "/", domain: "fun25.co.kr"});
 			//http://xecenter.com/xe/open_tip/4684
-			$.cookie("teamID", teamID, {path:'/'});
+			//$.cookie("teamID", teamID, {path:'/'});
 			var form =$('<form></form>');
 			var hidden = $("<input type='hidden' value='"+ teamID+"' name='teamID'/>");
 			form.attr('action', 'main');
@@ -168,8 +172,8 @@
 			
 			$.ajax({
 				type:"DELETE",
-				//url:"http://localhost:8080/ProjectManger2/team",
-				url:"http://localhost:8080/ProjectManger2/team/"+teamID,
+				//url:"http://localhost:8080/ProjectManager2/team",
+				url: contextPath+"/team/"+teamID,
 				//data: jsonInfo,
 				//datatype: "JSON",
 				contentType : "application/json; charset=UTF-8",
@@ -198,7 +202,6 @@
 		}
 		
 		function show(teamID, teamName){
-			//alert("show");
 			globalTeamID = teamID
 			//$(".modal-content").modal('show');
 			$("#updateTeamModal").modal('show');
@@ -209,14 +212,14 @@
 			var totalInfo = new Object();
 			totalInfo.teamID = globalTeamID;
 			totalInfo.teamName = teamName; 
-			//var totalInfo= {"teamID": 8, "teamName" : "thissis"};
+			
 			console.log(totalInfo);
 			alert("teamID: "+ globalTeamID);
 			alert(JSON.stringify(totalInfo))
 			
 			$.ajax({
 				type:"PUT",
-				url:"http://localhost:8080/ProjectManger2/team",
+				url: contextPath+"/team",
 				data: totalInfo,
 				//datatype: "JSON",			//default
 				//contentType : "application/json; charset=UTF-8",		//default
@@ -224,9 +227,12 @@
 					alert("teamName updated");
 				},
 				error :function(jqXHR,request, error){
+					jqXHR.status
 					console.log(jqXHR);
 					console.log(status);
 					console.log(error);
+					
+					alert("수정 error : "+error);
 				},
 				statusCode: {
 			        200: function () {

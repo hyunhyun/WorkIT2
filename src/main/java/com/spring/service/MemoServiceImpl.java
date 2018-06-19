@@ -17,7 +17,10 @@ public class MemoServiceImpl implements MemoService {
 
 	@Override
 	public List<MemoVO> getMemoList(int topicID) {
+		memoDao.getMemoList(topicID);
+
 		return memoDao.getMemoList(topicID);
+
 	}
 
 	@Override
