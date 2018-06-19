@@ -38,7 +38,7 @@ public class BoardController {
 	//
 	//		return listTeam;
 	//	}
-
+	//
 	@RequestMapping(value = "/board", method = RequestMethod.GET)
 	public String showBoard(Locale locale, Model model, HttpSession session) {
 		String memberID = (String)session.getAttribute("memberID");
