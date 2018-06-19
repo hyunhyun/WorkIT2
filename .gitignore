@@ -1,1 +1,7 @@
-/sc30/
+/target/
+/repository/
+/.idea/
+*.classpath
+*.project
+*.settings
+*.iml
