@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,8 @@ import com.spring.service.CommentService;
 
 @Controller
 public class CommentController {
+	private static final Logger logger = LoggerFactory.getLogger(CommentController.class);
+	
 	@Autowired
 	CommentService commentService;
 
@@ -28,6 +32,8 @@ public class CommentController {
 	public ResponseEntity<Void> createMemo(Model model, HttpSession session,
 		@PathVariable(value = "memoID") int memoID,
 		@RequestParam("content") String content) {
+		
+		logger.info("CommentController - /comment/{memoID} :POST");
 
 		long retryDate = System.currentTimeMillis();
 		CommentVO commentVO = new CommentVO();
@@ -43,6 +49,8 @@ public class CommentController {
 	public ResponseEntity<Void> updateComment(@PathVariable(value = "commentID") int commentID,
 		@RequestParam("content") String content) {
 
+		logger.info("CommentController = /comment/{commentID} : PUT");
+		
 		long retryDate = System.currentTimeMillis();
 		CommentVO commentVO = new CommentVO();
 		commentVO.setCommentID(commentID);
@@ -51,6 +59,7 @@ public class CommentController {
 
 		int rowCount = commentService.updateComment(commentVO);
 
+		logger.info("Comment update rowCount : "+rowCount);
 		if (rowCount == 1) {
 
 			CommentVO vo = null;
@@ -71,6 +80,8 @@ public class CommentController {
 	public List<CommentVO> getMemoComment(Model model, @PathVariable(value = "memoID") int memoID) {
 		List<CommentVO> commentList = commentService.getCommentList(memoID);
 
+		logger.info("CommentController /comment/list/{memoID} : GET");
+		logger.info("getMemoComment");
 		//		if (commentList != null && !commentList.isEmpty()) {
 		return commentList;
 		//		}
@@ -79,7 +90,8 @@ public class CommentController {
 	@RequestMapping(value = "/comment/{commentID}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> deleteComment(@PathVariable(value = "commentID") int commentID) {
 		int rowCount = commentService.deleteComment(commentID);
-
+		
+		logger.info("Comment delete rowCount : "+rowCount);
 		if (rowCount == 1) {
 
 			CommentVO vo = null;

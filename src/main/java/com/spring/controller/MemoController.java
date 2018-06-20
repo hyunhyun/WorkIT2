@@ -34,10 +34,12 @@ public class MemoController {
 		@RequestParam("content") String content,
 		@RequestParam("responsable") String responsable,
 		@RequestParam("topicID") int topicID) {
-		//		httpServletRequest.getAttribute("title");
-		//		httpServletRequest.getAttribute("content");
-		//		httpServletRequest.getAttribute("responsable");
 
+		logger.info("/memo :POST createMemo title : "+title);
+		logger.info("/memo :POST createMemo content : "+content);
+		logger.info("/memo :POST createMemo responsable : "+responsable);
+		logger.info("/memo :POST createMemo topicID : "+topicID);
+		
 		long retryDate = System.currentTimeMillis();
 		MemoVO memoVO = new MemoVO();
 		memoVO.setTitle(title);
@@ -51,16 +53,11 @@ public class MemoController {
 		return memoService.createMemo(memoVO);
 	}
 
-	// /memo/{memoID} PUT
-	@RequestMapping(value = "/memo", method = RequestMethod.PUT)
-	public void updateMemo(@RequestParam("memoID") int memoID) {
-
-	}
-
 	@RequestMapping(value = "/memo/list/{topicID}", method = RequestMethod.GET)
 	@ResponseBody
 	public List<MemoVO> getTopicMemo(Model model, @PathVariable(value = "topicID") int topicID) {
-
+		
+		logger.info("/memo/list/{topicID} : GET topicID : "+topicID);
 		List<MemoVO> memoList = memoService.getMemoList(topicID);
 
 		if (memoList != null && !memoList.isEmpty()) {
@@ -74,6 +71,8 @@ public class MemoController {
 	@RequestMapping(value = "/memo/{memoID}", method = RequestMethod.GET)
 	@ResponseBody
 	public MemoVO getMemo(@PathVariable(value = "memoID") int memoID) {
+		logger.info("/memo/{memoID} GET memoID : "+memoID);
+		
 		MemoVO vo = memoService.getMemo(memoID);
 
 		return vo;
@@ -82,7 +81,10 @@ public class MemoController {
 	@RequestMapping(value = "/memo/{memoID}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> deleteMemo(@PathVariable(value = "memoID") int memoID) {
 		int rowCount = memoService.deleteMemo(memoID);
-
+		
+		logger.info("/memo/{memoID} DELETE memoID : "+memoID);
+		logger.info("Memodelete rowCount : "+rowCount);
+		
 		if (rowCount > 0) {
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} else {
@@ -121,12 +123,10 @@ public class MemoController {
 	@ResponseBody
 	public List<MemoVO> searchContentMemo(@RequestParam("searchContent") String search) {
 
-		System.out.println("controller 왜 안와");
-
-		logger.error("updateMemo Controller start");
+		logger.info("updateMemo searchContent : "+search);
 		List<MemoVO> memoList = memoService.searchMemoContent(search);
 
-		logger.error("memoList search size : " + memoList.size());
+		logger.info("memoList search size : " + memoList.size());
 
 		//		if (!memoList.isEmpty() && memoList != null) {
 		//			return new ResponseEntity<Void>(HttpStatus.OK);

@@ -5,6 +5,8 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,9 +20,9 @@ import com.spring.service.TeamService;
 //git repository name changed
 @Controller
 public class BoardController {
+	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 	@Autowired
 	TeamService teamService;
-//build Test
 	
 	//	@ModelAttribute("listTeam")
 	//	public List<MyTeamVO> initData(HttpSession session) {
@@ -48,6 +50,7 @@ public class BoardController {
 		//			return "auth/login";
 		//		}
 
+		logger.info("boardController - /board :GET");
 		List<MyTeamVO> listTeam = teamService.getmyTeamList(memberID);
 
 		model.addAttribute("listTeam", listTeam);
@@ -57,7 +60,7 @@ public class BoardController {
 	@RequestMapping(value = "/board", method = RequestMethod.POST)
 	public String selectTeam(Locale locale, Model model,
 		@RequestParam("topicID") int topicID) {
-
+		logger.info("boardController - /board :POST");
 		return "board";
 	}
 }

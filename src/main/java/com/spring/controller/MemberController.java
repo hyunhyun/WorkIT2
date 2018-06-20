@@ -18,7 +18,7 @@ import com.spring.service.MemberService;
 
 @Controller
 public class MemberController {
-	private static final Logger logger = LoggerFactory.getLogger(MemberController.class.getName());
+	private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
 	@Autowired
 	MemberService memberService;
@@ -28,12 +28,11 @@ public class MemberController {
 	public List<MemberVO> allMembers(Locale locale, Model model,
 		@RequestParam("search") String search) {
 		//		return memberService.getMemberList();
-		//		System.out.println("search : " + search);
-		logger.info("get AllMembers search : " + search);
+		logger.info("/member :GET get AllMembers search(Autocomplete) : " + search);
 
 		List<MemberVO> list = memberService.getListAutoComplete(search);
-		//		System.out.println(list.size());
-
+		logger.info("AllMembers autocomple listSize : "+list.size());
+		
 		return memberService.getListAutoComplete(search);
 	}
 

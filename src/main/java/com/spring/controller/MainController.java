@@ -5,6 +5,8 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,8 @@ import com.spring.service.TopicService;
 
 @Controller
 public class MainController {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	MemberService memberService;
 
@@ -33,9 +37,9 @@ public class MainController {
 	@Autowired
 	MemoService memoService;
 
-	//	team 만들기, 팀Id로 해당 팀 topic 가져오기, 검색내용 달기,현재 멤버 볼수 있는 버튼 (drop down)
-	//mywork 볼 수 있는 버튼
-	//	해당 topic 처음 꺼로 글 목록 보여주기
+	//	team 留뚮뱾湲�, ��Id濡� �빐�떦 �� topic 媛��졇�삤湲�, 寃��깋�궡�슜 �떖湲�,�쁽�옱 硫ㅻ쾭 蹂쇱닔 �엳�뒗 踰꾪듉 (drop down)
+	//mywork 蹂� �닔 �엳�뒗 踰꾪듉
+	//	�빐�떦 topic 泥섏쓬 爰쇰줈 湲� 紐⑸줉 蹂댁뿬二쇨린
 
 	//	@ModelAttribute("myWorkList")
 	//	public List<ContentVO> getMyWork() {
@@ -50,8 +54,6 @@ public class MainController {
 
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public ModelAndView showMain(Locale locale, @RequestParam("teamID") int teamID, HttpSession session) {
-		//화면 키자마자 보여야할거 - 해당 팀의 topic,(첫번째 topic의 글 리스트)
-
 		//		if (session.getAttribute("memberID") != null) {
 		String memberID = (String)session.getAttribute("memberID");
 
@@ -59,7 +61,8 @@ public class MainController {
 
 		List<TeamMemberVO> memberList = teamService.getTeamMember(teamID);
 
-		System.out.println("teamID : " + teamID);
+		logger.info("Mainpage teamID : " + teamID);
+		logger.info("Mainpage session memberID"+memberID);
 
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("topicList", topicList);

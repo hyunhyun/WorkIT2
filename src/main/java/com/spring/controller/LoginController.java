@@ -4,6 +4,8 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,8 @@ import com.spring.service.MemberService;
 @Controller
 @RequestMapping("/auth")
 public class LoginController {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	MemberService memberService;
 
@@ -85,7 +89,9 @@ public class LoginController {
 	@RequestMapping(value = "/checkID", method = RequestMethod.GET)
 	public ResponseEntity<Void> checkID(Model model,
 		@RequestParam(value = "memberID", required = true) String memberID) {
-		System.out.println("checkID");
+		logger.info("auth/checkID : GET");
+		logger.info("checkID Request memberID : "+memberID);
+		
 		MemberVO checkvo = memberService.getMember(memberID);
 		if (checkvo != null) {
 			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
