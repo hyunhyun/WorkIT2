@@ -25,4 +25,6 @@ public interface TeamService {
 	public ResponseEntity<Void> updateTeamName(int teamID, String teamName);
 
 	public ResponseEntity<Void> deleteTeam(int teamID);
+	
+	
 }

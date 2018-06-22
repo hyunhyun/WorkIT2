@@ -69,7 +69,7 @@ public class LoginController {
 	public String register(Model model, @RequestParam("memberID") String memberID,
 		@RequestParam("password") String password,
 		@RequestParam("nickname") String nickname) {
-
+		
 		if (!memberID.isEmpty() && !password.isEmpty() && !nickname.isEmpty()) {
 			MemberVO vo = new MemberVO();
 			vo.setMemberID(memberID);
@@ -83,7 +83,7 @@ public class LoginController {
 			}
 		}
 
-		return "redirect:/login";
+		return "redirect:/auth/login";
 	}
 
 	@RequestMapping(value = "/checkID", method = RequestMethod.GET)

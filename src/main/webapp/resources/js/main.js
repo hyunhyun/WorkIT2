@@ -1,12 +1,23 @@
 	
-	var globalTopicID = null;
-	var globalMemoID = null;
+	var globalTopicID = -1;
+	var globalMemoID = -1;
 	var globalOpenComment = false;
+	var globalTopicName = null;
+	
+	var createMemoOpen = false;		
+	
+	
+	$(document).ready(function(){
+		
+//		topicSelected(globalTopicID)
+//		alert(test);
+	})
+	
 	
 	function createTopic(){
 		var topicName = $("#tName").val();
-		//alert("create Topic");
-		//alert(${teamID});
+		alert("create Topic");
+		alert(topicName);
 		var data = {"topicName": topicName, "teamID": teamID};
 		//var data = {"topicName": topicName, "teamID": $.cookie("teamID")};
 		$.ajax({
@@ -27,6 +38,7 @@
 	//이거 페이지 넘어가는걸로 바뀔거임
 		function topicSelected(topicID){
 			globalTopicID = topicID;
+			//globalTopicName = topicName;
 			//var data = {"topicID" : topicID};
 			alert("topicID: "+topicID);
 			$.ajax({
@@ -47,17 +59,23 @@
 					var jLength = result.length;
 					
 //					$("#memoContainer > .row").empty();
-					$("#insideMemoContainer > .row").empty();
+					/*$("#insideMemoContainer > .row").empty();*/
+					$("#insideMemoContainer > #cardContainer").empty();
+					
+					$("#insideMemoContainer > #cardContainer").show();
+					$("#createMemoDiv").hide();
+					$("#readMemoDiv").hide();
+					$("#updateMemoDiv").hide();
 					for(var i=0; i<jLength; i++){
 						var title = result[i].title;
 //						 bg-primary -파, bg-warning-노, bg-success-초, bg-danger-빨
-						$("#insideMemoContainer > .row").append(`<div class="col-xl-3 col-sm-6 mb-3">
+						$("#insideMemoContainer > #cardContainer").append(`<div class="col-xl-3 col-sm-6 mb-3">
 						          <div class="card text-white bg-warning o-hidden h-100">
 						            <div class="card-body">
 						              <div class="card-body-icon">
 						                <i class="fa fa-fw fa-comments"></i>
 						              </div>
-						              <div class="mr-5">26 `+title+`</div>
+						              <div class="mr-5">`+title+`</div>
 						            </div>
 						            <a class="card-footer text-white clearfix small z-1" href="#" onclick="selectMemo(`+result[i].memoID+`)">
 						              <span class="float-left" >View Details</span>
@@ -89,8 +107,27 @@
 		}
 		
 		function createMemo(){
+			
+//			alert("button먹나");
 			var createMemoDiv= $("#createMemoDiv");
-			createMemoDiv.prop('hidden', false);		
+//			createMemoDiv.prop('hidden', false);	
+			
+			if(!createMemoOpen){			
+				$("#insideMemoContainer > #cardContainer").hide();
+				$("#readMemoDiv").hide();
+				$("#updateMemoDiv").hide();
+				
+				createMemoDiv.show();
+				createMemoOpen = true;
+			}else{
+				createMemoDiv.hide();
+				
+				$("#insideMemoContainer > #cardContainer").show();
+				$("#readMemoDiv").hide();
+				$("#updateMemoDiv").hide();
+				
+				createMemoOpen = false;
+			}
 		}
 		
 		function submitMemo(){		
@@ -100,13 +137,13 @@
 			totalInfo.content = $("#content_create").val();
 			totalInfo.responsable = $("#responsable_create").val();
 			totalInfo.topicID = globalTopicID;
+			totalInfo.teamID = teamID;
+			
+			//globalTopicID, teamID 선택 안되면 ""됨 숫자가아닌 String 되
 			
 			alert("topicMemo");
 			console.log(totalInfo);
-			//topicID가 여기서 string으로 됨 controller에서 int로 변환이 안됨
-			//var jsonInfo =JSON.stringify(totalInfo);
-					
-			//var data = {"title" : title, "content": content, "responsable" : responsable};
+
 			$.ajax({
 				type: "POST",
 				url: contextPath+"/memo",
@@ -117,36 +154,41 @@
 					//function(data){
 			
 					alert("memo Created");
+					console.log(result);
 					//read로 바꿔놓아야함 - 해당글
 					
-					//console.log(result);
-					//var jsonString = JSON.stringify(result);
-					//var jObject = JSON.parse(jsonString);
-					//alert(jObject[0].memoID);
-					//var data_title = jObject.title;
-					//var data_content = obj;
+					selectMemo(result.memoID);	
+					
 					
 					console.log(result);
 					
-					$("#memoContainer").prop('hidden', true);
-					
-					$("#readMemoDiv").prop
-				/* var obj = JSON.parse(json);
-					var data_title = obj.title;
-					var data_content= obj.content;
-					var data_responsable = obj.responsable; */
-					/* 
-					$("#createMemoDiv").prop('hidden', true);
-					$("#readMemoDiv").prop('hidden', false);
-					$("#title_read").text(data_title);
-					$("#content_read").text(data_content);
-					$("#responsable_read").text(data_responsable); */
 				},
 				error : function(jqXHR,request, error){
 					console.log(jqXHR);
 					console.log(status);
 					console.log(error);
-				}
+//					alert(error);
+//					if(jqXHR.status == 400){
+//						alert(jqXHR.responseText);
+//					}
+				},
+				statusCode: {
+			        200: function () {
+			            console.log("200 - Success");
+			        },
+			        400: function(){
+			        	alert("Responsable must be a TeamMember");
+			        	console.log("400 - Bad Request");
+			        },
+			        404: function(request, status, error) {
+			            console.log("404 - Not Found");
+			            console.log(error);
+			        },
+			        500: function(request, status, error){
+			        	console.log("500 - Internal Server Error");
+			            console.log(error);			
+			            }
+			        }
 				})		
 			
 		}
@@ -238,23 +280,17 @@
 				type:"GET",
 				url: contextPath+"/memo/"+memoID,
 				success: function(result, status,xhr){
-					alert("memo select success");
+					console.log("memo Select Success");
 					
-					var jsonString = JSON.stringify(result);
-					var jObject = JSON.parse(jsonString);
-					$("#title_read").text(jObject.title);
-					$("#content_read").text(jObject.content);
-					$("#responsable_read").text(jObject.responsable);
-					
-//					$("#readMemoDiv").prop('display', 'block');
-//					$("#insideMemoContainer > .row").prop('display', 'none');
-//					$("#noMemoDiv").prop('display', 'none');
-					
+					$("#insideMemoContainer > #cardContainer").hide();
+					$("#createMemoDiv").hide();
 					$("#readMemoDiv").show();
-					$("#insideMemoContainer > .row").hide();
+					$("#updateMemoDiv").hide();
 					
-					alert($("#readMemoDiv"));
-					
+					$("#title_read").text(result.title);
+					$("#content_read > p").text(result.content);
+					$("#responsable_read").text(result.responsable);
+															
 				},
 				error :function(jqXHR,request, error){
 					console.log(jqXHR);
@@ -303,11 +339,18 @@
 			
 			$.ajax({
 				type:"PUT",
-				url: contextPath+"/memo"+globalMemoID,
+				url: contextPath+"/memo/"+globalMemoID,
 				data : totalInfo,
 				success: function(){
 					$("#readMemoDiv").show();
+					
+					$("#title_read").text(title);
+					$("#content_read > p").text(content);
+					$("#responsable_read").text(responsable);
+					
+					
 					$("#updateMemoDiv").hide();
+				
 				},
 				error :function(jqXHR,request, error){
 					console.log(jqXHR);
@@ -410,21 +453,13 @@
 					alert("memoList success");
 					//comment 붙이기
 					
-					//var jsonString = JSON.stringify(result);
-					//var jObject = JSON.parse(jsonString);
-					//var jLength = jObject.length;
-					//alert("length: " + jObject.length);
-					
-					//alert(jObject[0].memoID);
-					//alert(jObject[0].title);
-					
 					alert("length : "+result.length);
 					alert("content:"+result[0].content);
 					
+					var commentList = $("#commentList");
+					commentList.append('<ul class="comments"></ul>');
 					
 					for(var i=0; i<result.length; i++){
-
-						var commentList = $("#commentList");
 						var div = "<div class='commentContainer' id='commentContainer_"+result[i].commentID+"'></div>"; 
 						var readDiv = "<div id='commentReadContainer_"+result[i].commentID+"'></div>";
 						var writer = "<div class='commentWriter'>글쓴이 : "+result[i].writer+"</div>";
@@ -436,27 +471,60 @@
 						var contentUpdate = "<input type='text' class='commentContent' id='commentContentUpdate_"+result[i].commentID+"' placeholder='"+result[i].content+"'/>";
 						var updateSendBtn = "<input type='button' class='commentUpdateSend' onclick='updateComment("+result[i].commentID+")' value='저장'/>";
 						
-//						var comment = commentList.append(div);
-						commentList.append(div);
-//						var commentRead = comment.append(readDiv);
-						var comment = $("#commentContainer_"+result[i].commentID);
-						comment.append(readDiv);
-						
-						
-						commentRead = $("#commentReadContainer_"+result[i].commentID);
-						
-						commentRead.append(writer);
-						commentRead.append(contentDiv);
-					
-						if(result[i].writer == memberID){
-							commentRead.append(updateBtn);
-							commentRead.append(deleteBtn);	
-						}
-						comment.append(updateDiv);
-						var commentUpdate = $("#commentUpdateContainer_"+result[i].commentID);
-						commentUpdate.append(contentUpdate);
-						commentUpdate.append(updateSendBtn);
+////						var comment = commentList.append(div);
+//						commentList.append(div);
+////						var commentRead = comment.append(readDiv);
+//						var comment = $("#commentContainer_"+result[i].commentID);
+//						comment.append(readDiv);		
+//						
+//						commentRead = $("#commentReadContainer_"+result[i].commentID);
+//						
+//						commentRead.append(writer);
+//						commentRead.append(contentDiv);
+//					
+//						if(result[i].writer == memberID){
+//							commentRead.append(updateBtn);
+//							commentRead.append(deleteBtn);	
+//						}
+//						
+//						comment.append(updateDiv);
+//						var commentUpdate = $("#commentUpdateContainer_"+result[i].commentID);
+//						commentUpdate.append(contentUpdate);
+//						commentUpdate.append(updateSendBtn);
 //						comment.append(contentUpdate);
+												
+						//바꾸는거
+//						$(".comments").append(div);
+//						var comment = $("#commentContainer_"+result[i].commentID);
+//						comment.append(readDiv);
+//						commentRead = $("#commentReadContainer_"+result[i].commentID);
+						
+						var date = new Date(result[i].date * 1000);
+//						date.toLocaleString()
+//						var formattedDate = moment(date).format('YYYY-MM-DD');
+						
+						$(".comments").append(`<li class="clearfix" id="commentReadContainer_'+result[i].commentID+'">					  
+						  <div class="post-comments">
+						      <p class="meta" id="commentDateRead_`+result[i].commentID+`">`+result[i].date.format("HH/mm/ss")+` <a>`+result[i].writer+`</a> says : <i class="pull-right"><a href="#"><small>Reply</small></a></i></p>
+						      <p class="commentContent" id="commentContentRead_`+result[i].commentID+`">`+result[i].content+`</p>				
+						  </div
+						</li>`);
+						if(result[i].writer == memberID){
+							$("#commentReadContainer_"+result[i].commentID).append(updateBtn);
+							$("#commentReadContainer_"+result[i].commentID).append(deleteBtn);	
+						}
+						
+						$(".comments").append(`<li class="clearfix" id="commentUpdateContainer_`+result[i].commentID+`" hidden="true">
+								 
+								  <div class="post-comments">
+								      <input type="text" class="commentContent" id="commentContentUpdate_`+result[i].commentID+`" placeholder="`+result[i].content+`"/>
+								      <input type="button" class="commentUpdateSend" onclick="updateComment(`+result[i].commentID+`)" value="저장"/>
+								  </div>
+								</li>`);
+									
+						
+						
+						
 					}
 					
 					globalOpenComment = true;
@@ -597,17 +665,17 @@
 //							var div = $("<div id= 'memo_"+result[i].memoID+"' onclick='selectMemo("+result[i].memoID+")'>"+title+"</div>");							
 //							$("#memoContainer").append(div);
 		
-							$("#insideMemoContainer > .row").empty();
+							$("#insideMemoContainer > #cardContainer").empty();
 							for(var i=0; i<result.length; i++){
 								var title = result[i].title;
 //								 bg-primary -파, bg-warning-노, bg-success-초, bg-danger-빨
-								$("#insideMemoContainer > .row").append(`<div class="col-xl-3 col-sm-6 mb-3">
+								$("#insideMemoContainer > #cardContainer").append(`<div class="col-xl-3 col-sm-6 mb-3">
 								          <div class="card text-white bg-warning o-hidden h-100">
 								            <div class="card-body">
 								              <div class="card-body-icon">
 								                <i class="fa fa-fw fa-comments"></i>
 								              </div>
-								              <div class="mr-5">26 `+title+`</div>
+								              <div class="mr-5">`+title+`</div>
 								            </div>
 								            <a class="card-footer text-white clearfix small z-1" href="#" onclick="selectMemo(`+result[i].memoID+`)">
 								              <span class="float-left">View Details</span>
@@ -702,6 +770,10 @@
 	                
 	            });
 	        });
+	        
+	        
+	      
+	        
 	    });
 	
 	  function addFilePath(msg){
@@ -709,19 +781,20 @@
 	        document.getElementById("formFile").reset(); // ifream에 업로드결과를 출력 후 form에 저장된 데이터 초기화
 	    }
 	  
-	  
-	  
-	  //autocomplete 얘 안되는중
 		$("#searchContent").autocomplete({
 			source: function(request, response){
+				var search = $("#searchContent").val();
 				$.ajax({
 					url: contextPath+"/memo",
 					method: "GET",
-					data: {searchContent: $("#searchContent").val()},
+					data: {searchContent: search},
 					success: function(data){
 						console.log(data);
+										
 						response($.map(data, function(item){
-							return {label: item.title, value: item.content};
+							var index = item.content.indexOf(search);
+							
+							return {label: item.title+" Memo : "+item.content.substring(index), value: item.content};
 						}));
 					},
 					error : function(jqXHR,request, error){
@@ -732,6 +805,7 @@
 				})	
 			}
 		})
+		
 	  
 	  function searchContent(){
 			var searchContent = $("#searchContent").val();
@@ -756,17 +830,17 @@
 //						$("#memoContainer").append(div);
 						
 						
-						$("#insideMemoContainer > .row").empty();
+						$("#insideMemoContainer > #CardContainer").empty();
 						for(var i=0; i<result.length; i++){
 							var title = result[i].title;
 //							 bg-primary -파, bg-warning-노, bg-success-초, bg-danger-빨
-							$("#insideMemoContainer > .row").append(`<div class="col-xl-3 col-sm-6 mb-3">
+							$("#insideMemoContainer > #cardContainer").append(`<div class="col-xl-3 col-sm-6 mb-3">
 							          <div class="card text-white bg-warning o-hidden h-100">
 							            <div class="card-body">
 							              <div class="card-body-icon">
 							                <i class="fa fa-fw fa-comments"></i>
 							              </div>
-							              <div class="mr-5">26 `+title+`</div>
+							              <div class="mr-5">`+title+`</div>
 							            </div>
 							            <a class="card-footer text-white clearfix small z-1" href="#" onclick="selectMemo(`+result[i].memoID+`)">
 							              <span class="float-left">View Details</span>
@@ -805,3 +879,52 @@
 				
 			}) 
 		}
+//$(document).on('click','#responsable_create',function(){
+//	console.log($('#responsable_create').val());
+//});
+		$("#responsable_create").autocomplete({
+			source: function(request, response){
+				console.log(request);
+				$.ajax({
+					url: contextPath+"/team/member/auto",
+					method: "GET",
+					data: {teamID: teamID, memberID: $("#responsable_create").val()},
+					success: function(data){
+						console.log(data);
+						response($.map(data, function(item){
+							return {label: item.memberID, value: item.memberID};
+						}));
+					},
+					error : function(jqXHR,request, error){
+						console.log(jqXHR);
+						console.log(status);
+						console.log(error);
+					}
+				})
+			}
+		});
+		
+		$("#responsable_update").autocomplete({
+			source: function(request, response){
+				console.log(request);
+				$.ajax({
+					url: contextPath+"/team/member/auto",
+					method: "GET",
+					data: {teamID: teamID, memberID: $("#responsable_update").val()},
+					success: function(data){
+						console.log(data);
+						response($.map(data, function(item){
+							return {label: item.memberID, value: item.memberID};
+						}));
+					},
+					error : function(jqXHR,request, error){
+						console.log(jqXHR);
+						console.log(status);
+						console.log(error);
+					}
+				})
+			}
+		});
+		
+		
+		

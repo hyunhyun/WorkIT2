@@ -56,4 +56,6 @@ public class TeamDAO {
 	public int deleteTeam(int teamID) {
 		return sqlSession.delete(namespace + ".deleteTeam", teamID);
 	}
+	
+	
 }

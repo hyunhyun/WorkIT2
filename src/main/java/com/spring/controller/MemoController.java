@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.model.MemoVO;
+import com.spring.model.TeamMemberVO;
 import com.spring.service.MemoService;
 
 @Controller
@@ -33,13 +34,15 @@ public class MemoController {
 		@RequestParam("title") String title,
 		@RequestParam("content") String content,
 		@RequestParam("responsable") String responsable,
-		@RequestParam("topicID") int topicID) {
+		@RequestParam("topicID") int topicID,
+		@RequestParam("teamID") int teamID) throws Exception {
 
 		logger.info("/memo :POST createMemo title : "+title);
 		logger.info("/memo :POST createMemo content : "+content);
 		logger.info("/memo :POST createMemo responsable : "+responsable);
 		logger.info("/memo :POST createMemo topicID : "+topicID);
 		
+		String MemberID = (String)session.getAttribute("memberID");
 		long retryDate = System.currentTimeMillis();
 		MemoVO memoVO = new MemoVO();
 		memoVO.setTitle(title);
@@ -47,12 +50,27 @@ public class MemoController {
 		memoVO.setResponsable(responsable);
 		memoVO.setDate(new Timestamp(retryDate));
 		memoVO.setTopicID(topicID);
-		memoVO.setWriter((String)session.getAttribute("memberID"));
+		memoVO.setWriter(MemberID);
 		///file
 
-		return memoService.createMemo(memoVO);
+		TeamMemberVO teamMemberVO = new TeamMemberVO();
+		teamMemberVO.setMemberID(responsable);
+		teamMemberVO.setTeamID(teamID);
+		
+		MemoVO createdVO = memoService.createMemo(memoVO, teamMemberVO);
+		if(createdVO != null) {		
+			return new ResponseEntity<MemoVO>(createdVO, HttpStatus.OK);
+		}else {
+			return new ResponseEntity<MemoVO>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
+	
+//	@RequestMapping(value = "/memo", method = RequestMethod.POST)
+//	public ResponseEntity<MemoVO> createMemo(Model model){
+//			return new ResponseEntity<MemoVO>(HttpStatus.INTERNAL_SERVER_ERROR);
+//	}
+	
 	@RequestMapping(value = "/memo/list/{topicID}", method = RequestMethod.GET)
 	@ResponseBody
 	public List<MemoVO> getTopicMemo(Model model, @PathVariable(value = "topicID") int topicID) {
@@ -60,6 +78,7 @@ public class MemoController {
 		logger.info("/memo/list/{topicID} : GET topicID : "+topicID);
 		List<MemoVO> memoList = memoService.getMemoList(topicID);
 
+		logger.info("/memo/list/{topicID} memoList size : "+memoList.size());
 		if (memoList != null && !memoList.isEmpty()) {
 			model.addAttribute("topicMemo", memoList);
 		}
@@ -98,13 +117,21 @@ public class MemoController {
 		@RequestParam("content") String content,
 		@RequestParam("responsable") String responsable) {
 
+		logger.info("/memo/{memoID} PUT updateMemo start");
+		logger.info("updateMemo memoID : "+memoID);
+		logger.info("updateMemo title : "+title);
+		logger.info("updateMemo content : "+content);
+		logger.info("updateMemo responsable : "+responsable);
+		
 		MemoVO memoVO = new MemoVO();
+		memoVO.setMemoID(memoID);
 		memoVO.setTitle(title);
 		memoVO.setContent(content);
 		memoVO.setResponsable(responsable);
 
 		int rowCount = memoService.updateMemo(memoVO);
-
+		logger.info("updateMemo rowCount : "+rowCount);
+			
 		if (rowCount > 0) {
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} else {

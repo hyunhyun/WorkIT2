@@ -33,7 +33,7 @@ public class TeamController {
 		@RequestParam("teamID") int teamID,
 		@RequestParam("memberID") String memberID) {}
 
-	//TODO jsonarray 안들어옴 Map으로 매핑 안됨 처리하기
+	//TODO jsonarray �븞�뱾�뼱�샂 Map�쑝濡� 留ㅽ븨 �븞�맖 泥섎━�븯湲�
 	@RequestMapping(value = "/team", method = RequestMethod.POST)
 	//	public String makeTeam(@RequestBody TeamRegister data) {
 	//	public String makeTeam(@RequestParam("teamMembers") String teamMembers,
@@ -77,18 +77,9 @@ public class TeamController {
 	@RequestMapping(value = "/team", method = RequestMethod.PUT)
 	public ResponseEntity<Void> updateTeamName(@RequestParam("teamID") int teamID,
 		@RequestParam("teamName") String teamName) {
-		//public String updateTeamName(@RequestBody String data) throws ParseException {
-		//public String update(@RequestParam("teamID") int teamID, @RequestParam("teamName") String teamName) {
+		
 		System.out.println("team update Controller");
-		//System.out.println(data);
 		return teamService.updateTeamName(teamID, teamName);
-		//JSONParser jsonParser = new JSONParser();
-
-		//JSONObject jsonObject = (JSONObject)jsonParser.parse(data);
-		//int teamID = (int)jsonObject.get("teamID");
-		//System.out.println("teamID : " + teamID);
-
-		//return "board";
 	}
 
 	//	@RequestMapping(value = "/team", method = RequestMethod.DELETE)

@@ -2,6 +2,8 @@ package com.spring.controller;
 
 import java.util.Locale;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,8 @@ import com.spring.service.TopicService;
 
 @Controller
 public class TopicController {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
+	
 	@Autowired
 	TopicService topicService;
 
@@ -28,8 +32,8 @@ public class TopicController {
 		@RequestParam("topicName") String topicName,
 		@RequestParam("teamID") int teamID) {
 
-		System.out.println("topicName : " + topicName);
-		System.out.println("teamID : " + teamID);
+		logger.info("topicName : " + topicName);
+		logger.info("teamID : " + teamID);
 		//create topic
 
 		if (topicName.length() > 10) {
@@ -40,7 +44,7 @@ public class TopicController {
 			vo.setTeamID(teamID);
 
 			topicService.registerTopic(vo);
-			//해당 id로 검색하고 있는지 확인
+			//�빐�떦 id濡� 寃��깋�븯怨� �엳�뒗吏� �솗�씤
 
 			int topicID = vo.getTopicID();
 			TopicVO checkVo = null;
@@ -49,7 +53,7 @@ public class TopicController {
 			if (checkVo != null) {
 				return new ResponseEntity<Void>(HttpStatus.OK);
 			} else {
-				//db에 저장이 안됨
+				//db�뿉 ���옣�씠 �븞�맖
 				return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}
@@ -69,8 +73,8 @@ public class TopicController {
 
 	@RequestMapping(value = "/topic", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> deleteTopic(@RequestParam("topicID") int topicID) {
-		System.out.println("topicDelete start");
-		System.out.println(topicID);
+		logger.info("topicDelete start");
+		logger.info("topicDelete topicID : "+topicID);
 		int deletedRowCount = topicService.deleteTopic(topicID);
 		if (deletedRowCount > 0) {
 			return new ResponseEntity<Void>(HttpStatus.OK);

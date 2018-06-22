@@ -82,6 +82,8 @@ public class CommentController {
 
 		logger.info("CommentController /comment/list/{memoID} : GET");
 		logger.info("getMemoComment");
+		
+		logger.info("getMemoComment[0] date : "+commentList.get(0).getDate());
 		//		if (commentList != null && !commentList.isEmpty()) {
 		return commentList;
 		//		}

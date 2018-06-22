@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.spring.model.InputException;
 import com.spring.service.MemberService;
 
 /**
@@ -26,6 +27,7 @@ public class HomeController {
 
 	/**
 	 * Simply selects the home view to render by returning its name.
+	 * @throws InputException 
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
@@ -38,7 +40,7 @@ public class HomeController {
 		//		vo.setMemberID("test");
 		//		vo.setPassword("ejpw");
 		//		vo.setNickname("ejg");
-		//		// DB에 넣고 DB테이블에서 직접 확인해봐야 한다.
+		//		// DB�뿉 �꽔怨� DB�뀒�씠釉붿뿉�꽌 吏곸젒 �솗�씤�빐遊먯빞 �븳�떎.
 		//		memberService.register(vo);
 
 		String formattedDate = dateFormat.format(date);

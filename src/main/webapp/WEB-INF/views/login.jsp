@@ -168,7 +168,7 @@ perspective: 800;
 
               <div class="panel panel-default">
 
-              <form class="form-horizontal"  name="fr" action="register" method="post">
+              <form class="form-horizontal"  name="fr">
                 
                 <br>
 
@@ -176,15 +176,15 @@ perspective: 800;
 
                 <br>
              <label>Member Information</label>
-                 <input class="form-control" placeholder="ID" name="memberID" id="memberID"/>
+                 <input class="form-control" placeholder="ID" name="memberID" id="memberID_register"/>
                
                 <input type="button" onclick="checkID()" value="checkID" class="checkID">
 
-               <input class="form-control" placeholder="nickname" name="nickname"/>
+               <input class="form-control" placeholder="nickname" name="nickname" id="nickname_register"/>
                <!--  <label>Private Information</label> -->
-                <input class="form-control" placeholder="Password" name="password"/>
+                <input class="form-control" placeholder="Password" name="password" id="password_register"/>
                 <!-- <input class="form-control" placeholder="Mobile Number"/>-->
-                <button class="btn btn-primary btn-block" id="signup">SIGN UP</button>
+                <button class="btn btn-primary btn-block" id="signup" onclick="register()">SIGN UP</button>
 
 
                 <p class="text-center">
@@ -208,11 +208,12 @@ perspective: 800;
     
     <% 	String contextPath  = request.getContextPath();	%>
 	var contextPath = "<%=contextPath%>";
-	
+	var flipped;
+	var IDchecked;
 
  	$(document).ready(function(){
-      var IDchecked = false;
-        var flipped = false;
+      IDchecked = false;
+      flipped = false;
         
         $('#signup').prop("disabled", true);
         
@@ -231,13 +232,14 @@ perspective: 800;
         }else{
         	flipped = true;
         }
-
     });
     
+   
+    
     function checkID(){
-    	var id = $('#memberID').val();
+    	var id = $('#memberID_register').val();
     	if(id.length > 10){
-    		$('#memberID').attr("placeholder","아이디는 10자리 이하");
+    		$('#memberID_register').attr("placeholder","아이디는 10자리 이하");
     	}
     	
     	$.ajax({
@@ -257,8 +259,38 @@ perspective: 800;
     			}		
     		}
     	})
+    }
+    
+    function register(){
+    	var id = $('#memberID_register').val();
+    	var pw = $('#password_register').val();
+    	var nk = $('#nickname_register').val();
+ 
     	
-    }</script>
+    	var info= new Object();
+    	info.memberID = id;
+    	info.password = pw;
+    	info.nickname = nk;
+    	
+    	$.ajax({
+    		type: "POST",
+    		url: contextPath+"/auth/register",
+    		data: info,
+    		success: function(result){
+    			alert("회원가입 완료");
+    			console.log(result);
+    		},
+    		error: function(request, error){
+    			console.log(request);
+    			console.log(error);
+    			if(request.status = 409){
+    				//alert();
+    			}		
+    		}
+    	}) 	
+    }
+    
+    </script>
 </body>
 <!-- form에 값써지는거 계속 보고 있다가 sign up버튼 disable 버튼 false로 바꿔줘야함-->
 

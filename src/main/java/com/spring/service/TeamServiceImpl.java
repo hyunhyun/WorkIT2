@@ -32,7 +32,7 @@ public class TeamServiceImpl implements TeamService {
 
 		int teamID = vo.getTeamID();
 
-		//그룹 만든 사용자 멤버로 등록
+		//洹몃９ 留뚮뱺 �궗�슜�옄 硫ㅻ쾭濡� �벑濡�
 		//		TeamMemberVO gm = new TeamMemberVO();
 		//		gm.setTeamID(teamID);
 		//		gm.setMemberID(vo.getmadeBy());
@@ -67,7 +67,7 @@ public class TeamServiceImpl implements TeamService {
 			vo.setMemberID(memberID);
 			vo.setTeamID(teamID);
 
-			//현재 회원등록되어 있는 member테이블에 있는 회원만 추가 할 수있게
+			//�쁽�옱 �쉶�썝�벑濡앸릺�뼱 �엳�뒗 member�뀒�씠釉붿뿉 �엳�뒗 �쉶�썝留� 異붽� �븷 �닔�엳寃�
 			MemberVO checkvo = memberDao.get(memberID);
 			if (checkvo != null) {
 				teamDao.registerTeamMember(vo);

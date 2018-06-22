@@ -1,6 +1,5 @@
 package com.spring.model;
 
-//join 결과 위해서 필요한 VO
 public class TeamMemberVO {
 	private int teamID;
 	private String memberID;

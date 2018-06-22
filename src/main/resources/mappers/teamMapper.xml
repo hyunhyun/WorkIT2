@@ -62,4 +62,17 @@
 		where teamID = #{teamID}
 	</delete>
 	
+	<select id="checkTeamMember" resultType="java.lang.Integer">
+		select count(*)
+		from TeamMember
+		where teamID = #{teamID} 
+		and memberID = #{memberID}
+	</select>
+	
+	<select id="teamMemberAutoComplete" resultType="com.spring.model.TeamMemberVO">
+		select *
+		from TeamMember
+		where memberID LIKE CONCAT('%', #{memberID}, '%') and TeamID = #{teamID}
+	</select>
+	
 </mapper>
