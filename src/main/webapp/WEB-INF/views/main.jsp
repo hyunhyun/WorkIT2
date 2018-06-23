@@ -560,12 +560,10 @@ createTopic<input type="text" name="topicName" placeholder="topicName" id="tName
 		<div class="card my-4" id="createComment">
             <h5 class="card-header">Leave a Comment:</h5>
             <div class="card-body">
-              <form>
                 <div class="form-group">
                   <textarea class="form-control" rows="3" id="commentText"></textarea>
                 </div>
                 <button  class="btn btn-primary" onclick="registerComment()">Submit</button>
-              </form>
             </div>
             <!-- card-body End -->
           </div>

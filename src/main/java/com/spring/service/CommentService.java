@@ -5,10 +5,11 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 
 import com.spring.model.CommentVO;
+import com.spring.model.InputException;
 
 public interface CommentService {
 
-	public ResponseEntity<Void> createComment(CommentVO vo);
+	public int createComment(CommentVO vo) throws InputException;
 
 	public List<CommentVO> getCommentList(int memoID);
 

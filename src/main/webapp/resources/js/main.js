@@ -445,16 +445,19 @@
 		
 		
 		function getMemoComment(){
+			alert("getMemoComment");
 			if(!globalOpenComment){
+				alert("globalOpenComment false");
 			$.ajax({
 				type:"GET",
 				url: contextPath+"/comment/list/"+globalMemoID,
 				success: function(result, status,xhr){
-					alert("memoList success");
+					//alert("memoList success");
+					console.log("memoList success");
 					//comment 붙이기
 					
-					alert("length : "+result.length);
-					alert("content:"+result[0].content);
+					console.log("length : "+result.length);
+					console.log("content:"+result[0].content);
 					
 					var commentList = $("#commentList");
 					commentList.append('<ul class="comments"></ul>');
@@ -471,27 +474,27 @@
 						var contentUpdate = "<input type='text' class='commentContent' id='commentContentUpdate_"+result[i].commentID+"' placeholder='"+result[i].content+"'/>";
 						var updateSendBtn = "<input type='button' class='commentUpdateSend' onclick='updateComment("+result[i].commentID+")' value='저장'/>";
 						
-////						var comment = commentList.append(div);
-//						commentList.append(div);
-////						var commentRead = comment.append(readDiv);
-//						var comment = $("#commentContainer_"+result[i].commentID);
-//						comment.append(readDiv);		
-//						
-//						commentRead = $("#commentReadContainer_"+result[i].commentID);
-//						
-//						commentRead.append(writer);
-//						commentRead.append(contentDiv);
-//					
-//						if(result[i].writer == memberID){
-//							commentRead.append(updateBtn);
-//							commentRead.append(deleteBtn);	
-//						}
-//						
-//						comment.append(updateDiv);
-//						var commentUpdate = $("#commentUpdateContainer_"+result[i].commentID);
-//						commentUpdate.append(contentUpdate);
-//						commentUpdate.append(updateSendBtn);
-//						comment.append(contentUpdate);
+						var comment = commentList.append(div);
+						commentList.append(div);
+						var commentRead = comment.append(readDiv);
+						var comment = $("#commentContainer_"+result[i].commentID);
+						comment.append(readDiv);		
+						
+						commentRead = $("#commentReadContainer_"+result[i].commentID);
+						
+						commentRead.append(writer);
+						commentRead.append(contentDiv);
+					
+						if(result[i].writer == memberID){
+							commentRead.append(updateBtn);
+							commentRead.append(deleteBtn);	
+						}
+						
+						comment.append(updateDiv);
+						var commentUpdate = $("#commentUpdateContainer_"+result[i].commentID);
+						commentUpdate.append(contentUpdate);
+						commentUpdate.append(updateSendBtn);
+						comment.append(contentUpdate);
 												
 						//바꾸는거
 //						$(".comments").append(div);
@@ -499,31 +502,35 @@
 //						comment.append(readDiv);
 //						commentRead = $("#commentReadContainer_"+result[i].commentID);
 						
-						var date = new Date(result[i].date * 1000);
-//						date.toLocaleString()
-//						var formattedDate = moment(date).format('YYYY-MM-DD');
-						
-						$(".comments").append(`<li class="clearfix" id="commentReadContainer_'+result[i].commentID+'">					  
-						  <div class="post-comments">
-						      <p class="meta" id="commentDateRead_`+result[i].commentID+`">`+result[i].date.format("HH/mm/ss")+` <a>`+result[i].writer+`</a> says : <i class="pull-right"><a href="#"><small>Reply</small></a></i></p>
-						      <p class="commentContent" id="commentContentRead_`+result[i].commentID+`">`+result[i].content+`</p>				
-						  </div
-						</li>`);
-						if(result[i].writer == memberID){
-							$("#commentReadContainer_"+result[i].commentID).append(updateBtn);
-							$("#commentReadContainer_"+result[i].commentID).append(deleteBtn);	
-						}
-						
-						$(".comments").append(`<li class="clearfix" id="commentUpdateContainer_`+result[i].commentID+`" hidden="true">
-								 
-								  <div class="post-comments">
-								      <input type="text" class="commentContent" id="commentContentUpdate_`+result[i].commentID+`" placeholder="`+result[i].content+`"/>
-								      <input type="button" class="commentUpdateSend" onclick="updateComment(`+result[i].commentID+`)" value="저장"/>
-								  </div>
-								</li>`);
-									
 						
 						
+						
+						
+////						Hyun
+//						var date = new Date(result[i].date * 1000);
+////						date.toLocaleString()
+////						var formattedDate = moment(date).format('YYYY-MM-DD');
+//						var date2 = result[i].date;
+//						
+//						$(".comments").append(`<li class="clearfix" id="commentReadContainer_'+result[i].commentID+'">					  
+//						  <div class="post-comments">
+//						      <p class="meta" id="commentDateRead_`+result[i].commentID+`">`+result[i].date2.format("HH/mm/ss")+` <a>`+result[i].writer+`</a> says : <i class="pull-right"><a href="#"><small>Reply</small></a></i></p>
+//						      <p class="commentContent" id="commentContentRead_`+result[i].commentID+`">`+result[i].content+`</p>				
+//						  </div
+//						</li>`);
+//						if(result[i].writer == memberID){
+//							$("#commentReadContainer_"+result[i].commentID).append(updateBtn);
+//							$("#commentReadContainer_"+result[i].commentID).append(deleteBtn);	
+//						}
+//						
+//						$(".comments").append(`<li class="clearfix" id="commentUpdateContainer_`+result[i].commentID+`" hidden="true">
+//								 
+//								  <div class="post-comments">
+//								      <input type="text" class="commentContent" id="commentContentUpdate_`+result[i].commentID+`" placeholder="`+result[i].content+`"/>
+//								      <input type="button" class="commentUpdateSend" onclick="updateComment(`+result[i].commentID+`)" value="저장"/>
+//								  </div>
+//								</li>`);
+										
 						
 					}
 					

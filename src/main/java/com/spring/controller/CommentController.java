@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.model.CommentVO;
+import com.spring.model.InputException;
 import com.spring.service.CommentService;
 
 @Controller
@@ -31,7 +32,7 @@ public class CommentController {
 	@RequestMapping(value = "/comment/{memoID}", method = RequestMethod.POST)
 	public ResponseEntity<Void> createMemo(Model model, HttpSession session,
 		@PathVariable(value = "memoID") int memoID,
-		@RequestParam("content") String content) {
+		@RequestParam("content") String content) throws InputException {
 		
 		logger.info("CommentController - /comment/{memoID} :POST");
 
@@ -42,7 +43,13 @@ public class CommentController {
 		commentVO.setDate(new Timestamp(retryDate));
 		commentVO.setWriter((String)session.getAttribute("memberID"));
 
-		return commentService.createComment(commentVO);
+		int rowCount = commentService.createComment(commentVO);
+		if(rowCount == 1) {
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}else {
+			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
 	}
 
 	@RequestMapping(value = "/comment/{commentID}", method = RequestMethod.PUT)

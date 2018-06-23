@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.dao.CommentDAO;
 import com.spring.model.CommentVO;
+import com.spring.model.InputException;
 
 @Service("commentService")
 public class CommentServiceImpl implements CommentService {
@@ -16,19 +17,18 @@ public class CommentServiceImpl implements CommentService {
 	CommentDAO commentDao;
 
 	@Override
-	public ResponseEntity<Void> createComment(CommentVO vo) {
+	public int createComment(CommentVO vo) throws InputException {
+		if(vo.getMemoID() == -1) {	//선택한 memoID가 안들어옴 -1은 초기값
+			throw new InputException("댓글에 선택한 Memo가 없음");
+		}
+		if(vo.getContent() == null || vo.getContent()== "") {
+			throw new InputException("댓글 내용이 없음");
+		}
 		int rowCount = commentDao.createComment(vo);
 
-		if (rowCount > 0) {
-			CommentVO checkVO = commentDao.getComment(vo.getCommentID());
-			if (checkVO != null) {
-				return new ResponseEntity<Void>(HttpStatus.OK);
-			} else {
-				return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-		} else {
-			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+//		rowCount 1이여야지 정상 2이상이면 여러개 생김, 0 이면 안생김 -> exception throw 해줘야하나? 
+		
+		return rowCount;
 	}
 
 	@Override
@@ -36,11 +36,11 @@ public class CommentServiceImpl implements CommentService {
 		return commentDao.getCommentList(memoID);
 	}
 
-	@Override
-	public CommentVO getComment(int commentID) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public CommentVO getComment(int commentID) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public int deleteComment(int commentID) {
@@ -50,6 +50,12 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public int updateComment(CommentVO vo) {
 		return commentDao.updateComment(vo);
+	}
+
+	@Override
+	public CommentVO getComment(int commentID) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
