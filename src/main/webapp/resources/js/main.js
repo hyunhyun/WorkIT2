@@ -40,7 +40,7 @@
 			globalTopicID = topicID;
 			//globalTopicName = topicName;
 			//var data = {"topicID" : topicID};
-			alert("topicID: "+topicID);
+//			alert("topicID: "+topicID);
 			$.ajax({
 				type: "GET",
 				url : contextPath+"/memo/list/"+topicID,
@@ -51,7 +51,7 @@
 					//alert(memoContainer);
 					 //parse(result)
 					 //result[0].item
-					 alert("success");
+//					 alert("success");
 					console.log("result : "+result);
 					console.log("status : "+status);
 					console.log("xhr : "+xhr);
@@ -445,22 +445,26 @@
 		
 		
 		function getMemoComment(){
-			alert("getMemoComment");
+//			alert("getMemoComment");
 			if(!globalOpenComment){
-				alert("globalOpenComment false");
+//				alert("globalOpenComment false");
 			$.ajax({
 				type:"GET",
 				url: contextPath+"/comment/list/"+globalMemoID,
 				success: function(result, status,xhr){
-					//alert("memoList success");
+					alert("memoList success");
 					console.log("memoList success");
 					//comment 붙이기
 					
 					console.log("length : "+result.length);
 					console.log("content:"+result[0].content);
 					
-					var commentList = $("#commentList");
-					commentList.append('<ul class="comments"></ul>');
+//					var commentList = $("#comments-container");
+					var commentList = $(".comments-container");
+					commentList.empty();
+					commentList.append(`	<h1>Comentarios <a href="http://creaticode.com">creaticode.com</a></h1>`);
+//					commentList.append('<ul class="comments"></ul>');
+					commentList.append('<ul id="comments-list" class="comments-list"></ul>');
 					
 					for(var i=0; i<result.length; i++){
 						var div = "<div class='commentContainer' id='commentContainer_"+result[i].commentID+"'></div>"; 
@@ -474,47 +478,48 @@
 						var contentUpdate = "<input type='text' class='commentContent' id='commentContentUpdate_"+result[i].commentID+"' placeholder='"+result[i].content+"'/>";
 						var updateSendBtn = "<input type='button' class='commentUpdateSend' onclick='updateComment("+result[i].commentID+")' value='저장'/>";
 						
-//						var comment = commentList.append(div);
-						commentList.append(div);
-//						var commentRead = comment.append(readDiv);
-						var comment = $("#commentContainer_"+result[i].commentID);
-						comment.append(readDiv);		
 						
-						commentRead = $("#commentReadContainer_"+result[i].commentID);
-						
-						commentRead.append(writer);
-						commentRead.append(contentDiv);
-					
-						if(result[i].writer == memberID){
-							commentRead.append(updateBtn);
-							commentRead.append(deleteBtn);	
-						}
-						
-						comment.append(updateDiv);
-						var commentUpdate = $("#commentUpdateContainer_"+result[i].commentID);
-						commentUpdate.append(contentUpdate);
-						commentUpdate.append(updateSendBtn);
-//						comment.append(contentUpdate);
-												
-						//바꾸는거
-//						$(".comments").append(div);
+//						//잘되는거 디자인 없는거
+//						commentList.append(div);
 //						var comment = $("#commentContainer_"+result[i].commentID);
-//						comment.append(readDiv);
-//						commentRead = $("#commentReadContainer_"+result[i].commentID);
-						
-						
-						
-						
-						
-////						Hyun
-//						var date = new Date(result[i].date * 1000);
-////						date.toLocaleString()
-////						var formattedDate = moment(date).format('YYYY-MM-DD');
-//						var date2 = result[i].date;
+//						comment.append(readDiv);		
 //						
+//						commentRead = $("#commentReadContainer_"+result[i].commentID);
+//						
+//						commentRead.append(writer);
+//						commentRead.append(contentDiv);
+//					
+//						if(result[i].writer == memberID){
+//							commentRead.append(updateBtn);
+//							commentRead.append(deleteBtn);	
+//						}
+//						
+//						comment.append(updateDiv);
+//						var commentUpdate = $("#commentUpdateContainer_"+result[i].commentID);
+//						commentUpdate.append(contentUpdate);
+//						commentUpdate.append(updateSendBtn);
+//							//End					
+						
+//						var commentList = $("#commentList");
+//						commentList.append('<ul class="comments-list"></ul>');	
+						
+						
+//						Hyun
+						var date = new Date(result[i].date );
+//						date.toLocaleString()
+//						var formattedDate = moment(date).format('YYYY-MM-DD');
+//						var date2 = result[i].date;
+//						date2.format("HH/mm/ss")
+						var year = date.getFullYear();
+						var month = date.getMonth()+1;
+						var day = date.getDate();
+						var hour = date.getHours();
+						var minute = date.getMinutes();
+						var seconds = date.getSeconds();
+						
 //						$(".comments").append(`<li class="clearfix" id="commentReadContainer_'+result[i].commentID+'">					  
 //						  <div class="post-comments">
-//						      <p class="meta" id="commentDateRead_`+result[i].commentID+`">`+result[i].date2.format("HH/mm/ss")+` <a>`+result[i].writer+`</a> says : <i class="pull-right"><a href="#"><small>Reply</small></a></i></p>
+//						      <p class="meta" id="commentDateRead_`+result[i].commentID+`">`+year+` - `+month+` - `+day+` <a>`+result[i].writer+`</a> says : <i class="pull-right"><a href="#"><small>Reply</small></a></i></p>
 //						      <p class="commentContent" id="commentContentRead_`+result[i].commentID+`">`+result[i].content+`</p>				
 //						  </div
 //						</li>`);
@@ -530,6 +535,48 @@
 //								      <input type="button" class="commentUpdateSend" onclick="updateComment(`+result[i].commentID+`)" value="저장"/>
 //								  </div>
 //								</li>`);
+						
+						$("#comments-list").append(`
+			<li id="commentReadContainer_`+result[i].commentID+`">
+				<div class="comment-main-level">
+					<!-- Avatar -->
+					<div class="comment-avatar" ><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
+					<!-- Contenedor del Comentario -->
+					<div class="comment-box">
+						<div class="comment-head">
+							<h6 class="comment-name by-author"><a href="http://creaticode.com/blog">`+result[i].writer+`</a></h6>
+							<span>`+year+` - `+month+` - `+day+` `+hour+`: `+minute+`</span>
+							
+							<i class="fas fa-edit" onclick="showUpdateComment(`+result[i].commentID+`)"></i>
+							<i class="fa fa-trash" onclick="deleteComment(`+result[i].commentID+`)"></i>
+						</div>
+						<div class="comment-content" id="commentContentRead_`+result[i].commentID+`">
+							`+result[i].content+`
+						</div>
+					</div>
+				</div>	
+			</li>
+			<li id="commentUpdateContainer_`+result[i].commentID+`" class="commentUpdateDiv">
+				<div class="comment-main-level" id="commentReadContainer_`+result[i].commentID+`">
+					<!-- Avatar -->
+					<div class="comment-avatar" ><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
+					<!-- Contenedor del Comentario -->
+					<div class="comment-box">
+						<div class="comment-head">
+							<h6 class="comment-name by-author"><a href="http://creaticode.com/blog">`+result[i].writer+`</a></h6>
+							<span>`+year+` - `+month+` - `+day+`</span>
+							
+						</div>
+						<div class="comment-content">
+							<input type="text" id="commentContentUpdate_`+result[i].commentID+`" value="`+result[i].content+`"/>
+							<i class="fa fa-arrow-circle-right" onclick="updateComment(`+result[i].commentID+`)"></i>
+						</div>		
+					</div>
+				</div>
+			</li>
+			`);
+						
+		$(".commentUpdateDiv").hide();
 										
 						
 					}
@@ -558,7 +605,8 @@
 			        }
 			})
 			}else{
-				$("#commentList").empty();
+//				$("#commentList").empty();
+				$(".comments-container").empty();
 				globalOpenComment = false;
 			}
 			
@@ -599,11 +647,15 @@
 		}
 		
 		function showUpdateComment(commentID){
-			var content = $("#commentContentRead_"+commentID).text();
-			$("#commentContentUpdate_"+commentID).val(content);
+//			var content = $("#commentContentRead_"+commentID).text();
+//			alert(content);
+//			$("#commentContentUpdate_"+commentID).val(content);
 			
 			$("#commentUpdateContainer_"+commentID).toggle();
 			$("#commentReadContainer_"+commentID).toggle();
+			
+//			$("#commentUpdateContainer_"+commentID).show();
+//			$("#commentReadContainer_"+commentID).hide();
 		}
 		
 		function updateComment(commentID){
