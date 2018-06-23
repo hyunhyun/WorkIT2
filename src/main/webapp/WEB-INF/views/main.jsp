@@ -258,6 +258,10 @@ hr {
 	font-weight: 800;
 }
 
+.commentUpdateDiv{
+	display: none;
+}
+
 </style>
 	
 </head>

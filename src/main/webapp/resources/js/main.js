@@ -470,13 +470,13 @@
 						var updateBtn = "<input type='button' class='commentUpdateBtn' onclick='showUpdateComment("+result[i].commentID+")' value='수정'/>";
 						var deleteBtn = "<input type='button' class='commentDeleteBtn' onclick='deleteComment("+result[i].commentID+")' value='삭제'/>";
 						
-						var updateDiv = "<div id='commentUpdateContainer_"+result[i].commentID+"'  hidden='true'></div>";
+						var updateDiv = "<div class='commentUpdateDiv' id='commentUpdateContainer_"+result[i].commentID+"'></div>";
 						var contentUpdate = "<input type='text' class='commentContent' id='commentContentUpdate_"+result[i].commentID+"' placeholder='"+result[i].content+"'/>";
 						var updateSendBtn = "<input type='button' class='commentUpdateSend' onclick='updateComment("+result[i].commentID+")' value='저장'/>";
 						
-						var comment = commentList.append(div);
+//						var comment = commentList.append(div);
 						commentList.append(div);
-						var commentRead = comment.append(readDiv);
+//						var commentRead = comment.append(readDiv);
 						var comment = $("#commentContainer_"+result[i].commentID);
 						comment.append(readDiv);		
 						
@@ -494,7 +494,7 @@
 						var commentUpdate = $("#commentUpdateContainer_"+result[i].commentID);
 						commentUpdate.append(contentUpdate);
 						commentUpdate.append(updateSendBtn);
-						comment.append(contentUpdate);
+//						comment.append(contentUpdate);
 												
 						//바꾸는거
 //						$(".comments").append(div);
@@ -599,22 +599,11 @@
 		}
 		
 		function showUpdateComment(commentID){
-			
-//			$("#commentUpdateContainer_"+commentID).prop('hidden', 'false');
-//			$("#commentReadContainer_"+commentID).prop('hidden', 'true');
-			
 			var content = $("#commentContentRead_"+commentID).text();
-			alert(content);
 			$("#commentContentUpdate_"+commentID).val(content);
 			
 			$("#commentUpdateContainer_"+commentID).toggle();
 			$("#commentReadContainer_"+commentID).toggle();
-			
-//			$("#commentUpdateContainer_"+commentID).show();
-//			$("#commentReadContainer_"+commentID).hide();
-			
-			
-//			$().attr('value',content);
 		}
 		
 		function updateComment(commentID){
