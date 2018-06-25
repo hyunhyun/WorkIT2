@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.model.FileVO;
+import com.spring.model.InputException;
 import com.spring.model.MemoVO;
 import com.spring.model.TeamMemberVO;
 import com.spring.service.FileService;
@@ -36,7 +38,7 @@ public class MemoController {
 	@Autowired
 	FileService fileService;
 
-	private static final Logger logger = LoggerFactory.getLogger(MemoController.class);
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@RequestMapping(value = "/memo", method = RequestMethod.POST)
 	public ResponseEntity<MemoVO> createMemo(Model model, HttpSession session,
@@ -44,7 +46,8 @@ public class MemoController {
 		@RequestParam("content") String content,
 //		@RequestParam("responsable") String responsable,
 		@RequestParam("topicID") int topicID,
-		@RequestParam("teamID") int teamID, HttpServletRequest request) throws Exception {
+		@RequestParam("teamID") int teamID,  
+		HttpServletRequest request) throws Exception {
 //		@RequestParam("fileName[]") String[] fileName
 		
 		logger.info("/memo :POST createMemo title : "+title);
@@ -75,13 +78,18 @@ public class MemoController {
 		teamMemberVO.setMemberID(responsable);
 		teamMemberVO.setTeamID(teamID);
 		
+		//String[] fileName = request.getParameterValues("fileName");
+		//MultipartFile[] files = (MultipartFile[])request.getParameterValues("file");
+		
+		
+		
 		MemoVO createdVO = memoService.createMemo(memoVO, teamMemberVO);
 		logger.info("createdMemo memoID: "+createdVO.getMemoID());
 		
-		if(request.getParameterValues("fileName")!= null) {
+/*		if(request.getParameterValues("fileName")!= null) {
 		String[] fileName = request.getParameterValues("fileName");
 		
-			
+		int rowCount = 0;
 		for(int i=0; i<fileName.length; i++) {
 			FileVO vo = new FileVO();
 			
@@ -90,12 +98,17 @@ public class MemoController {
 			
 			logger.info("register Memo register File MemoID : "+vo.getMemoID());
 			logger.info("register Memo register File FileName : "+vo.getFileName());
-			int rowCount = fileService.registerFile(vo);
+			rowCount += fileService.registerFile(vo);
 			logger.info("registerMemo file Register rowCount : "+rowCount);
 		}
+		if(createdVO != null && rowCount == fileName.length) {		
+			return new ResponseEntity<MemoVO>(createdVO, HttpStatus.OK);
+		}else {
+			return new ResponseEntity<MemoVO>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
 		
+		}*/
+//메모, file
 		
 		if(createdVO != null) {		
 			return new ResponseEntity<MemoVO>(createdVO, HttpStatus.OK);
@@ -103,7 +116,9 @@ public class MemoController {
 			return new ResponseEntity<MemoVO>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
+	
+	
+	
 	
 //	@RequestMapping(value = "/memo", method = RequestMethod.POST)
 //	public ResponseEntity<MemoVO> createMemo(Model model){

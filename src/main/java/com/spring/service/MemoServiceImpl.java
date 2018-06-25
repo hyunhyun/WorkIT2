@@ -1,14 +1,26 @@
 package com.spring.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.dao.FileDAO;
 import com.spring.dao.MemoDAO;
 import com.spring.dao.TeamMemberDAO;
+import com.spring.model.FileVO;
 import com.spring.model.InputException;
 import com.spring.model.MemoVO;
 import com.spring.model.TeamMemberVO;
@@ -21,6 +33,9 @@ public class MemoServiceImpl implements MemoService {
 	@Autowired
 	TeamMemberDAO TeamMemberDao;
 
+	@Autowired
+	FileDAO fileDao;
+	
 	@Override
 	public List<MemoVO> getMemoList(int topicID) {
 		memoDao.getMemoList(topicID);
@@ -42,16 +57,68 @@ public class MemoServiceImpl implements MemoService {
 //			return new ResponseEntity<MemoVO>(HttpStatus.INTERNAL_SERVER_ERROR);
 //		}
 //	}
+//	@Override
+//	public MemoVO createMemo(MemoVO memoVO, TeamMemberVO teamMemberVO, List) throws InputException {		//returnÍ∞í  Ïûò ÏÉùÏÑ± ÎêòÏóàÏùÑÎïå ÏÉùÏÑ±Îêú MemoÏùò MemoID, ÏóêÎü¨Ïãú -1
+//		
+//		if(memoVO.getTitle() == null || memoVO.getTitle().length() == 0) {
+//			throw new InputException("Memo Title Required");
+//		}
+//		if(memoVO.getContent() == null || memoVO.getContent().length() == 0) {
+//			throw new InputException("Memo Content Required");
+//		}
+//		if(memoVO.getTitle().length() > 30) {
+//			throw new InputException("Memo Title too Long");
+//		}
+//		if(memoVO.getContent().length() > 255) {
+//			throw new InputException("Memo Content too long");
+//		}
+//		
+//		if(memoVO.getTopicID() == -1) {
+//			throw new InputException("Memo topicID required Bad Request");
+//		}
+//		
+//		if(teamMemberVO.getTeamID() == -1) {
+//			throw new InputException("Memo teamID required Bad Request");
+//		}
+//		
+//		String responsableID = memoVO.getResponsable();
+//			
+//		if(responsableID != null) {//responsableÏûàÏùÑÎïåÎßå
+//			int checkMemberCount = TeamMemberDao.checkTeamMember(teamMemberVO);
+//			if(checkMemberCount == 0) {
+//				throw new InputException("Responsable Must be a TeamMember");
+//			}
+//		}
+//				
+//		int rowCount = memoDao.createMemo(memoVO);
+//			
+//		if(rowCount == 1) {
+////			int memoID = memoVO.getMemoID();
+//			return memoVO;
+//		}else {
+////			rowCount 1Ïù¥ ÏïÑÎãàÎ©¥ mysql insert errorÎ∞úÏÉù Exception throwÎê† Í≤ÉÏûÑ
+//			return null;
+//		}
+//	}
+	
+
+	
+
+	
 	@Override
-	public MemoVO createMemo(MemoVO memoVO, TeamMemberVO teamMemberVO) throws InputException {		//return∞™  ¿ﬂ ª˝º∫ µ«æ˙¿ª∂ß ª˝º∫µ» Memo¿« MemoID, ø°∑ØΩ√ -1
+	@Transactional(rollbackFor = Exception.class)
+	public MemoVO createMemo(MemoVO memoVO, TeamMemberVO teamMemberVO) throws Exception{		//returnÍ∞í  Ïûò ÏÉùÏÑ± ÎêòÏóàÏùÑÎïå ÏÉùÏÑ±Îêú MemoÏùò MemoID, ÏóêÎü¨Ïãú -1
 		
-		if(memoVO.getTitle() == null || memoVO.getTitle() == "") {
+		if(memoVO.getTitle() == null || memoVO.getTitle().length() == 0) {
 			throw new InputException("Memo Title Required");
 		}
-		if(memoVO.getContent() == null || memoVO.getContent() == "") {
+		if(memoVO.getContent() == null || memoVO.getContent().length() == 0) {
 			throw new InputException("Memo Content Required");
 		}
-		if(memoVO.getContent().length() > 254) {
+		if(memoVO.getTitle().length() > 30) {
+			throw new InputException("Memo Title too Long");
+		}
+		if(memoVO.getContent().length() > 255) {
 			throw new InputException("Memo Content too long");
 		}
 		
@@ -65,26 +132,26 @@ public class MemoServiceImpl implements MemoService {
 		
 		String responsableID = memoVO.getResponsable();
 			
-		if(responsableID != null) {//responsable¿÷¿ª∂ß∏∏
+		if(responsableID != null) {//responsableÏûàÏùÑÎïåÎßå
 			int checkMemberCount = TeamMemberDao.checkTeamMember(teamMemberVO);
 			if(checkMemberCount == 0) {
 				throw new InputException("Responsable Must be a TeamMember");
 			}
 		}
-		
-	
-		
+				
 		int rowCount = memoDao.createMemo(memoVO);
-			
+						
 		if(rowCount == 1) {
-//			int memoID = memoVO.getMemoID();
 			return memoVO;
 		}else {
-//			rowCount 1¿Ã æ∆¥œ∏È mysql insert errorπﬂª˝ Exception throwµ… ∞Õ¿”
 			return null;
 		}
+		
 	}
 
+	
+	
+	
 	@Override
 	public MemoVO getMemo(int memoID) {
 		MemoVO vo = memoDao.getMemo(memoID);
@@ -110,5 +177,8 @@ public class MemoServiceImpl implements MemoService {
 	public List<MemoVO> searchMemoContent(String content) {
 		return memoDao.searchMemoContent(content);
 	}
+	
+	
+	
 
 }

@@ -468,7 +468,8 @@ nav{
 		
 		
 		function updateTeam(){
-			var teamName = $("#updateTeamName").val();
+			var teamName = "";
+			teamName = $("#updateTeamName").val();
 			var totalInfo = new Object();
 			totalInfo.teamID = globalTeamID;
 			totalInfo.teamName = teamName; 
@@ -561,6 +562,8 @@ nav{
 					console.log(jqXHR);
 					console.log(status);
 					console.log(error);
+					
+					alert(jqXHR.responseText);
 				},
 				statusCode: {
 			        200: function () {
@@ -588,13 +591,13 @@ nav{
 					data: {search: $("#createAddMember").val()},
 					success: function(data){
 						console.log(data);
-						var helper = $(".ui-helper-hidden-accessible div").last().text();
-						//var helper = $(".ui-helper-hidden-accessible > div:last-child").text();
+						//var helper = $(".ui-helper-hidden-accessible > div").last().text();
+						////var helper = $(".ui-helper-hidden-accessible > div:last-child").text();
 						//$("#helperTest").empty();
 						//$("#helperTest").text(helper);
 						//$("#helperTest").text(data);
 						
-						//$(".ui-helper-hidden-accessible").hide();
+						$(".ui-helper-hidden-accessible").hide();
 						response($.map(data, function(item){
 							return {label: item.memberID, value: item.memberID};
 						}));
@@ -607,7 +610,14 @@ nav{
 						//$("#helperTest").text("");
 					}
 				})	
-			}/* ,
+			},
+			/* onSearchComplete: function(query, suggestions){
+				var helper = $(".ui-helper-hidden-accessible > div").last().text();
+				//var helper = $(".ui-helper-hidden-accessible > div:last-child").text();
+				$("#helperTest").empty();
+				$("#helperTest").text(helper);
+			} */
+		/* ,
 				options: {
 					messages: {
 						noResults: "No search results.",

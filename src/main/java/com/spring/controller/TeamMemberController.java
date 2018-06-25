@@ -37,13 +37,21 @@ public class TeamMemberController {
 	@Autowired
 	TeamMemberService teamMemberService;
 
-	@RequestMapping(value = "/team/member", method = RequestMethod.GET)
+	@RequestMapping(value = "/team/member", method = RequestMethod.POST)
 	public void registerTeamMember(
 		@RequestParam("teamID") int teamID,
 		@RequestParam("memberID") String memberID) {
 		
 //		teamService.getTeamMember(teamID);
 	}
+	
+	@RequestMapping(value = "/team/member", method = RequestMethod.GET)
+	public void getTeamMember(
+		@RequestParam("teamID") int teamID,
+		@RequestParam("memberID") String memberID) {
+		
+	}
+	
 	
 	@RequestMapping(value = "/team/member/auto", method = RequestMethod.GET)
 	@ResponseBody

@@ -9,6 +9,7 @@
 	//var globalFileIDList;
 	var globalFileNameList;
 	
+	var filesArray = null;
 	
 	$(document).ready(function(){
 		
@@ -16,13 +17,16 @@
 //		alert(test);
 		
 		globalFileNameList = new Array();
+		
+		filesArray = new Array();
 	
 	})
 	
 	
 	function createTopic(){
 //		var topicName = $("#tName").val();
-		var topicName = $("#createTopicName").val();
+		var topicName = ""; 
+			topicName = $("#createTopicName").val();
 		
 		alert("create Topic");
 		alert(topicName);
@@ -36,7 +40,15 @@
 				$("#createTopicModal").modal('hide');
 				window.location.reload();
 			},
-			error: function(){},
+			error: function(jqXHR,request, error){
+				console.log(jqXHR);
+				console.log(request);
+				console.log(error);
+				
+				if(jqXHR.status == 400){
+					alert(jqXHR.responseText);
+				}
+			},
 			statusCode: {
 				411: function(request, status, error){
 					console.log("411- length required");
@@ -144,22 +156,45 @@
 		
 		function submitMemo(){		
 			var totalInfo = new Object();
+//			var formData = new FormData();
 			
-			totalInfo.title = $("#title_create").val();
-			totalInfo.content = $("#content_create").val();
-			totalInfo.responsable = $("#responsable_create").val();
+			var title = "";
+			var content = "";
+			var responsable = "";
+			
+			title = $("#title_create").val();
+			content = $("#content_create").val();
+			responsable = $("#responsable_create").val();
+			
+			totalInfo.title = title;
+			totalInfo.content = content;
+			totalInfo.responsable = responsable;
 			totalInfo.topicID = globalTopicID;
 			totalInfo.teamID = teamID;
 			
+//			formData.append("title", title);
+//			formData.append("content", content);
+//			formData.append("responsable", responsable);
+//			formData.append("files", filesArray);
+			
+//			var ajaxUrl = "";
+//			if(filesArray.length >0){
+//				totalInfo.files = filesArray;
+//				//ajaxUrl = contextPath+"/memo";
+//			}else{
+//				//ajaxUrl = contextPath+"/memo/file";
+//			}
+			
+//			totalInfo.files = filesArray;
 			
 			//fileID, fileName List
 			//totalInfo.fileID = globalFileIDList;
 			
-			for(var i=0; i<globalFileNameList.length; i++){
-				console.log("submit Memo fileName: "+globalFileNameList[i]);
-				//수정
-				totalInfo.fileName = globalFileNameList[i];
-			}
+//			for(var i=0; i<globalFileNameList.length; i++){
+//				console.log("submit Memo fileName: "+globalFileNameList[i]);
+//				//수정
+//				totalInfo.fileName = globalFileNameList[i];
+//			}
 			//수정
 //			totalInfo.fileName = globalFileNameList;
 			
@@ -167,11 +202,13 @@
 			
 			alert("topicMemo");
 			console.log(totalInfo);
-
+//			console.log(formData);
+			
 			$.ajax({
 				type: "POST",
 				url: contextPath+"/memo",
 				data: totalInfo,
+//				data: formData,
 				//datatype: "JSON",
 				//contentType : "application/json; charset=UTF-8",
 				success: function(result, status,xhr){
@@ -180,6 +217,8 @@
 					alert("memo Created");
 					console.log(result);
 					//read로 바꿔놓아야함 - 해당글
+					
+					uploadFile(result.memoID);
 					
 					selectMemo(result.memoID);	
 					
@@ -192,16 +231,17 @@
 					console.log(status);
 					console.log(error);
 //					alert(error);
-//					if(jqXHR.status == 400){
-//						alert(jqXHR.responseText);
-//					}
+					if(jqXHR.status == 400){
+						alert(jqXHR.responseText);
+					}
+					
 				},
 				statusCode: {
 			        200: function () {
 			            console.log("200 - Success");
 			        },
 			        400: function(){
-			        	alert("Responsable must be a TeamMember");
+			        	//alert("Responsable must be a TeamMember");
 			        	console.log("400 - Bad Request");
 			        },
 			        404: function(request, status, error) {
@@ -227,8 +267,11 @@
 			$("#updateTopicName").attr("placeholder", topicName);
 		}
 		
-		function updateTopic(topicID){
-			var topicName = $("#updateTopicName").val();
+//		function updateTopic(topicID){
+		function updateTopic(){
+			var topicName = "";
+			topicName = $("#updateTopicName").val();
+
 			alert(topicName);
 			var totalInfo = new Object();
 			totalInfo.topicID = globalTopicID;
@@ -247,6 +290,10 @@
 					console.log(jqXHR);
 					console.log(status);
 					console.log(error);
+					
+					if(jqXHR.status == 400){
+						alert(jqXHR.responseText);
+					}
 				},
 				statusCode: {
 			        200: function () {
@@ -268,7 +315,10 @@
 		function deleteTopic(topicID){
 			//var totalInfo = {"topicID": topicID};
 			var totalInfo = new Object();
-			totalInfo.topicID = topicID;
+			
+			var tempID = -1;
+			tempID = topicID;
+			totalInfo.topicID = tempID;
 			
 			console.log("lets delete");
 			alert("topicID: "+topicID);
@@ -489,6 +539,10 @@
 					console.log(jqXHR);
 					console.log(status);
 					console.log(error);
+					
+					if(jqXHR.status == 400){
+						alert(jqXHR.responseText);
+					}
 				},
 				statusCode: {
 			        200: function () {
@@ -503,6 +557,37 @@
 			            console.log(error);			
 			            }
 			        }
+			})
+		}
+		
+		function uploadFile(memoID){
+//			var totalObject = new Object();
+//			totalObject.memoID = memoID;
+			
+//			var files = event.originalEvent.dataTransfer.files;
+            // 첫번째 파일
+//            var file = files[0];
+            // 콘솔에서 파일정보 확인
+//            console.log(file);
+
+            // ajax로 전달할 폼 객체
+            var formData = new FormData();
+            formData.enctype = 'multipart/form-data';
+
+            // 폼 객체에 파일추가, append("변수명", 값)
+            formData.append("file", filesArray[0]);
+            formData.append("memoID", memoID);
+			
+			$.ajax({
+				type: "POST",
+				url: contextPath+"/fileUpload",
+				data : formData,
+				success: function(result, status, xhr){
+					
+				},
+				 contentType:false,
+			     processData:false
+
 			})
 		}
 		
@@ -846,6 +931,75 @@
 	        });
 	        // event : jQuery의 이벤트
 	        // originalEvent : javascript의 이벤트
+//	        $(".fileDrop").on("drop", function(event){
+//	            event.preventDefault(); // 기본효과를 막음
+//          	            // 드래그된 파일의 정보
+//	            var files = event.originalEvent.dataTransfer.files;
+//	            // 첫번째 파일
+//	            var file = files[0];
+//	            // 콘솔에서 파일정보 확인
+//	            console.log(file);
+//
+//	            // ajax로 전달할 폼 객체
+//	            var formData = new FormData();
+//	            // 폼 객체에 파일추가, append("변수명", 값)
+//	            formData.append("file", file);
+//	       
+//
+//	            $.ajax({
+//	                type: "POST",
+//	                //url: contextPath+"/upload/uploadAjax",
+//	                url: contextPath+"/fileUpload",
+//	                data: formData,
+//	                // processData: true=> get방식, false => post방식
+//	                dataType: "text",
+//	                // contentType: true => application/x-www-form-urlencoded, 
+//	                //                false => multipart/form-data
+//	                processData: false,
+//	                contentType: false,
+//	                success: function(data){
+//	                    alert(data);
+//	                    
+//	                    var str = "";
+//	                    // 이미지 파일이면 썸네일 이미지 출력
+////	                    if(checkImageType(data)){ 
+////	                        str = "<div><a href='"+contextPath+"/upload/displayFile?fileName="+getImageLink(data)+"'>";
+////	                    	/*str = "<div><a href='"+contextPath+"/upload/displayFile?fileName="+getImageLink(data)+"'>";*/
+////	                        str += "<img src='"+contextPath+"/upload/displayFile?fileName="+data+"'></a>";
+////	                    // 일반파일이면 다운로드링크
+////	                    } else { 
+////	                       str = "<div><a href='"+contextPath+"/upload/displayFile?fileName="+data+"'>"+getOriginalName(data)+"</a>";
+////	                    	//str = "<div><a href='C:/Users/USER/Desktop/uploadtest"+data+"'>"+getOriginalName(data)+"</a>";
+////	
+////	                    }
+//	                    
+//	                    //str = "<div><a href='"+contextPath+"/upload/displayFile?fileName="+data+"'>"+getOriginalName(data)+"</a>";
+//	                    
+//	                    var n = data.indexOf("_");
+//	                    var originalName = data.substring(n+1);
+//	                    str = "<div><a href='resources/upload/"+data+"'>"+originalName+"</a>";
+//	                    // 삭제 버튼
+//	                    str += "<span data-src="+data+">[삭제]</span></div>";
+//	                    $("#uploadedList").append(str);
+//	                    
+//	                    
+//	                    globalFileNameList.push(data);
+//	                    
+//	                    for(var i=0; i<globalFileNameList.length; i++){
+//	                    	console.log("push fileName : "+globalFileNameList[i]);
+//	                    }
+//	                    
+//	                },
+//	                error :function(jqXHR,request, error){
+//						console.log(jqXHR);
+//						console.log(status);
+//						console.log(error);
+//					}
+//	                
+//	            });
+//	        });
+	        
+	        
 	        $(".fileDrop").on("drop", function(event){
 	            event.preventDefault(); // 기본효과를 막음
           	            // 드래그된 파일의 정보
@@ -855,63 +1009,12 @@
 	            // 콘솔에서 파일정보 확인
 	            console.log(file);
 
+	            filesArray.push(file);
 	            // ajax로 전달할 폼 객체
-	            var formData = new FormData();
+	            //var formData = new FormData();
 	            // 폼 객체에 파일추가, append("변수명", 값)
-	            formData.append("file", file);
+	            //formData.append("file", file);
 	       
-
-	            $.ajax({
-	                type: "POST",
-	                //url: contextPath+"/upload/uploadAjax",
-	                url: contextPath+"/fileUpload",
-	                data: formData,
-	                // processData: true=> get방식, false => post방식
-	                dataType: "text",
-	                // contentType: true => application/x-www-form-urlencoded, 
-	                //                false => multipart/form-data
-	                processData: false,
-	                contentType: false,
-	                success: function(data){
-	                    alert(data);
-	                    
-	                    var str = "";
-	                    // 이미지 파일이면 썸네일 이미지 출력
-//	                    if(checkImageType(data)){ 
-//	                        str = "<div><a href='"+contextPath+"/upload/displayFile?fileName="+getImageLink(data)+"'>";
-//	                    	/*str = "<div><a href='"+contextPath+"/upload/displayFile?fileName="+getImageLink(data)+"'>";*/
-//	                        str += "<img src='"+contextPath+"/upload/displayFile?fileName="+data+"'></a>";
-//	                    // 일반파일이면 다운로드링크
-//	                    } else { 
-//	                       str = "<div><a href='"+contextPath+"/upload/displayFile?fileName="+data+"'>"+getOriginalName(data)+"</a>";
-//	                    	//str = "<div><a href='C:/Users/USER/Desktop/uploadtest"+data+"'>"+getOriginalName(data)+"</a>";
-//	
-//	                    }
-	                    
-	                    //str = "<div><a href='"+contextPath+"/upload/displayFile?fileName="+data+"'>"+getOriginalName(data)+"</a>";
-	                    
-	                    var n = data.indexOf("_");
-	                    var originalName = data.substring(n+1);
-	                    str = "<div><a href='resources/upload/"+data+"'>"+originalName+"</a>";
-	                    // 삭제 버튼
-	                    str += "<span data-src="+data+">[삭제]</span></div>";
-	                    $("#uploadedList").append(str);
-	                    
-	                    
-	                    globalFileNameList.push(data);
-	                    
-	                    for(var i=0; i<globalFileNameList.length; i++){
-	                    	console.log("push fileName : "+globalFileNameList[i]);
-	                    }
-	                    
-	                },
-	                error :function(jqXHR,request, error){
-						console.log(jqXHR);
-						console.log(status);
-						console.log(error);
-					}
-	                
-	            });
 	        });
 	        
 	        
@@ -936,10 +1039,6 @@
 	        
 	    });
 	
-	  function addFilePath(msg){
-	        console.log(msg); // 파일명 콘솔 출력
-	        document.getElementById("formFile").reset(); // ifream에 업로드결과를 출력 후 form에 저장된 데이터 초기화
-	    }
 	  
 		$("#searchContent").autocomplete({
 			source: function(request, response){
@@ -1086,39 +1185,5 @@
 			}
 		});
 		
-		// 원본파일이름을 목록에 출력하기 위해
-		function getOriginalName(fileName) {
-		    // 이미지 파일이면
-		    if(checkImageType(fileName)) {
-		        return; // 함수종료
-		    }
-		    // uuid를 제외한 원래 파일 이름을 리턴
-		    var idx = fileName.indexOf("_")+1;
-		    return fileName.substr(idx);
-		}	
 		
-		
-		// 이미지파일 링크 - 클릭하면 원본 이미지를 출력해주기 위해
-		function getImageLink(fileName) {
-		    // 이미지파일이 아니면
-		    if(!checkImageType(fileName)) { 
-		        return; // 함수 종료 
-		    }
-		    // 이미지 파일이면(썸네일이 아닌 원본이미지를 가져오기 위해)
-		    // 썸네일 이미지 파일명 - 파일경로+파일명 /2017/03/09/s_43fc37cc-021b-4eec-8322-bc5c8162863d_spring001.png
-		    var front = fileName.substr(0, 12); // 년원일 경로 추출
-		    var end = fileName.substr(14); // 년원일 경로와 s_를 제거한 원본 파일명을 추출
-		    console.log(front); // /2017/03/09/
-		    console.log(end); // 43fc37cc-021b-4eec-8322-bc5c8162863d_spring001.png
-		    // 원본 파일명 - /2017/03/09/43fc37cc-021b-4eec-8322-bc5c8162863d_spring001.png
-		    return front+end; // 디렉토리를 포함한 원본파일명을 리턴
-		}
-		
-		
-		// 이미지파일 형식을 체크하기 위해
-		function checkImageType(fileName) {
-		    // i : ignore case(대소문자 무관)
-		    var pattern = /jpg|gif|png|jpeg/i; // 정규표현식
-		    return fileName.match(pattern); // 규칙이 맞으면 true
-		}
 		

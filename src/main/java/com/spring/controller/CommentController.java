@@ -36,6 +36,10 @@ public class CommentController {
 		
 		logger.info("CommentController - /comment/{memoID} :POST");
 
+		if(content.length() > 255) {
+			throw new InputException("comment content Too Long");
+		}
+		
 		long retryDate = System.currentTimeMillis();
 		CommentVO commentVO = new CommentVO();
 		commentVO.setContent(content);

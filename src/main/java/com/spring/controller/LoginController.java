@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.spring.model.InputException;
 import com.spring.model.MemberVO;
 import com.spring.service.MemberService;
 
@@ -35,10 +36,13 @@ public class LoginController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String loginProcess(Model model, HttpSession session,
 		@RequestParam("memberID") String memberID,
-		@RequestParam("password") String password) {
+		@RequestParam("password") String password) throws InputException {
 
+		if(memberID.length() >20) {
+			throw new InputException("memberID too Long");
+		}
+		
 		String msg = "";
-		//		if (!memberID.isEmpty() && !password.isEmpty()) {
 		if (!memberID.isEmpty() && !password.isEmpty()) {
 			MemberVO vo = new MemberVO();
 			vo.setMemberID(memberID);

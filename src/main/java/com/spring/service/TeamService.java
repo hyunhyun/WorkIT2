@@ -10,10 +10,10 @@ import com.spring.model.TeamMemberVO;
 import com.spring.model.TeamVO;
 
 public interface TeamService {
-	public void registerTeam(TeamVO vo);
+	public int registerTeam(TeamVO vo) throws Exception;
 
 	//	public void registerTeamMember(List<Map<String, String>> teamMembers, int teamID);
-	public void registerTeamMember(JSONArray teamMembers, int teamID);
+	public void registerTeamMember(JSONArray teamMembers, int teamID) throws Exception;
 
 	public TeamVO getTeam(String teamID);
 

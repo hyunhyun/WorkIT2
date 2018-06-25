@@ -46,7 +46,7 @@ public class TopicServiceImpl implements TopicService {
 
 		int rowCount = dao.updateTopic(topicVO);
 
-		if (rowCount > 0) {
+		if (rowCount == 1) {
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);

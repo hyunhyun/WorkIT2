@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,9 @@ import com.spring.model.TeamVO;
 
 @Service("teamService")
 public class TeamServiceImpl implements TeamService {
+	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	TeamDAO teamDao;
 
@@ -25,21 +30,15 @@ public class TeamServiceImpl implements TeamService {
 	MemberDAO memberDao;
 
 	@Override
-	public void registerTeam(TeamVO vo) {
+	public int registerTeam(TeamVO vo) throws Exception {
 
-		System.out.println("registerTeam start");
-		teamDao.registerTeam(vo);
+		logger.info("registerTeam start");
+		int rowCount = teamDao.registerTeam(vo);
 
+		if(rowCount != 1){throw new Exception("team not Registered");}
 		int teamID = vo.getTeamID();
-
-		//洹몃９ 留뚮뱺 �궗�슜�옄 硫ㅻ쾭濡� �벑濡�
-		//		TeamMemberVO gm = new TeamMemberVO();
-		//		gm.setTeamID(teamID);
-		//		gm.setMemberID(vo.getmadeBy());
-
-		//teamDao.registerTeamMember(gm);
-
-		return;
+		
+		return rowCount;
 	}
 
 	//	@Override
@@ -57,22 +56,24 @@ public class TeamServiceImpl implements TeamService {
 
 	@Override
 	//	public void registerTeamMember(List<Map<String, String>> teamMembers, int teamID) {
-	public void registerTeamMember(JSONArray teamMembers, int teamID) {
+	public void registerTeamMember(JSONArray teamMembers, int teamID) throws Exception {
 		for (int i = 0; i < teamMembers.size(); i++) {
 			JSONObject jobject = (JSONObject)teamMembers.get(i);
 			String memberID = (String)jobject.get("memberID");
 
-			System.out.println(memberID);
+			logger.info(memberID);
 			TeamMemberVO vo = new TeamMemberVO();
 			vo.setMemberID(memberID);
 			vo.setTeamID(teamID);
 
-			//�쁽�옱 �쉶�썝�벑濡앸릺�뼱 �엳�뒗 member�뀒�씠釉붿뿉 �엳�뒗 �쉶�썝留� 異붽� �븷 �닔�엳寃�
 			MemberVO checkvo = memberDao.get(memberID);
 			if (checkvo != null) {
-				teamDao.registerTeamMember(vo);
+				int rowCount = teamDao.registerTeamMember(vo);
+				if(rowCount != 1) {
+					throw new Exception("TeamMember not registered");
+				}
 			} else {
-				System.out.println("not in Member Table");
+				logger.info("TeamMember not in Member Table");
 			}
 		}
 

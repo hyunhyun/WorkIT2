@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.model.FileVO;
+import com.spring.model.InputException;
 import com.spring.service.FileService;
 
 @Controller
@@ -29,7 +30,9 @@ public class FileController {
 	
 	@RequestMapping(value="/fileUpload", method=RequestMethod.POST)
 	@ResponseBody
-	public String upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException{
+	public String upload(@RequestParam("file") MultipartFile file, 
+			@RequestParam("memoID") int memoID,
+			HttpServletRequest request) throws IOException, InputException{
 		
 	 //참고, String filePath=request.getSession().getServletContext().getRealPath("upload");
 	  //절대경로 : String filePath = "c:\\data\\" + file.getOriginalFilename();
@@ -42,24 +45,26 @@ public class FileController {
 	
 	      String attach_path = "resources/upload/";
 	      String originalName = file.getOriginalFilename();
-	      
-	      //File f = new File(root_path +attach_path+filename);
-	      
-	      //filename = uploadFile(filename, file.getBytes());
 
-			//File target = new File(uploadPath, savedName);
 
 //	      UUID 36자
 			UUID uuid = UUID.randomUUID();
 			String saveName = uuid.toString() + "_" + originalName;
+			
+			if(saveName.length() > 255) {
+				throw new InputException("fileName too Long");
+			}
+			
 			File target = new File(root_path +attach_path, saveName);
 			FileCopyUtils.copy(file.getBytes(), target);
 			
-
 			
-			//		mav.setViewName("upload/uploadResult");
-			//mav.setViewName("uploadResult");
-			//mav.addObject("savedName", savedName);
+			FileVO fileVO = new FileVO();
+			fileVO.setFileName(saveName);
+			fileVO.setMemoID(memoID);
+			fileService.registerFile(fileVO);
+			
+
 			return saveName;
 	}
 	

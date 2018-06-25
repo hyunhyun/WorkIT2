@@ -18,12 +18,12 @@ public class TeamDAO {
 
 	private static final String namespace = "com.spring.mapper.TeamMapper";
 
-	public void registerTeam(TeamVO vo) {
-		sqlSession.insert(namespace + ".registerTeam", vo);
+	public int registerTeam(TeamVO vo) {
+		return sqlSession.insert(namespace + ".registerTeam", vo);
 	}
 
-	public void registerTeamMember(TeamMemberVO vo) {
-		sqlSession.insert(namespace + ".registerTeamMember", vo);
+	public int registerTeamMember(TeamMemberVO vo) {
+		return sqlSession.insert(namespace + ".registerTeamMember", vo);
 	}
 
 	public TeamVO getTeam(String groupID) {

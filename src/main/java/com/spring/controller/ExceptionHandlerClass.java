@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import com.mysql.jdbc.MysqlDataTruncation;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import com.spring.model.InputException;
 
@@ -93,6 +94,16 @@ public class ExceptionHandlerClass {
 	public String badMySqlRequest(InputException exception) {
 		
 		logger.error(exception.getClass().getName() + " error :" + exception.getMessage());
+		
+		return exception.getMessage();
+	}
+	
+	@ExceptionHandler(value=MysqlDataTruncation.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ResponseBody
+	public String tooLongRequest(Exception exception) {
+		logger.error(exception.getClass().getName() + " error :" + exception.getMessage());
+		exception.getCause();
 		
 		return exception.getMessage();
 	}

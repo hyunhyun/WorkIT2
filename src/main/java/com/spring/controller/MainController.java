@@ -37,20 +37,7 @@ public class MainController {
 	@Autowired
 	MemoService memoService;
 
-	//	team 留뚮뱾湲�, ��Id濡� �빐�떦 �� topic 媛��졇�삤湲�, 寃��깋�궡�슜 �떖湲�,�쁽�옱 硫ㅻ쾭 蹂쇱닔 �엳�뒗 踰꾪듉 (drop down)
-	//mywork 蹂� �닔 �엳�뒗 踰꾪듉
-	//	�빐�떦 topic 泥섏쓬 爰쇰줈 湲� 紐⑸줉 蹂댁뿬二쇨린
-
-	//	@ModelAttribute("myWorkList")
-	//	public List<ContentVO> getMyWork() {
-	//
-	//	}
-
-	//	@ModelAttribute("members")
-	//	public List<TeamMemberVO> getMembers(@RequestParam("teamID") int teamID) {
-	//		List<TeamMemberVO> memberList = teamService.getTeamMember(teamID);
-	//		return memberList;
-	//	}
+	
 
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public ModelAndView showMain(Locale locale, @RequestParam("teamID") int teamID, HttpSession session) {
@@ -72,15 +59,7 @@ public class MainController {
 		mv.setViewName("main");
 
 		return mv;
-		//		}
-		//		else {
-		//			ModelAndView mv = new ModelAndView();
-		//			mv.setViewName("auth/login");
-		//
-		//			return mv;
-		//		}
-
-		//mywork
+		
 	}
 
 }

@@ -35,7 +35,8 @@
 <script>
 		var teamID = -1;
 		teamID =  ${teamID};
-		var memberID = '<%= session.getAttribute("memberID") %>';
+		var memberID = "";
+		memberID = '<%= session.getAttribute("memberID") %>';
 		
 		<% 	String contextPath  = request.getContextPath();	%>
 
