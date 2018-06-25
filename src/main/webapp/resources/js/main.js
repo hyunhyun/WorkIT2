@@ -220,10 +220,10 @@
 					
 					uploadFile(result.memoID);
 					
-					selectMemo(result.memoID);	
+//					selectMemo(result.memoID);	
 					
 					
-					console.log(result);
+//					console.log(result);
 					
 				},
 				error : function(jqXHR,request, error){
@@ -560,7 +560,7 @@
 			})
 		}
 		
-		function uploadFile(memoID){
+/*		function uploadFile(memoID){
 //			var totalObject = new Object();
 //			totalObject.memoID = memoID;
 			
@@ -589,7 +589,47 @@
 			     processData:false
 
 			})
+		}*/
+		
+		function uploadFile(memoID){
+//			var totalObject = new Object();
+//			totalObject.memoID = memoID;
+			
+//			var files = event.originalEvent.dataTransfer.files;
+            // 첫번째 파일
+//            var file = files[0];
+            // 콘솔에서 파일정보 확인
+//            console.log(file);
+
+            // ajax로 전달할 폼 객체
+            var formData = new FormData();
+            formData.enctype = 'multipart/form-data';
+
+            // 폼 객체에 파일추가, append("변수명", 값)
+
+            console.log(filesArray);
+            console.log("filesArray length :"+filesArray.length);
+            
+            for(var i=0; i<filesArray.length; i++){
+            	formData.append("file_"+i, filesArray[i]);
+            }
+            formData.append("memoID", memoID);
+			
+			$.ajax({
+				type: "POST",
+				url: contextPath+"/fileUpload",
+				data : formData,
+				success: function(result, status, xhr){
+					console.log(result);
+					
+//					selectMemo(result.memoID);
+				},
+				 contentType:false,
+			     processData:false
+
+			})
 		}
+		
 		
 		
 		function getMemoComment(){
