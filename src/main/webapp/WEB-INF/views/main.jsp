@@ -28,10 +28,10 @@
   <!-- Custom styles for this template-->
   <link href="resources/css/sb-admin.css" rel="stylesheet">
 
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/fontawesome.css" integrity="sha384-GVa9GOgVQgOk+TNYXu7S/InPTfSDTtBalSgkgqQ7sCik56N9ztlkoTr2f/T44oKV" crossorigin="anonymous">
+ <!--  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/fontawesome.css" integrity="sha384-GVa9GOgVQgOk+TNYXu7S/InPTfSDTtBalSgkgqQ7sCik56N9ztlkoTr2f/T44oKV" crossorigin="anonymous"> -->
 	
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">	
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">	
 <script>
 		var teamID = -1;
 		teamID =  ${teamID};
@@ -53,6 +53,7 @@
     border: 2px dotted gray;
     background-color: gray;
 }
+
 
 
  #navbarResponsive{
@@ -197,13 +198,13 @@ body {
 /** ====================
  * Lista de Comentarios
  =======================*/
-.comments-container {
+/* .comments-container {
 	margin: 60px auto 15px;
 	width: 768px;
 	
 	float: left;
 }
-
+ */
 .comments-container h1 {
 	font-size: 36px;
 	color: #283035;
@@ -319,7 +320,8 @@ body {
  ---------------------------*/
 .comments-list .comment-box {
 	width: 680px;
-	float: right;
+	/* float: right; */
+	float: left!important;
 	position: relative;
 	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
 	-moz-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
@@ -441,6 +443,74 @@ verical-align:middle;
 	width : 80%;
 }
 
+
+/* #readMemoDivBody{
+	height : 500px;
+} */
+
+#exampleAccordion{
+	/* background-color: #FFFFFF!important; */
+	overflow-y:scroll;
+}
+
+.leftMenu{
+	/* background-color:#D0D7DD; */ /* 연한회색 */
+	/* background-color:#2DAAE2; */ /* 하늘색 */
+	/* background-color: #A3AFC9; */
+	margin:5px;
+}
+
+#MyWorkListNav{
+	vertical-align: bottom;
+	margin-top:120px;
+	/* background-color:#8CC24A; */
+	color: #FFFFFF;
+}
+
+.sidenav-second-level{
+	/* background-color: #FFFFFF!important; */
+}
+
+#createMemoBtn{
+	display: none;
+}
+
+.card-read {
+    margin-bottom: 1.5rem;
+}
+.card-read {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid #c8ced3;
+    border-radius: .25rem;
+}
+
+.card-header-read:first-child {
+    border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+}
+
+.card-header-read {
+    padding: .75rem 1.25rem;
+    margin-bottom: 0;
+    background-color: #f0f3f5;
+    border-bottom: 1px solid #c8ced3;
+}
+
+.card-body-read {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+
+
+
 /** =====================
  * Responsive
  ========================*/
@@ -458,6 +528,10 @@ verical-align:middle;
 	}
 }
 
+.modal{
+	background-color: #ffffff;
+}
+
 </style>
 	
 </head>
@@ -473,10 +547,10 @@ verical-align:middle;
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         
-        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
+        <li class="nav-item leftMenu" data-toggle="tooltip" data-placement="right" title="Dashboard" onclick="showCreateModal()">
           <a class="nav-link" href="#">
             <i class="fa fa-fw fa-dashboard"></i>
-            <span class="nav-link-text">Dashboard</span>
+            <span class="nav-link-text">Create Topic</span>
           </a>
         </li>
         
@@ -493,7 +567,7 @@ verical-align:middle;
        </a>
   <ul class="sidenav-second-level collapse" id="collapseComponents">
             <li>
-              <a  onclick="showModal(${topic.topicID}, '${topic.topicName}')">수정</a>
+              <a  onclick="showUpdateModal(${topic.topicID}, '${topic.topicName}')">수정</a>
             </li>
             <li>
               <a onclick="deleteTopic(${topic.topicID})">삭제</a>
@@ -506,16 +580,16 @@ verical-align:middle;
 
 <!-- <script>console.log(${topic.topicID}+" : "+'${topic.topicName}');</script> -->
    <!-- 효과 주려면 class= "active" -->
-<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
+<li class="nav-item leftMenu" data-toggle="tooltip" data-placement="right" title="Components">
           <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapse_${topic.topicID}"  data-parent="#exampleAccordion" id="nav-link-collapse_${topic.topicID}">
             <i class="fa fa-fw fa-wrench"></i>
             <span class="nav-link-text" onclick="topicSelected(${topic.topicID})">${topic.topicName}</span>
-            <span class="badge">14</span>
+            <!-- <span class="badge">14</span> -->
             
           </a>
           <ul class="sidenav-second-level collapse" id="collapse_${topic.topicID}">
             <li>
-              <a onclick="showModal(${topic.topicID}, '${topic.topicName}')">수정</a>
+              <a onclick="showUpdateModal(${topic.topicID}, '${topic.topicName}')">수정</a>
             </li>
             <li>
               <a onclick="deleteTopic(${topic.topicID})">삭제</a>
@@ -525,7 +599,16 @@ verical-align:middle;
     </c:forEach>
     <!-- </ul> -->
     <!-- </div> -->
-   </c:if>        
+   </c:if>    
+   
+   
+   <li class="nav-item leftMenu" data-toggle="tooltip" data-placement="right" title="MyWorkList" id="MyWorkListNav" onclick="getMyWorkList()">
+          <a class="nav-link" href="#">
+            <i class="fa fa-fw fa-dashboard"></i>
+            <span class="nav-link-text">MyWorkList</span>
+          </a>
+        </li>
+       
       </ul>
       <!-- nav : navbar-nav navbar-sidenav END -->
       
@@ -550,7 +633,7 @@ verical-align:middle;
           </a>
           
         </li>
-        <li class="nav-item">
+       <!--  <li class="nav-item">
           <form class="form-inline my-2 my-lg-0 mr-lg-2">
             <div class="input-group">
               <input class="form-control" type="text" placeholder="Search for...">
@@ -561,9 +644,9 @@ verical-align:middle;
               </span>
             </div>
           </form>
-        </li>
+        </li> -->
         <li class="nav-item">
-          <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
+          <a class="nav-link" data-toggle="modal" data-target="#logoutModal">
             <i class="fa fa-fw fa-sign-out"></i>Logout</a>
         </li>
       </ul>
@@ -584,7 +667,7 @@ verical-align:middle;
       <h1>MainPage</h1>
 <hr>
 <!-- myWorkList -->
-<input type="button" onclick="getMyWorkList()" value="myWorkList"/>
+<!-- <input type="button" onclick="getMyWorkList()" value="myWorkList"/> -->
 
 <%
 	/* if(session.getAttribute("memberID") = null){
@@ -593,23 +676,33 @@ verical-align:middle;
 	out.println(session.getAttribute("memberID"));
 	
 %>
-createTopic<input type="text" name="topicName" placeholder="topicName" id="tName"/>
-<input type="button" value="ok" onclick="createTopic()"/>
+<!-- createTopic<input type="text" name="topicName" placeholder="topicName" id="tName"/>
+<input type="button" value="ok" onclick="createTopic()"/> -->
 
 <div id="searchContainer">
-<input type="text" id="searchContent" placeholder="검색내용"/>
-<input type="button" onclick="searchContent()" value="검색"/>
+<!-- <input type="text" id="searchContent" placeholder="검색내용"/>
+<input type="button" onclick="searchContent()" value="검색"/> -->
+
+
+   <div class="form-inline my-2 my-lg-0 mr-lg-2">
+     <div class="input-group">
+       <input class="form-control" type="text" placeholder="Search by Content" id="searchContent">
+       <span class="input-group-append">
+         <button class="btn btn-primary" type="button" onclick="searchContent()">
+           <i class="fa fa-search"></i>
+         </button>
+       </span>
+     </div>
+  </div>
+     
 </div>
 <!-- <input type="button" id="createMemoBtn" value="create Memo" onclick="createMemo()"/> -->
 <!-- <button type="button" class="btn btn-default" id="createMemoBtn" onclick="createMemo()">
 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 </button> -->
 
-<!-- <button type="button" class="btn btn-default" id="createMemoBtn" onclick="createMemo()"> -->
-<button class="far fa-plus-square btn btn-default" id="createMemoBtn" onclick="createMemo()">메모 추가하기</button>
-<!-- </button> -->
+<i class="far fa-plus-square" id="createMemoBtn" onclick="createMemo()">메모 추가하기</i>
 
-<i class="fas fa-arrow-alt-circle-left"></i> 
 
 <div id="memoContainer">
 
@@ -690,7 +783,7 @@ createTopic<input type="text" name="topicName" placeholder="topicName" id="tName
         <!--Grid column-->
 
         <!--Grid column-->
-        <div class="col-md-4 col-xl-3">
+ <!--        <div class="col-md-4 col-xl-3">
             <ul class="contact-icons">
                 <li><i class="fa fa-map-marker fa-2x"></i>
                     <p>San Francisco, CA 94126, USA</p>
@@ -704,7 +797,7 @@ createTopic<input type="text" name="topicName" placeholder="topicName" id="tName
                     <p>contact@mdbootstrap.com</p>
                 </li>
             </ul>
-        </div>
+        </div> -->
         <!--Grid column-->
 
     </div>
@@ -736,22 +829,29 @@ createTopic<input type="text" name="topicName" placeholder="topicName" id="tName
 		<div>책임자</div>
 	</div>
 
-<div id="readMemoDiv">
+<div id="readMemoDiv" class="card-read">
+
+<div class="card-header-read">Selected Memo</div>
+<div class="card-body-read">
 	<input type="button" onclick="updateBtn()" value="수정하기"/>
 	<input type="button" onclick="deleteMemo()" value="삭제하기"/>
 	<div class="blog-post">
+	<div id="readMemoDivBody">
 		<h2 class="blog-post-title mt-4" id="title_read">제목</h2>
-		<p class="lead">author</p>
+		<p class="lead" id="writer_read">author</p>
 		<hr>
 		<p id="date_read">Date</p>
 		<hr>
 		<div id="content_read"><p class="lead">내용</p></div>
 		<div id="responsable_read">책임자</div>
-		<input type="button" value="댓글" onclick="getMemoComment()"/>
-		<!-- <input type="button" onclick="addComment()" value="+댓글"/> -->
+		<!-- <input type="button" value="댓글" onclick="getMemoComment()"/> -->
 		
-    
-		 
+		<div id="uploadedList_read"></div>
+		
+		<i class="fa fa-comments" onclick="getMemoComment()"><span>댓글보기</span></i>
+		<!-- <input type="button" onclick="addComment()" value="+댓글"/> -->
+	</div>
+	<!-- readMemoDivBody End -->	 
 	<!-- 	<div id="createComment">
 		<input type="text" id="commentText" placeholder="댓글 작성"/>
 		<input type="button" onclick="registerComment();" value="댓글 저장"/>
@@ -773,6 +873,8 @@ createTopic<input type="text" name="topicName" placeholder="topicName" id="tName
 		<div class="comments-container"></div>
 	</div>
 	<!-- blog post -->
+	</div>
+	<!-- card-body-read End -->
 	</div>
 	<!--  readMemoDiv End -->
 
@@ -859,7 +961,7 @@ createTopic<input type="text" name="topicName" placeholder="topicName" id="tName
 </div>
 <!-- .container-wrapper  END-->	
 	
-	<!-- Modal -->
+	<!-- TopicUpdateModal -->
 <div id="updateTopicModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
@@ -881,10 +983,57 @@ createTopic<input type="text" name="topicName" placeholder="topicName" id="tName
 
   </div>
 </div>
-<!-- Modal End -->
+<!-- TopicUpdateModal End -->
+
+	<!-- TopicCreateModal -->
+<div id="createTopicModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Create New Topic</h4>
+      </div>
+      <div class="modal-body">
+        <!-- <p>Some text in the modal.</p> -->
+        <input type="text" id="createTopicName"/>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" onclick="createTopic()">Save</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- TopicCreateModal End -->
+
+
+
+<!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ModalLabel">Ready to Leave?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="auth/logout">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Logout Modal End -->
 
     
-    
+    <!-- </div> -->
+	<!-- content-wrapper end -->
      <!-- Bootstrap core JavaScript-->
     <script src="resources/vendor/jquery/jquery.min.js"></script>
     <script src="resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -904,8 +1053,7 @@ createTopic<input type="text" name="topicName" placeholder="topicName" id="tName
     
     
     
-	</div>
-	<!-- content-wrapper end -->
+	
 	
 </body>
 </html>

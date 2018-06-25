@@ -76,6 +76,17 @@ public class ExceptionHandlerClass {
 		return exception.getMessage();
 	}
 	
+//	@ExceptionHandler(value = IOException.class)
+//	@ResponseStatus(HttpStatus.)
+//	@ResponseBody
+//	public String badMySqlRequest(InputException exception) {
+//		
+//		logger.error(exception.getClass().getName() + " error :" + exception.getMessage());
+//		
+//		return exception.getMessage();
+//	}
+//	
+	
 	@ExceptionHandler(value = NullPointerException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ResponseBody

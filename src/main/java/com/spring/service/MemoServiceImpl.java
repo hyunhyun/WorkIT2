@@ -51,6 +51,9 @@ public class MemoServiceImpl implements MemoService {
 		if(memoVO.getContent() == null || memoVO.getContent() == "") {
 			throw new InputException("Memo Content Required");
 		}
+		if(memoVO.getContent().length() > 254) {
+			throw new InputException("Memo Content too long");
+		}
 		
 		if(memoVO.getTopicID() == -1) {
 			throw new InputException("Memo topicID required Bad Request");
@@ -68,6 +71,8 @@ public class MemoServiceImpl implements MemoService {
 				throw new InputException("Responsable Must be a TeamMember");
 			}
 		}
+		
+	
 		
 		int rowCount = memoDao.createMemo(memoVO);
 			

@@ -1,8 +1,12 @@
 package com.spring.controller;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -18,14 +22,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.model.FileVO;
 import com.spring.model.MemoVO;
 import com.spring.model.TeamMemberVO;
+import com.spring.service.FileService;
 import com.spring.service.MemoService;
 
 @Controller
 public class MemoController {
 	@Autowired
 	MemoService memoService;
+	
+	@Autowired
+	FileService fileService;
 
 	private static final Logger logger = LoggerFactory.getLogger(MemoController.class);
 
@@ -33,13 +42,14 @@ public class MemoController {
 	public ResponseEntity<MemoVO> createMemo(Model model, HttpSession session,
 		@RequestParam("title") String title,
 		@RequestParam("content") String content,
-		@RequestParam("responsable") String responsable,
+//		@RequestParam("responsable") String responsable,
 		@RequestParam("topicID") int topicID,
-		@RequestParam("teamID") int teamID) throws Exception {
-
+		@RequestParam("teamID") int teamID, HttpServletRequest request) throws Exception {
+//		@RequestParam("fileName[]") String[] fileName
+		
 		logger.info("/memo :POST createMemo title : "+title);
 		logger.info("/memo :POST createMemo content : "+content);
-		logger.info("/memo :POST createMemo responsable : "+responsable);
+		
 		logger.info("/memo :POST createMemo topicID : "+topicID);
 		
 		String MemberID = (String)session.getAttribute("memberID");
@@ -47,17 +57,46 @@ public class MemoController {
 		MemoVO memoVO = new MemoVO();
 		memoVO.setTitle(title);
 		memoVO.setContent(content);
-		memoVO.setResponsable(responsable);
+		
+		String responsable = null;
+		
+		if(request.getParameter("responsable")!= null) {
+			responsable = request.getParameter("responsable");
+			memoVO.setResponsable(responsable);
+			logger.info("/memo :POST createMemo responsable : "+responsable);
+		}
 		memoVO.setDate(new Timestamp(retryDate));
 		memoVO.setTopicID(topicID);
 		memoVO.setWriter(MemberID);
 		///file
+		
 
 		TeamMemberVO teamMemberVO = new TeamMemberVO();
 		teamMemberVO.setMemberID(responsable);
 		teamMemberVO.setTeamID(teamID);
 		
 		MemoVO createdVO = memoService.createMemo(memoVO, teamMemberVO);
+		logger.info("createdMemo memoID: "+createdVO.getMemoID());
+		
+		if(request.getParameterValues("fileName")!= null) {
+		String[] fileName = request.getParameterValues("fileName");
+		
+			
+		for(int i=0; i<fileName.length; i++) {
+			FileVO vo = new FileVO();
+			
+			vo.setFileName(fileName[i]);
+			vo.setMemoID(createdVO.getMemoID());
+			
+			logger.info("register Memo register File MemoID : "+vo.getMemoID());
+			logger.info("register Memo register File FileName : "+vo.getFileName());
+			int rowCount = fileService.registerFile(vo);
+			logger.info("registerMemo file Register rowCount : "+rowCount);
+		}
+		}
+
+		
+		
 		if(createdVO != null) {		
 			return new ResponseEntity<MemoVO>(createdVO, HttpStatus.OK);
 		}else {
@@ -89,12 +128,18 @@ public class MemoController {
 
 	@RequestMapping(value = "/memo/{memoID}", method = RequestMethod.GET)
 	@ResponseBody
-	public MemoVO getMemo(@PathVariable(value = "memoID") int memoID) {
+	public Map<String, Object> getMemo(@PathVariable(value = "memoID") int memoID) throws Exception {
 		logger.info("/memo/{memoID} GET memoID : "+memoID);
 		
 		MemoVO vo = memoService.getMemo(memoID);
+		
+		List<FileVO> fileList = fileService.getFileList(memoID);
 
-		return vo;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("memo", vo);
+		map.put("files", fileList);
+		
+		return map;
 	}
 
 	@RequestMapping(value = "/memo/{memoID}", method = RequestMethod.DELETE)

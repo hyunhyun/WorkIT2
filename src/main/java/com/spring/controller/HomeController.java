@@ -64,5 +64,10 @@ public class HomeController {
 	public String cards() {
 		return "cards";
 	}
+	
+	@RequestMapping(value = "/404")
+	public String nopage() {
+		return "404";
+	}
 
 }
