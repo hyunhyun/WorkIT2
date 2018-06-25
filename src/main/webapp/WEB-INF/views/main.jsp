@@ -21,15 +21,20 @@
     
 	<title>Main</title>
 	
+	
+	
 	  <!-- Bootstrap core CSS-->
   <link href="resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!-- Custom fonts for this template-->
+  
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/fontawesome.css" integrity="sha384-GVa9GOgVQgOk+TNYXu7S/InPTfSDTtBalSgkgqQ7sCik56N9ztlkoTr2f/T44oKV" crossorigin="anonymous">
+  
   <link href="resources/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <!-- Custom styles for this template-->
   <link href="resources/css/sb-admin.css" rel="stylesheet">
 
- <!--  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/fontawesome.css" integrity="sha384-GVa9GOgVQgOk+TNYXu7S/InPTfSDTtBalSgkgqQ7sCik56N9ztlkoTr2f/T44oKV" crossorigin="anonymous"> -->
+ 
 	
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">	
 <script>
@@ -476,10 +481,10 @@ verical-align:middle;
 	display: none;
 }
 
-.card-read {
+.card-read, .card-update {
     margin-bottom: 1.5rem;
 }
-.card-read {
+.card-read, .card-update{
     position: relative;
     display: -ms-flexbox;
     display: flex;
@@ -493,22 +498,25 @@ verical-align:middle;
     border-radius: .25rem;
 }
 
-.card-header-read:first-child {
+.card-header-read:first-child, .card-header-update:first-child {
     border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
 }
 
-.card-header-read {
+.card-header-read, .card-header-update {
     padding: .75rem 1.25rem;
     margin-bottom: 0;
     background-color: #f0f3f5;
     border-bottom: 1px solid #c8ced3;
 }
 
-.card-body-read {
+.card-body-read, .card-body-update{
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     padding: 1.25rem;
 }
+
+
+
 
 
 
@@ -532,6 +540,14 @@ verical-align:middle;
 .modal{
 	background-color: #ffffff;
 }
+
+.section-heading{
+	margin-left : 30px;
+}
+.section-description{
+	margin-left : 30px;
+}
+
 
 </style>
 	
@@ -879,14 +895,16 @@ verical-align:middle;
 	</div>
 	<!--  readMemoDiv End -->
 
-<div id="updateMemoDiv">
+<div id="updateMemoDiv" class="card-update">
 	<section class="section">
 
+	<div class="card-header-update">Update Memo</div>
     <!--Section heading-->
     <h2 class="section-heading h1 pt-4">Update your Memo!</h2>
     <!--Section description-->
     <p class="section-description">Update your Memo.</p>
 
+	<div class="card-body-update">
     <div class="row">
 
         <!--Grid column-->
@@ -941,6 +959,8 @@ verical-align:middle;
 
     </div>
     <!-- row End -->
+    </div>
+    <!-- card-body-update -->
 
 </section>
 <!--Section: Contact v.2-->

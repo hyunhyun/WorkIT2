@@ -2,31 +2,39 @@ package com.spring.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.spring.controller.CommentController;
 import com.spring.dao.CommentDAO;
 import com.spring.model.CommentVO;
 import com.spring.model.InputException;
 
 @Service("commentService")
 public class CommentServiceImpl implements CommentService {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	CommentDAO commentDao;
 
 	@Override
 	public int createComment(CommentVO vo) throws InputException {
-		if(vo.getMemoID() == -1) {	//¼±ÅÃÇÑ memoID°¡ ¾Èµé¾î¿È -1Àº ÃÊ±â°ª
-			throw new InputException("´ñ±Û¿¡ ¼±ÅÃÇÑ Memo°¡ ¾øÀ½");
+		if(vo.getMemoID() == -1) {	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ memoIDï¿½ï¿½ ï¿½Èµï¿½ï¿½ï¿½ -1ï¿½ï¿½ ï¿½Ê±â°ª
+			throw new InputException("ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Memoï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 		}
 		if(vo.getContent() == null || vo.getContent()== "") {
-			throw new InputException("´ñ±Û ³»¿ëÀÌ ¾øÀ½");
+			throw new InputException("ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 		}
+		if(vo.getContent().length() > 255) {
+			throw new InputException("comment content Too Long");
+		}
+		logger.info("service comment content : "+vo.getContent());
 		int rowCount = commentDao.createComment(vo);
 
-//		rowCount 1ÀÌ¿©¾ßÁö Á¤»ó 2ÀÌ»óÀÌ¸é ¿©·¯°³ »ý±è, 0 ÀÌ¸é ¾È»ý±è -> exception throw ÇØÁà¾ßÇÏ³ª? 
+//		rowCount 1ï¿½Ì¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 2ï¿½Ì»ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, 0 ï¿½Ì¸ï¿½ ï¿½È»ï¿½ï¿½ï¿½ -> exception throw ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï³ï¿½? 
 		
 		return rowCount;
 	}
@@ -35,12 +43,6 @@ public class CommentServiceImpl implements CommentService {
 	public List<CommentVO> getCommentList(int memoID) {
 		return commentDao.getCommentList(memoID);
 	}
-
-//	@Override
-//	public CommentVO getComment(int commentID) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
 	@Override
 	public int deleteComment(int commentID) {

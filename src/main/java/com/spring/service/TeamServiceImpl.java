@@ -30,9 +30,9 @@ public class TeamServiceImpl implements TeamService {
 	MemberDAO memberDao;
 
 	@Override
-	public int registerTeam(TeamVO vo) throws Exception {
-
+	public int registerTeam(TeamVO vo) throws Exception {		
 		logger.info("registerTeam start");
+		
 		int rowCount = teamDao.registerTeam(vo);
 
 		if(rowCount != 1){throw new Exception("team not Registered");}
@@ -57,9 +57,16 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	//	public void registerTeamMember(List<Map<String, String>> teamMembers, int teamID) {
 	public void registerTeamMember(JSONArray teamMembers, int teamID) throws Exception {
+		
 		for (int i = 0; i < teamMembers.size(); i++) {
 			JSONObject jobject = (JSONObject)teamMembers.get(i);
 			String memberID = (String)jobject.get("memberID");
+			
+			//아이디 중복되는거 있는지 검사
+			//중복되는 항목은 remove
+			if(checkRepeatedID(teamMembers, i, memberID) != 1) {
+				continue;	//중복되는 값은 건너뛰기
+			}
 
 			logger.info(memberID);
 			TeamMemberVO vo = new TeamMemberVO();
@@ -88,6 +95,18 @@ public class TeamServiceImpl implements TeamService {
 		//		}
 	}
 
+	
+	public int checkRepeatedID(JSONArray teamMembers, int i, String memberID) {
+		for(int j=0; j<i; j++) {
+			JSONObject compareObject = (JSONObject)teamMembers.get(j);
+			String compareID = (String)compareObject.get("memberID");
+			if(memberID.equals(compareID)) {
+				return 1;	//같은 값이 있음
+			}
+		}
+		return 0;	//같은 값이 없음
+	}
+	
 	@Override
 	public TeamVO getTeam(String teamID) {
 		return teamDao.getTeam(teamID);

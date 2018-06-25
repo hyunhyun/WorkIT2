@@ -338,7 +338,7 @@ nav{
         <h4 class="modal-title">Create Team</h4>
       </div>
       <div class="modal-body">
-        <p>Some text in the modal.</p>
+        <p>Enter teamName and add TeamMember</p>
         <!-- <div class="helper"></div> -->
         <p id="helperTest"></p>
         <!-- <p class="ui-helper-hidden-accessible"></p> -->
@@ -524,8 +524,8 @@ nav{
 		
 		function createTeam(){
 			
-			<% String test_s = (String)request.getSession().getAttribute("memberID"); %>
-			var userID = '<%=test_s %>';
+			<% String memberID_session = (String)request.getSession().getAttribute("memberID"); %>
+			var userID = '<%=memberID_session %>';
 			
 			var totalInfo = new Object();
 			

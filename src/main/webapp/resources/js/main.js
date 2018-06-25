@@ -119,6 +119,10 @@
 					console.log(request);
 					console.log(error);
 					
+					if(jqXHR.status == 400){
+						alert(jqXHR.responseText);
+					}
+					
 					var insideMemoContainer = $("#insideMemoContainer");
 					//alert(memoContainer);
 					//var div = $("<div>no Memo</div>");
@@ -149,6 +153,13 @@
 				$("#insideMemoContainer > #cardContainer").show();
 				$("#readMemoDiv").hide();
 				$("#updateMemoDiv").hide();
+				
+				//empty filesArray
+				filesArray.length = 0;
+				
+				$("#title_create").val("");
+				$("#content_create").val("");
+				$("#responsable_create").val("");
 				
 				createMemoOpen = false;
 			}
@@ -234,7 +245,7 @@
 					if(jqXHR.status == 400){
 						alert(jqXHR.responseText);
 					}
-					
+										
 				},
 				statusCode: {
 			        200: function () {
@@ -337,6 +348,9 @@
 					console.log(jqXHR);
 					console.log(status);
 					console.log(error);
+					if(jqXHR.status == 400){
+						alert(jqXHR.responseText);
+					}
 				},
 				statusCode: {
 			        200: function () {
@@ -379,6 +393,7 @@
 					$("#content_read > p").text(result.memo.content);
 					$("#responsable_read").text(result.memo.responsable);
 					
+//					$("#date_read").text(result.memo.date);
 					$("#writer_read").text(result.memo.writer);
 					
 					//show files
@@ -394,7 +409,7 @@
 					}
                     
                    
-					var date = new Date(result.date);
+					var date = new Date(result.memo.date);
 					var year = date.getFullYear();
 					var month = date.getMonth()+1;
 					var day = date.getDate();
@@ -402,13 +417,17 @@
 					var minute = date.getMinutes();
 					var seconds = date.getSeconds();
 					
-					$("#date_read").text(year+"/"+month+"/");
+					
+					$("#date_read").text(year+"/"+month+"/"+day+" "+hour+" : "+minute+" : "+seconds);
 															
 				},
 				error :function(jqXHR,request, error){
 					console.log(jqXHR);
 					console.log(status);
 					console.log(error);
+					if(jqXHR.status == 400){
+						alert(jqXHR.responseText);
+					}
 				},
 				statusCode: {
 			        200: function () {
@@ -469,6 +488,10 @@
 					console.log(jqXHR);
 					console.log(status);
 					console.log(error);
+					
+					if(jqXHR.status == 400){
+						alert(jqXHR.responseText);
+					}
 				},
 				statusCode: {
 			        200: function () {
@@ -497,6 +520,11 @@
 					console.log(jqXHR);
 					console.log(status);
 					console.log(error);
+					
+					if(jqXHR.status == 400){
+						alert(jqXHR.responseText);
+						
+					}
 				},
 				statusCode: {
 			        200: function () {
@@ -528,6 +556,7 @@
 				type:"POST",
 				url: contextPath+"/comment/"+globalMemoID,
 				data: jObject,
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 				success: function(result, status,xhr){
 					alert("comment created");
 					
@@ -800,6 +829,10 @@
 					console.log(jqXHR);
 					console.log(status);
 					console.log(error);
+					
+					if(jqXHR.status == 400){
+						alert(jqXHR.responseText);
+					}
 				},
 				statusCode: {
 			        200: function () {
@@ -839,6 +872,9 @@
 					console.log(jqXHR);
 					console.log(status);
 					console.log(error);
+					if(jqXHR.status ==400){
+						alert(jqXHR.responseText);
+					}
 				},
 				statusCode: {
 			        200: function () {
@@ -882,6 +918,9 @@
 					console.log(jqXHR);
 					console.log(status);
 					console.log(error);
+					if(jqXHR.status == 400){
+						alert(jqXHR.responseText);
+					}
 				},
 				statusCode: {
 			        200: function () {
@@ -947,6 +986,10 @@
 					console.log(jqXHR);
 //					console.log(status);
 					console.log(error);
+					
+					if(jqXHR.status == 400){
+						alert(jqXHR.responseText);
+					}
 				},
 				statusCode: {
 			        200: function () {
@@ -1161,6 +1204,9 @@
 					console.log(jqXHR);
 					console.log(status);
 					console.log(error);
+					if(jqXHR.status == 400){
+						alert(jqXHR.responseText);
+					}
 				},
 				statusCode: {
 			        200: function () {

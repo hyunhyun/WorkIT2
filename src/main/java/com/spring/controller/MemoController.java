@@ -175,7 +175,7 @@ public class MemoController {
 	public ResponseEntity<Void> updateMemo(@PathVariable(value = "memoID") int memoID,
 		@RequestParam("title") String title,
 		@RequestParam("content") String content,
-		@RequestParam("responsable") String responsable) {
+		@RequestParam("responsable") String responsable) throws InputException {
 
 		logger.info("/memo/{memoID} PUT updateMemo start");
 		logger.info("updateMemo memoID : "+memoID);

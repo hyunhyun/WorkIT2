@@ -29,22 +29,22 @@ public class CommentController {
 	@Autowired
 	CommentService commentService;
 
-	@RequestMapping(value = "/comment/{memoID}", method = RequestMethod.POST)
-	public ResponseEntity<Void> createMemo(Model model, HttpSession session,
+	@RequestMapping(value = "/comment/{memoID}", method = RequestMethod.POST, 
+			produces = "application/text; charset=utf8")
+	public ResponseEntity<Void> createComment(Model model, HttpSession session,
 		@PathVariable(value = "memoID") int memoID,
 		@RequestParam("content") String content) throws InputException {
 		
-		logger.info("CommentController - /comment/{memoID} :POST");
-
-		if(content.length() > 255) {
-			throw new InputException("comment content Too Long");
-		}
 		
-		long retryDate = System.currentTimeMillis();
+		logger.info("CommentController - /comment/{memoID} :POST");
+		
+		logger.info("Comment Register content : "+content); 
+		
+//		long retryDate = System.currentTimeMillis();
 		CommentVO commentVO = new CommentVO();
 		commentVO.setContent(content);
 		commentVO.setMemoID(memoID);
-		commentVO.setDate(new Timestamp(retryDate));
+//		commentVO.setDate(new Timestamp(retryDate));
 		commentVO.setWriter((String)session.getAttribute("memberID"));
 
 		int rowCount = commentService.createComment(commentVO);

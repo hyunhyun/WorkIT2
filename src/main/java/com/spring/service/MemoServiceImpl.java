@@ -8,6 +8,8 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.controller.CommentController;
 import com.spring.dao.FileDAO;
 import com.spring.dao.MemoDAO;
 import com.spring.dao.TeamMemberDAO;
@@ -27,6 +30,9 @@ import com.spring.model.TeamMemberVO;
 
 @Service("memoService")
 public class MemoServiceImpl implements MemoService {
+	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	MemoDAO memoDao;
 	
@@ -109,22 +115,7 @@ public class MemoServiceImpl implements MemoService {
 	@Transactional(rollbackFor = Exception.class)
 	public MemoVO createMemo(MemoVO memoVO, TeamMemberVO teamMemberVO) throws Exception{		//return값  잘 생성 되었을때 생성된 Memo의 MemoID, 에러시 -1
 		
-		if(memoVO.getTitle() == null || memoVO.getTitle().length() == 0) {
-			throw new InputException("Memo Title Required");
-		}
-		if(memoVO.getContent() == null || memoVO.getContent().length() == 0) {
-			throw new InputException("Memo Content Required");
-		}
-		if(memoVO.getTitle().length() > 30) {
-			throw new InputException("Memo Title too Long");
-		}
-		if(memoVO.getContent().length() > 255) {
-			throw new InputException("Memo Content too long");
-		}
-		
-		if(memoVO.getTopicID() == -1) {
-			throw new InputException("Memo topicID required Bad Request");
-		}
+		memoVOCheckLength(memoVO);
 		
 		if(teamMemberVO.getTeamID() == -1) {
 			throw new InputException("Memo teamID required Bad Request");
@@ -164,7 +155,10 @@ public class MemoServiceImpl implements MemoService {
 	}
 
 	@Override
-	public int updateMemo(MemoVO memoVO) {
+	public int updateMemo(MemoVO memoVO) throws InputException {		
+		memoVOCheckLength(memoVO);
+			
+		logger.info("updateMemo content : "+memoVO.getContent());
 		return memoDao.updateMemo(memoVO);
 	}
 
@@ -179,6 +173,23 @@ public class MemoServiceImpl implements MemoService {
 	}
 	
 	
-	
+	public void memoVOCheckLength(MemoVO memoVO) throws InputException {
+		if(memoVO.getTitle() == null || memoVO.getTitle().length() == 0) {
+			throw new InputException("Memo Title Required");
+		}
+		if(memoVO.getContent() == null || memoVO.getContent().length() == 0) {
+			throw new InputException("Memo Content Required");
+		}
+		if(memoVO.getTitle().length() > 30) {
+			throw new InputException("Memo Title too Long");
+		}
+		if(memoVO.getContent().length() > 255) {
+			throw new InputException("Memo Content too long");
+		}
+		
+		if(memoVO.getTopicID() == -1) {
+			throw new InputException("Memo topicID required Bad Request");
+		}
+	}
 
 }

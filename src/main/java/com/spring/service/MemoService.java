@@ -24,7 +24,7 @@ public interface MemoService {
 
 	public int deleteMemo(int memoID);
 
-	public int updateMemo(MemoVO memoVO);
+	public int updateMemo(MemoVO memoVO) throws InputException;
 
 	public List<MemoVO> getMemoResponsable(String memberID);
 

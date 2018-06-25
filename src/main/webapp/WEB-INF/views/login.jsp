@@ -98,14 +98,16 @@ perspective: 800;
   .inner{margin:0px !important;}
   
 
+body{
+	background-color: #343a40;
+}
+
   </style>
 	<!-- <title>Home</title> -->
 </head>
 <body>
 
-<h1>
-	Hello world!  
-</h1>
+
 
 <P>  ${logintest}. </P>
 <%-- <c:if test="${checkID}">
@@ -119,7 +121,7 @@ perspective: 800;
         <div class="col-md-4"></div>
         <div class="col-md-4">
         
-        <h4>Click "Create new account?"</h4>
+        <!-- <h4>Click "Create new account?"</h4> -->
 
 
           <div class="flip">
@@ -138,14 +140,14 @@ perspective: 800;
 	 <input class="form-control" name="password" placeholder="Password"/>
 
 	<button class="btn btn-primary btn-block" type="submit">LOG IN</button>
-	<hr>
-                <p class="blue">Sign in with</p>
+	<!-- <hr>
+                <p class="blue">Sign in with</p> -->
 	
 <!-- <input type="submit" id="login" value="Sign In" /> -->
   <hr>
-                <p class="text-center">
+				<p class="text-center">
                   <a href="#" class="fliper-btn">Create new account?</a>
-                </p>
+                </p> 
                 
 </form>
 </div>
@@ -178,7 +180,7 @@ perspective: 800;
              <label>Member Information</label>
                  <input class="form-control" placeholder="ID" name="memberID" id="memberID_register"/>
                
-                <input type="button" onclick="checkID()" value="checkID" class="checkID">
+                <input class="btn btn-primary btn-block" type="button" onclick="checkID()" value="checkID" class="checkID">
 
                <input class="form-control" placeholder="nickname" name="nickname" id="nickname_register"/>
                <!--  <label>Private Information</label> -->
