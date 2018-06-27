@@ -8,11 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.model.InputException;
 import com.spring.model.MemberVO;
 import com.spring.service.MemberService;
 
@@ -42,5 +44,11 @@ public class MemberController {
 	//		//		model.addAttribute("logintest", "login");
 	//		//		return "login";
 	//	}
+	
+		@RequestMapping(value = "/member/{memberID}", method = RequestMethod.DELETE)
+		@ResponseBody
+		public int deleteMember(@PathVariable("memberID") String memberID) throws InputException {
+			return memberService.deleteMember(memberID);
+		}
 
 }

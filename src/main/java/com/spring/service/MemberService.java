@@ -15,4 +15,6 @@ public interface MemberService {
 	List<MemberVO> getMemberList();
 
 	List<MemberVO> getListAutoComplete(String search);
+	
+	int deleteMember(String memberID) throws InputException;
 }

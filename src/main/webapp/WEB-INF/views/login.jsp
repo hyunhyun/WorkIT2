@@ -142,7 +142,7 @@ body{
       <h1 class="text-center">LOGO</h1>
     <br>
      <input class="form-control" name="memberID" "placeholder="Username"/>
-	 <input class="form-control" name="password" placeholder="Password"/>
+	 <input class="form-control" name="password" placeholder="Password" type="password"/>
 
 	<button class="btn btn-primary btn-block" type="submit">LOG IN</button>
 	<!-- <hr>

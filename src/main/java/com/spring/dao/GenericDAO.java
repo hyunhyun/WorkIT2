@@ -16,4 +16,6 @@ public interface GenericDAO<E, K> {
 	//public void delete();
 
 	public List<E> getListAutoComplete(K search);
+	
+	public int deleteMember(K memberID);
 }// interface

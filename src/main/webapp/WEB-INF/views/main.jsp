@@ -47,6 +47,9 @@
 
 	var contextPath = "<%=contextPath%>";
 	
+	if(memberID == "" || memberID == "null"){
+		window.location.replace(contextPath+"/auth/login");
+	}
 	//var test = ${topicList[0].topicID};
 	</script>
 	
@@ -642,6 +645,9 @@ verical-align:middle;
         </li>
       </ul>
       <ul class="navbar-nav ml-auto">
+       <li onclick="deleteMember()">
+       <i class="fas fa-times-circle">회원탈퇴</i>
+       </li>
        
         <li class="nav-item dropdown"><!-- TODO 여기에 팀멤버 보이기 및 팀멤버 추가 -->
           <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -125,4 +125,13 @@ public class MemberServiceImpl implements MemberService {
 		System.out.println("searchService : " + search);
 		return memberDao.getListAutoComplete(search);
 	}
+
+	@Override
+	public int deleteMember(String memberID) throws InputException {
+		if(memberID == null || memberID.isEmpty()) {
+			throw new InputException("no memberID");
+		}
+		
+		return memberDao.deleteMember(memberID);
+	}
 }

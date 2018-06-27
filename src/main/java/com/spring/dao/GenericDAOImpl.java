@@ -41,4 +41,8 @@ public abstract class GenericDAOImpl<E, K> implements GenericDAO<E, K> {
 		System.out.println("Generic" + search);
 		return sqlSession.selectList(namespace + ".getListAutoComplete", search);
 	}
+	
+	public int deleteMember(String memberID) {
+		return sqlSession.delete(namespace + ".deleteMember", memberID);
+	}
 }// class

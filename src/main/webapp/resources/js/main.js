@@ -657,6 +657,7 @@
 					console.log(result);
 					
 					filesArray.length = 0;
+					
 					selectMemo(memoID);
 				},error(jqXHR, textStatus, errorThrown){
 					console.log(jqXHR);
@@ -1116,6 +1117,8 @@
                 // 삭제 버튼
 	            var fileName= '<div>'+file.name+'</div>';
 	            $("#deleteFileBtn_create").show();
+	            
+	            $("#uploadedList_create").empty();
                 $("#uploadedList_create").append(fileName);
 	       
 	        });
@@ -1407,6 +1410,33 @@ $("#teamMemberAdd").autocomplete({
 				console.log("autocomplete select nickname : "+ui.item.nickname);
 			}
 		})
+		
+		
+		function deleteMember(){
+			alert(memberID + "회원탈퇴");
+			$.ajax({
+			url: contextPath+"/member/"+memberID,
+			method: "DELETE",
+			success: function(data){
+				console.log(data);
+				alert("탈퇴되었습니다");
+				
+				window.location.replace(contextPath+"/auth/login");
+				
+			},
+			error : function(jqXHR,request, error){
+				console.log(jqXHR);
+				console.log(status);
+				console.log(error);			
+				
+				if(jqXHR.status == 400){
+					alert(jqXHR.responseText);
+				}
+			}
+		})	
+}
+
+
 		
 		
 		

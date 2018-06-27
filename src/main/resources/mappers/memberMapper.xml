@@ -41,4 +41,10 @@
 		from Member
 		where nickname LIKE #{nickname}+"%" ;
 	</select>
+	
+	<delete id="deleteMember">
+		delete
+		from Member
+		where memberID = #{memberID}
+	</delete>
 </mapper>

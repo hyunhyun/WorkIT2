@@ -43,5 +43,7 @@ public class MemoDAO {
 	public List<MemoVO> searchMemoContent(String content) {
 		return sqlSession.selectList(namespace + ".searchMemoContent", content);
 	}
+	
+	
 
 }

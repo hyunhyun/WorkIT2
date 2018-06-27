@@ -223,7 +223,18 @@ nav{
 </div>
 </nav> -->
 <% String memberID = (String)(session.getAttribute("memberID")); %>
-	<script>var memberID = "<%=memberID%>";</script>
+	<script>var memberID = "<%=memberID%>";
+	
+	
+<% 	String contextPath  = request.getContextPath();	%>
+	
+	var contextPath = "<%=contextPath%>";
+
+	
+		if(memberID == "" || memberID == "null"){
+			window.location.replace(contextPath+"/auth/login");
+		}
+	</script>
 	
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="mainNav">
 <div class="page-header">
@@ -396,10 +407,10 @@ nav{
     <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script> -->
 <!--     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
 	<script>
-	<% 	String contextPath  = request.getContextPath();	%>
+	<%-- <% 	String contextPath  = request.getContextPath();	%>
 	
 	var contextPath = "<%=contextPath%>";
-
+ --%>
 	
 	var globalTeamID= null;
 	
