@@ -65,8 +65,10 @@ public class MainController {
 		
 		if(!topicList.isEmpty()) {
 			mv.addObject("firstTopicID", topicList.get(0).getTopicID());
+			logger.info("firstTopicID : "+topicList.get(0).getTopicID());
 		}else {
 			mv.addObject("firstTopicID", -1);
+			logger.info("fistTopicID : "+"no topicID");
 		}
 		
 		

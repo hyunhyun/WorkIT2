@@ -13,24 +13,141 @@
 	
 	var globalNickname = null;
 	
+
 	
-	
-	$(document).ready(function(){
-		
-		if(globalTopicID != -1){
-			topicSelected(globalTopicID)
-		}
-		
-		globalFileNameList = new Array();
-		
-		filesArray = new Array();
-		
-		/*if(globalFirstTopicID != -1){
-			alert("firstTopicID : "+globalFirstTopicID);
-		topicSelected(globalFirstTopicID);
-		}*/
-	
-	})
+	//ajax 방식으로 file 업로드하기
+		$(document).ready(function(){
+			console.log("globalTopicID : "+globalTopicID);
+			
+			globalFileNameList = new Array();
+			
+			filesArray = new Array();
+			
+			if(globalFirstTopicID != -1){
+				//alert("firstTopicID : "+globalFirstTopicID);
+				topicSelected(globalFirstTopicID);
+			}
+			
+			
+	        $(".fileDrop").on("dragenter dragover", function(event){
+	            event.preventDefault(); // 기본효과를 막음
+	        });
+	        // event : jQuery의 이벤트
+	        // originalEvent : javascript의 이벤트
+//	        $(".fileDrop").on("drop", function(event){
+//	            event.preventDefault(); // 기본효과를 막음
+//          	            // 드래그된 파일의 정보
+//	            var files = event.originalEvent.dataTransfer.files;
+//	            // 첫번째 파일
+//	            var file = files[0];
+//	            // 콘솔에서 파일정보 확인
+//	            console.log(file);
+//
+//	            // ajax로 전달할 폼 객체
+//	            var formData = new FormData();
+//	            // 폼 객체에 파일추가, append("변수명", 값)
+//	            formData.append("file", file);
+//	       
+//
+//	            $.ajax({
+//	                type: "POST",
+//	                //url: contextPath+"/upload/uploadAjax",
+//	                url: contextPath+"/fileUpload",
+//	                data: formData,
+//	                // processData: true=> get방식, false => post방식
+//	                dataType: "text",
+//	                // contentType: true => application/x-www-form-urlencoded, 
+//	                //                false => multipart/form-data
+//	                processData: false,
+//	                contentType: false,
+//	                success: function(data){
+//	                    alert(data);
+//	                    
+//	                    var str = "";
+//	                    // 이미지 파일이면 썸네일 이미지 출력
+////	                    if(checkImageType(data)){ 
+////	                        str = "<div><a href='"+contextPath+"/upload/displayFile?fileName="+getImageLink(data)+"'>";
+////	                    	/*str = "<div><a href='"+contextPath+"/upload/displayFile?fileName="+getImageLink(data)+"'>";*/
+////	                        str += "<img src='"+contextPath+"/upload/displayFile?fileName="+data+"'></a>";
+////	                    // 일반파일이면 다운로드링크
+////	                    } else { 
+////	                       str = "<div><a href='"+contextPath+"/upload/displayFile?fileName="+data+"'>"+getOriginalName(data)+"</a>";
+////	                    	//str = "<div><a href='C:/Users/USER/Desktop/uploadtest"+data+"'>"+getOriginalName(data)+"</a>";
+////	
+////	                    }
+//	                    
+//	                    //str = "<div><a href='"+contextPath+"/upload/displayFile?fileName="+data+"'>"+getOriginalName(data)+"</a>";
+//	                    
+//	                    var n = data.indexOf("_");
+//	                    var originalName = data.substring(n+1);
+//	                    str = "<div><a href='resources/upload/"+data+"'>"+originalName+"</a>";
+//	                    // 삭제 버튼
+//	                    str += "<span data-src="+data+">[삭제]</span></div>";
+//	                    $("#uploadedList").append(str);
+//	                    
+//	                    
+//	                    globalFileNameList.push(data);
+//	                    
+//	                    for(var i=0; i<globalFileNameList.length; i++){
+//	                    	console.log("push fileName : "+globalFileNameList[i]);
+//	                    }
+//	                    
+//	                },
+//	                error :function(jqXHR,request, error){
+//						console.log(jqXHR);
+//						console.log(status);
+//						console.log(error);
+//					}
+//	                
+//	            });
+//	        });
+	        
+	        
+	        $(".fileDrop").on("drop", function(event){
+	            event.preventDefault(); // 기본효과를 막음
+          	            // 드래그된 파일의 정보
+	            var files = event.originalEvent.dataTransfer.files;
+	            // 첫번째 파일
+	            var file = files[0];
+	            // 콘솔에서 파일정보 확인
+	            console.log(file);
+
+	            filesArray.push(file);
+	            // ajax로 전달할 폼 객체
+	            //var formData = new FormData();
+	            // 폼 객체에 파일추가, append("변수명", 값)
+	            //formData.append("file", file);
+	            
+                // 삭제 버튼
+	            var fileName= '<div>'+file.name+'</div>';
+	            $("#deleteFileBtn_create").show();
+	            
+	            $("#uploadedList_create").empty();
+                $("#uploadedList_create").append(fileName);
+	       
+	        });
+	        
+	        
+	        $(".uploadedList").on("click", "span", function(event){
+	            //alert("이미지 삭제")
+	            var that = $(this); // 여기서 this는 클릭한 span태그
+	            $.ajax({
+	                url: "${path}/upload/deleteFile",
+	                type: "post",
+	                // data: "fileName="+$(this).attr("date-src") = {fileName:$(this).attr("data-src")}
+	                // 태그.attr("속성")
+	                data: {fileName:$(this).attr("data-src")}, // json방식
+	                dataType: "text",
+	                success: function(result){
+	                    if( result == "deleted" ){
+	                        // 클릭한 span태그가 속한 div를 제거
+	                        that.parent("div").remove();
+	                    }
+	                }
+	            });
+	        });
+	        
+	    });
 	
 	
 	function createTopic(){
@@ -71,7 +188,6 @@
 	//이거 페이지 넘어가는걸로 바뀔거임
 		function topicSelected(topicID){
 			globalTopicID = topicID;
-			//globalTopicName = topicName;
 			$("#createMemoBtn").show();
 			
 			
@@ -994,127 +1110,7 @@
 			})
 		}
 		
-		//ajax 방식으로 file 업로드하기
-		$(document).ready(function(){
-	        $(".fileDrop").on("dragenter dragover", function(event){
-	            event.preventDefault(); // 기본효과를 막음
-	        });
-	        // event : jQuery의 이벤트
-	        // originalEvent : javascript의 이벤트
-//	        $(".fileDrop").on("drop", function(event){
-//	            event.preventDefault(); // 기본효과를 막음
-//          	            // 드래그된 파일의 정보
-//	            var files = event.originalEvent.dataTransfer.files;
-//	            // 첫번째 파일
-//	            var file = files[0];
-//	            // 콘솔에서 파일정보 확인
-//	            console.log(file);
-//
-//	            // ajax로 전달할 폼 객체
-//	            var formData = new FormData();
-//	            // 폼 객체에 파일추가, append("변수명", 값)
-//	            formData.append("file", file);
-//	       
-//
-//	            $.ajax({
-//	                type: "POST",
-//	                //url: contextPath+"/upload/uploadAjax",
-//	                url: contextPath+"/fileUpload",
-//	                data: formData,
-//	                // processData: true=> get방식, false => post방식
-//	                dataType: "text",
-//	                // contentType: true => application/x-www-form-urlencoded, 
-//	                //                false => multipart/form-data
-//	                processData: false,
-//	                contentType: false,
-//	                success: function(data){
-//	                    alert(data);
-//	                    
-//	                    var str = "";
-//	                    // 이미지 파일이면 썸네일 이미지 출력
-////	                    if(checkImageType(data)){ 
-////	                        str = "<div><a href='"+contextPath+"/upload/displayFile?fileName="+getImageLink(data)+"'>";
-////	                    	/*str = "<div><a href='"+contextPath+"/upload/displayFile?fileName="+getImageLink(data)+"'>";*/
-////	                        str += "<img src='"+contextPath+"/upload/displayFile?fileName="+data+"'></a>";
-////	                    // 일반파일이면 다운로드링크
-////	                    } else { 
-////	                       str = "<div><a href='"+contextPath+"/upload/displayFile?fileName="+data+"'>"+getOriginalName(data)+"</a>";
-////	                    	//str = "<div><a href='C:/Users/USER/Desktop/uploadtest"+data+"'>"+getOriginalName(data)+"</a>";
-////	
-////	                    }
-//	                    
-//	                    //str = "<div><a href='"+contextPath+"/upload/displayFile?fileName="+data+"'>"+getOriginalName(data)+"</a>";
-//	                    
-//	                    var n = data.indexOf("_");
-//	                    var originalName = data.substring(n+1);
-//	                    str = "<div><a href='resources/upload/"+data+"'>"+originalName+"</a>";
-//	                    // 삭제 버튼
-//	                    str += "<span data-src="+data+">[삭제]</span></div>";
-//	                    $("#uploadedList").append(str);
-//	                    
-//	                    
-//	                    globalFileNameList.push(data);
-//	                    
-//	                    for(var i=0; i<globalFileNameList.length; i++){
-//	                    	console.log("push fileName : "+globalFileNameList[i]);
-//	                    }
-//	                    
-//	                },
-//	                error :function(jqXHR,request, error){
-//						console.log(jqXHR);
-//						console.log(status);
-//						console.log(error);
-//					}
-//	                
-//	            });
-//	        });
-	        
-	        
-	        $(".fileDrop").on("drop", function(event){
-	            event.preventDefault(); // 기본효과를 막음
-          	            // 드래그된 파일의 정보
-	            var files = event.originalEvent.dataTransfer.files;
-	            // 첫번째 파일
-	            var file = files[0];
-	            // 콘솔에서 파일정보 확인
-	            console.log(file);
-
-	            filesArray.push(file);
-	            // ajax로 전달할 폼 객체
-	            //var formData = new FormData();
-	            // 폼 객체에 파일추가, append("변수명", 값)
-	            //formData.append("file", file);
-	            
-                // 삭제 버튼
-	            var fileName= '<div>'+file.name+'</div>';
-	            $("#deleteFileBtn_create").show();
-	            
-	            $("#uploadedList_create").empty();
-                $("#uploadedList_create").append(fileName);
-	       
-	        });
-	        
-	        
-	        $(".uploadedList").on("click", "span", function(event){
-	            //alert("이미지 삭제")
-	            var that = $(this); // 여기서 this는 클릭한 span태그
-	            $.ajax({
-	                url: "${path}/upload/deleteFile",
-	                type: "post",
-	                // data: "fileName="+$(this).attr("date-src") = {fileName:$(this).attr("data-src")}
-	                // 태그.attr("속성")
-	                data: {fileName:$(this).attr("data-src")}, // json방식
-	                dataType: "text",
-	                success: function(result){
-	                    if( result == "deleted" ){
-	                        // 클릭한 span태그가 속한 div를 제거
-	                        that.parent("div").remove();
-	                    }
-	                }
-	            });
-	        });
-	        
-	    });
+		
 	
 	  
 		$("#searchContent").autocomplete({

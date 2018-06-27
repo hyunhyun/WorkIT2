@@ -1,7 +1,3 @@
-
-
-
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="true" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -20,8 +16,6 @@
     <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
     
 	<title>Main</title>
-	
-	
 	
 	  <!-- Bootstrap core CSS-->
   <link href="resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -52,9 +46,9 @@
 	}
 	
 	<%-- <% int firstTopicID = {firstTopicID}; %> --%>
-	var globalFirstTopicID = -1;
+	//var globalFirstTopicID = -1;
 	
-	globalFirstTopicID= ${firstTopicID};
+	var globalFirstTopicID= ${firstTopicID};
 
 	</script>
 	
@@ -457,11 +451,6 @@ verical-align:middle;
 	width : 80%;
 }
 
-
-/* #readMemoDivBody{
-	height : 500px;
-} */
-
 #exampleAccordion{
 	/* background-color: #FFFFFF!important; */
 	overflow-y:scroll;
@@ -587,8 +576,7 @@ verical-align:middle;
 
         
 <c:if test="${topicList != '' || topicList ne null}">
-<!-- <div class="col-sm-3 col-md-2 sidebar">x -->
-<!-- <ul class="nav nav-pills nav-stacked"> -->
+
 <c:forEach var="topic" items="${topicList}" varStatus="status">
 
    <!-- 효과 주려면 class= "active" -->
@@ -663,17 +651,6 @@ verical-align:middle;
             </h6>
        
           
-       <!--   <div class="form-inline my-2 my-lg-0 mr-lg-2">
-     <div class="input-group">
-       <input class="form-control" type="text" placeholder="Search by Content" id="searchContent">
-       <span class="input-group-append">
-         <button class="btn btn-primary" type="button" onclick="searchContent()">
-           <i class="fa fa-search"></i>
-         </button>
-       </span>
-     </div>
-  </div -->
-            
             <c:if test="${memberList != '' || memberList ne null}">
             <c:forEach var="member" items="${memberList}" varStatus="status">
             <div class="dropdown-divider"></div>
@@ -689,23 +666,10 @@ verical-align:middle;
             </a>
             </c:forEach>
     		</c:if>
-           <!--  <div class="dropdown-divider"></div>	 -->
-    		
-            <!-- <a class="dropdown-item small" href="#">View all alerts</a> -->
+    
           </div>         
         </li>
-       <!--  <li class="nav-item">
-          <form class="form-inline my-2 my-lg-0 mr-lg-2">
-            <div class="input-group">
-              <input class="form-control" type="text" placeholder="Search for...">
-              <span class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fa fa-search"></i>
-                </button>
-              </span>
-            </div>
-          </form>
-        </li> -->
+
         <li class="nav-item">
           <a class="nav-link" data-toggle="modal" data-target="#logoutModal">
             <i class="fa fa-fw fa-sign-out"></i>Logout</a>
@@ -727,23 +691,9 @@ verical-align:middle;
       <!-- Breadcrumb End -->
       <h1>MainPage</h1>
 <hr>
-<!-- myWorkList -->
-<!-- <input type="button" onclick="getMyWorkList()" value="myWorkList"/> -->
 
-<%
-	/* if(session.getAttribute("memberID") = null){
-		response.sendRedirect("login");
-	} */
-	out.println(session.getAttribute("memberID"));
-	
-%>
-<!-- createTopic<input type="text" name="topicName" placeholder="topicName" id="tName"/>
-<input type="button" value="ok" onclick="createTopic()"/> -->
 
 <div id="searchContainer">
-<!-- <input type="text" id="searchContent" placeholder="검색내용"/>
-<input type="button" onclick="searchContent()" value="검색"/> -->
-
 
    <div class="form-inline my-2 my-lg-0 mr-lg-2">
      <div class="input-group">
@@ -757,12 +707,9 @@ verical-align:middle;
   </div>
      
 </div>
-<!-- <input type="button" id="createMemoBtn" value="create Memo" onclick="createMemo()"/> -->
-<!-- <button type="button" class="btn btn-default" id="createMemoBtn" onclick="createMemo()">
-<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-</button> -->
 
-<i class="far fa-plus-square" id="createMemoBtn" onclick="createMemo()">메모 추가하기</i>
+
+<i class="fas fa-plus-circle" id="createMemoBtn" onclick="createMemo()">메모 추가하기</i>
 
 
 <div id="memoContainer">
@@ -776,11 +723,7 @@ verical-align:middle;
 <!-- memoContainer End -->
 
 <div id="createMemoDiv">
-	<!-- <input type= "text" name="title" placeholder="title" id="title_create"/><br><br>
-	<textarea rows="20" cols="50" name="content" placeholder="content" id="content_create"></textarea>
-	<br>
-	<input type="text" name="responsable" placeholder="responsable" id="responsable_create"/>
-	<input type= "file" />
+
 	 -->
 	<section class="section">
 
