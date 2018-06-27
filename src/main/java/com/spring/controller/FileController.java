@@ -170,8 +170,8 @@ public class FileController {
 			    			FileVO fileVO = new FileVO();
 			    			fileVO.setFileName(saveName);
 			    			fileVO.setMemoID(Integer.parseInt(multi.getParameter("memoID")));
-			    			fileService.registerFile(fileVO);
-
+			    			int fileRowCount = fileService.registerFile(fileVO);
+			    			//logger.info("fileRowCount : "+fileRowCount);
 				        }	      
 			
 			//File target = new File(root_path +attach_path, saveName);

@@ -59,17 +59,19 @@ public class TeamServiceImpl implements TeamService {
 	//	public void registerTeamMember(List<Map<String, String>> teamMembers, int teamID) {
 	public void registerTeamMember(JSONArray teamMembers, int teamID) throws Exception {
 		
+		logger.info("");
+		
 		for (int i = 0; i < teamMembers.size(); i++) {
 			JSONObject jobject = (JSONObject)teamMembers.get(i);
 			String memberID = (String)jobject.get("memberID");
 			
 			//아이디 중복되는거 있는지 검사
 			//중복되는 항목은 remove
-			if(checkRepeatedID(teamMembers, i, memberID) != 1) {
+			if(checkRepeatedID(teamMembers, i, memberID) == 1) {
 				continue;	//중복되는 값은 건너뛰기
 			}
 
-			logger.info(memberID);
+			logger.info("registerTeamMember memberID"+memberID);
 			TeamMemberVO vo = new TeamMemberVO();
 			vo.setMemberID(memberID);
 			vo.setTeamID(teamID);
@@ -79,6 +81,8 @@ public class TeamServiceImpl implements TeamService {
 				
 				vo.setNickname(checkvo.getNickname());
 				int rowCount = teamDao.registerTeamMember(vo);
+				
+				logger.info("registerTeamMember rowCount : "+rowCount);
 				if(rowCount != 1) {
 					throw new Exception("TeamMember not registered");
 				}
