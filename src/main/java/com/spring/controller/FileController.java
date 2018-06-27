@@ -160,7 +160,7 @@ public class FileController {
 				            UUID uuid = UUID.randomUUID();
 							//saveName = uuid.toString() + "_" + fileName;
 				            
-				            saveName = uuid.toString()+exp;
+				            saveName = uuid.toString()+"."+exp;
 				            
 							if(fileName.length() > 255) {
 							throw new InputException("fileName too Long");
@@ -172,6 +172,7 @@ public class FileController {
 			    			
 			    			FileVO fileVO = new FileVO();
 			    			fileVO.setFileName(fileName);
+			    			fileVO.setUuid(uuid.toString());
 			    			fileVO.setMemoID(Integer.parseInt(multi.getParameter("memoID")));
 			    			fileVO.setUuid(saveName);
 			    			int fileRowCount = fileService.registerFile(fileVO);
