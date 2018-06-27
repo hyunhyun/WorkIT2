@@ -62,7 +62,16 @@ public class MainController {
 		mv.addObject("memberList", memberList);
 		mv.addObject("teamID", teamID);
 		mv.addObject("memberID", memberID);
+		
+		if(!topicList.isEmpty()) {
+			mv.addObject("firstTopicID", topicList.get(0).getTopicID());
+		}else {
+			mv.addObject("firstTopicID", -1);
+		}
+		
+		
 		mv.setViewName("main");
+
 
 		return mv;
 		

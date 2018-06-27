@@ -167,6 +167,12 @@ public class FileController {
 						}
 							logger.info("saveName uuid : "+saveName);
 				            
+							File directory = new File(root_path + attach_path);
+
+							if(!directory.exists()){
+							    directory.mkdir();
+							 }						
+							
 			            	File target = new File(root_path +attach_path, saveName);
 			    			FileCopyUtils.copy(mFile.getBytes(), target);
 			    			

@@ -50,7 +50,12 @@
 	if(memberID == "" || memberID == "null"){
 		window.location.replace(contextPath+"/auth/login");
 	}
-	//var test = ${topicList[0].topicID};
+	
+	<%-- <% int firstTopicID = {firstTopicID}; %> --%>
+	var globalFirstTopicID = -1;
+	
+	globalFirstTopicID= ${firstTopicID};
+
 	</script>
 	
 	
@@ -545,9 +550,9 @@ verical-align:middle;
 	}
 }
 
-.modal{
+/* .modal{
 	background-color: #ffffff;
-}
+} */
 
 .section-heading{
 	margin-left : 30px;
@@ -572,9 +577,9 @@ verical-align:middle;
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         
-        <li class="nav-item leftMenu" data-toggle="tooltip" data-placement="right" title="Dashboard" onclick="showCreateModal()">
+        <li class="nav-item leftMenu" data-toggle="tooltip" data-placement="right" title="Main" onclick="showCreateModal()">
           <a class="nav-link" href="#">
-            <i class="fa fa-fw fa-dashboard"></i>
+            <i class="fas fa-plus-circle"></i>
             <span class="nav-link-text">Create Topic</span>
           </a>
         </li>
@@ -585,29 +590,11 @@ verical-align:middle;
 <!-- <div class="col-sm-3 col-md-2 sidebar">x -->
 <!-- <ul class="nav nav-pills nav-stacked"> -->
 <c:forEach var="topic" items="${topicList}" varStatus="status">
-<%-- <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
-      <a class="nav-link nav-link-collapse collapsed" onclick="topicSelected(${topic.topicID})" data-toggle="collapse" data-parent="#exampleAccordion" >
-        <i class="fa fa-fw fa-wrench"></i>
-          <span class="nav-link-text">${topic.topicName}</span>
-       </a>
-  <ul class="sidenav-second-level collapse" id="collapseComponents">
-            <li>
-              <a  onclick="showUpdateModal(${topic.topicID}, '${topic.topicName}')">수정</a>
-            </li>
-            <li>
-              <a onclick="deleteTopic(${topic.topicID})">삭제</a>
-            </li>
-          </ul>
-   </li> --%>
-   <%-- <c:if test="${status.index eq 1}">
-   </c:if> --%>
-   <!--c:choose, c:when, c:otherwise  -->
 
-<!-- <script>console.log(${topic.topicID}+" : "+'${topic.topicName}');</script> -->
    <!-- 효과 주려면 class= "active" -->
 <li class="nav-item leftMenu" data-toggle="tooltip" data-placement="right" title="Components">
           <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapse_${topic.topicID}"  data-parent="#exampleAccordion" id="nav-link-collapse_${topic.topicID}">
-            <i class="fa fa-fw fa-wrench"></i>
+            <i class="fas fa-book"></i>
             <span class="nav-link-text" onclick="topicSelected(${topic.topicID})">${topic.topicName}</span>
             <!-- <span class="badge">14</span> -->
             
@@ -629,7 +616,7 @@ verical-align:middle;
    
    <li class="nav-item leftMenu" data-toggle="tooltip" data-placement="right" title="MyWorkList" id="MyWorkListNav" onclick="getMyWorkList()">
           <a class="nav-link" href="#">
-            <i class="fa fa-fw fa-dashboard"></i>
+            <i class="fas fa-bookmark"></i>
             <span class="nav-link-text">MyWorkList</span>
           </a>
         </li>
@@ -645,8 +632,11 @@ verical-align:middle;
         </li>
       </ul>
       <ul class="navbar-nav ml-auto">
-       <li onclick="deleteMember()">
+      <li class="nav-item">
+      <!-- <li class="nav-item" onclick="deleteMember()"> -->     
+       <a class="nav-link" data-toggle="modal" data-target="#deleteMemberModal">
        <i class="fas fa-times-circle">회원탈퇴</i>
+       </a>
        </li>
        
         <li class="nav-item dropdown"><!-- TODO 여기에 팀멤버 보이기 및 팀멤버 추가 -->
@@ -730,7 +720,7 @@ verical-align:middle;
   <!-- Breadcrumbs-->
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
-          <a href="#">Dashboard</a>
+          <a href="main?teamID=${teamID}">Main</a>
         </li>
         <li class="breadcrumb-item active">Cards</li>
       </ol>
@@ -1072,7 +1062,7 @@ verical-align:middle;
         <h4 class="modal-title">Create New Topic</h4>
       </div>
       <div class="modal-body">
-        <!-- <p>Some text in the modal.</p> -->
+        <p>Create New Topic</p>
         <input type="text" id="createTopicName"/>
       </div>
       <div class="modal-footer">
@@ -1107,6 +1097,29 @@ verical-align:middle;
     </div>
     <!-- Logout Modal End -->
 
+
+<!-- DeleteMemberModal -->
+<div id="deleteMemberModal" class="modal fade" role="dialog" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">탈퇴 하시겠습니까?</h4>
+      </div>
+      <div class="modal-body">
+        <p>회원 탈퇴 하시겠습니까?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" onclick="deleteMember()">Yes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- DeleteMemberModal End -->
     
     <!-- </div> -->
 	<!-- content-wrapper end -->

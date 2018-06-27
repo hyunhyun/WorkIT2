@@ -13,14 +13,22 @@
 	
 	var globalNickname = null;
 	
+	
+	
 	$(document).ready(function(){
 		
-//		topicSelected(globalTopicID)
-//		alert(test);
+		if(globalTopicID != -1){
+			topicSelected(globalTopicID)
+		}
 		
 		globalFileNameList = new Array();
 		
 		filesArray = new Array();
+		
+		/*if(globalFirstTopicID != -1){
+			alert("firstTopicID : "+globalFirstTopicID);
+		topicSelected(globalFirstTopicID);
+		}*/
 	
 	})
 	
@@ -30,8 +38,8 @@
 		var topicName = ""; 
 			topicName = $("#createTopicName").val();
 		
-		alert("create Topic");
-		alert(topicName);
+		console.log("create Topic");
+		console.log("topicName : "+topicName);
 		var data = {"topicName": topicName, "teamID": teamID};
 		//var data = {"topicName": topicName, "teamID": $.cookie("teamID")};
 		$.ajax({
@@ -185,47 +193,13 @@
 			totalInfo.topicID = globalTopicID;
 			totalInfo.teamID = teamID;
 			
-//			formData.append("title", title);
-//			formData.append("content", content);
-//			formData.append("responsable", responsable);
-//			formData.append("files", filesArray);
-			
-//			var ajaxUrl = "";
-//			if(filesArray.length >0){
-//				totalInfo.files = filesArray;
-//				//ajaxUrl = contextPath+"/memo";
-//			}else{
-//				//ajaxUrl = contextPath+"/memo/file";
-//			}
-			
-//			totalInfo.files = filesArray;
-			
-			//fileID, fileName List
-			//totalInfo.fileID = globalFileIDList;
-			
-//			for(var i=0; i<globalFileNameList.length; i++){
-//				console.log("submit Memo fileName: "+globalFileNameList[i]);
-//				//수정
-//				totalInfo.fileName = globalFileNameList[i];
-//			}
-			//수정
-//			totalInfo.fileName = globalFileNameList;
-			
-			//globalTopicID, teamID 선택 안되면 ""됨 숫자가아닌 String 되
-			
-			alert("topicMemo");
 			console.log(totalInfo);
-//			console.log(formData);
 			
 			$.ajax({
 				type: "POST",
 				url: contextPath+"/memo",
 				data: totalInfo,
-//				data: formData,
-				//datatype: "JSON",
-				//contentType : "application/json; charset=UTF-8",
 				success: function(result, status,xhr){
-					//function(data){
 			
 					alert("memo Created");
 					console.log(result);
@@ -234,10 +208,7 @@
 					uploadFile(result.memoID);
 					
 //					selectMemo(result.memoID);	
-					
-					
-//					console.log(result);
-					
+										
 				},
 				error : function(jqXHR,request, error){
 					console.log(jqXHR);
@@ -285,7 +256,7 @@
 			var topicName = "";
 			topicName = $("#updateTopicName").val();
 
-			alert(topicName);
+			console.log("update Topic topicName : "+topicName);
 			var totalInfo = new Object();
 			totalInfo.topicID = globalTopicID;
 			totalInfo.topicName= topicName;
@@ -296,7 +267,7 @@
 				url: contextPath+"/topic",
 				data: totalInfo,
 				success: function(data){
-					alert("topic updated");
+					console.log("topic updated");
 					window.location.reload();
 				},
 				error :function(jqXHR,request, error){
@@ -334,8 +305,8 @@
 			totalInfo.topicID = tempID;
 			
 			console.log("lets delete");
-			alert("topicID: "+topicID);
-			alert(totalInfo);
+			console.log("delete Topic topicID: "+topicID);
+			console.log("deleteTopic sendData : "+totalInfo);
 			$.ajax({
 				type:"DELETE",
 				url: contextPath+"/topic",
@@ -458,7 +429,7 @@
 			$("#readMemoDiv").hide();
 			$("#updateMemoDiv").show();
 			
-			alert(title);
+			console.log("update title : "+title);
 			$("#title_update").val(title);
 			$("#content_update").val(content);
 			$("#responsable_update").val(responsable);
@@ -552,8 +523,8 @@
 		function registerComment(){
 			var commentText = $("#commentText").val();
 			
-			alert("text:"+commentText);
-			alert("memoID: "+globalMemoID);
+			console.log("registerComment text:"+commentText);
+			console.log("registerComment memoID: "+globalMemoID);
 			var jObject = new Object();
 			jObject.content = commentText;
 			
@@ -955,14 +926,14 @@
 		}
 		
 		function getMyWorkList(){
-			alert(memberID);
+			console.log("myWorkList memberID : "+memberID);
 			$.ajax({
 				type:"GET",
 				url: contextPath+"/memo/myList/"+memberID,
 				success: function(result, status,xhr){
-					alert("get myWork success");
+					console.log("get myWork success");
 					
-					alert("result length"+result.length);
+					console.log("myWork result length"+result.length);
 					
 
 					$("#insideMemoContainer > #cardContainer").show();
@@ -1125,7 +1096,7 @@
 	        
 	        
 	        $(".uploadedList").on("click", "span", function(event){
-	            alert("이미지 삭제")
+	            //alert("이미지 삭제")
 	            var that = $(this); // 여기서 this는 클릭한 span태그
 	            $.ajax({
 	                url: "${path}/upload/deleteFile",
@@ -1174,7 +1145,7 @@
 	  
 	  function searchContent(){
 			var searchContent = $("#searchContent").val();
-			alert(searchContent);
+			//alert(searchContent);
 			var totalInfo = new Object();
 			totalInfo.searchContent = searchContent;
 
@@ -1183,7 +1154,7 @@
 				url: contextPath+"/memo",
 				data: totalInfo,
 				success: function(result){
-					alert("success");
+					//alert("success");
 					//success 하면 뭐해야되지?
 //					console.log(data);
 					
