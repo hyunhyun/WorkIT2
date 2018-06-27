@@ -122,7 +122,7 @@
 	            var fileName= '<div>'+file.name+'</div>';
 	            $("#deleteFileBtn_create").show();
 	            
-	            $("#uploadedList_create").empty();
+	            //$("#uploadedList_create").empty();
                 $("#uploadedList_create").append(fileName);
 	       
 	        });
@@ -607,6 +607,8 @@
 				url: contextPath+"/memo/"+globalMemoID,
 				success: function(result, status,xhr){
 					alert("memo deleted");
+					
+					topicSelected(globalTopicID);
 				},
 				error :function(jqXHR,request, error){
 					console.log(jqXHR);
@@ -745,6 +747,7 @@
 					
 					filesArray.length = 0;
 					
+					$("#uploadedList_create").empty();
 					selectMemo(memoID);
 				},error(jqXHR, textStatus, errorThrown){
 					console.log(jqXHR);

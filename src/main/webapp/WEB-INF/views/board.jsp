@@ -328,7 +328,7 @@ nav{
         <h4 class="modal-title">Update TeamName</h4>
       </div>
       <div class="modal-body">
-        <p>Some text in the modal.</p>
+        <p>update TeamName</p>
         <input type="text" id="updateTeamName"/>
       </div>
       <div class="modal-footer">
@@ -359,10 +359,14 @@ nav{
         <!-- <p class="ui-helper-hidden-accessible"></p> -->
         <input type="text" id="createTeamName" placeholder="Enter TeamName"/>
         <!-- <input type="text" id="helperTest"/> -->
+        <div>
         <input type="text" id="createAddMember" placeholder="addMember"/>
+        <button type="button" class="btn btn-sm" onclick="createAddMember()">AddMember</button>
+        </div>
+        <div id="memberList"></div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" onclick="createAddMember()">AddMember</button>
+        
         <button type="button" class="btn btn-default" onclick="createTeam()">SEND</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
@@ -535,6 +539,8 @@ nav{
 			
 			//팀 만든 사용자도 teamMember에 등록
 			teamMemberArray.push(teamMember);
+			
+			$("#memberList").append(`<div>`+teamMember.memberID+`</div>`);
 		}
 		
 		function createTeam(){
