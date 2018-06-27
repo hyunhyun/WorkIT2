@@ -4,7 +4,7 @@ public class FileVO {
 	private int fileID;
 	private int memoID;
 	private String fileName;
-	
+	private String uuid;
 	
 	public int getFileID() {
 		return fileID;
@@ -23,6 +23,12 @@ public class FileVO {
 	}
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+	public String getUuid() {
+		return uuid;
+	}
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 	
 	

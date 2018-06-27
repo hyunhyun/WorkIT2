@@ -402,11 +402,12 @@
 					//show files
 					if(result.files != null){
 						for(var i=0; i<result.files.length; i++){
-							 var n = result.files[i].fileName.indexOf("_");
-			                var originalName = result.files[i].fileName.substring(n+1);
-			                str = "<div><a href='resources/upload/"+result.files[i].fileName+"'>"+originalName+"</a>";
+							 //var n = result.files[i].fileName.indexOf("_");
+			                //var originalName = result.files[i].fileName.substring(n+1);
+							var originalName =result.files[i].fileName;
+			                str = "<div><a href='resources/upload/"+result.files[i].uuid+"'>"+originalName+"</a>";
 			                // 삭제 버튼
-			                str += '<span data-src='+result.files[i].fileName+' onclick="deleteFile('+memoID+', '+result.files[i].fileID+', \''+result.files[i].fileName+'\')">[삭제]</span></div>';
+			                str += '<span data-src='+result.files[i].fileName+' onclick="deleteFile('+memoID+', '+result.files[i].fileID+', \''+result.files[i].uuid+'\')">[삭제]</span></div>';
 			                
 			                $("#uploadedList_read").append(str);
 						}
@@ -1293,13 +1294,13 @@
 		});
 		
 		
-		function deleteFile(memoID, fileID, fileName){
+		function deleteFile(memoID, fileID, uuid){
 			var totalObject = new Object;
-			totalObject.fileName = fileName;
+			totalObject.uuid = uuid;
 			
 			console.log("deleteFile start");
 			console.log("fileID : "+fileID);
-			console.log("fileName : "+fileName);
+			console.log("uuid : "+uuid);
 			//file DB에서도 지우고, 업로드 된 위치에서도 지우고
 			$.ajax({
 				url:contextPath+"/file/"+fileID,

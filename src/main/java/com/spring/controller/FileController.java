@@ -149,27 +149,31 @@ public class FileController {
 				            MultipartFile mFile = multi.getFile(uploadFile);
 				            String fileName = mFile.getOriginalFilename();
 
-				            
-
 				            fileName = new String(fileName.getBytes("8859_1"),"utf-8");
-
+				            
+				            String[] str =fileName.split("\\.");
+				            
+				            String exp = str[1];
 
 				            logger.info(" 실제 파일 이름 : " +fileName);
 				            
 				            UUID uuid = UUID.randomUUID();
-							saveName = uuid.toString() + "_" + fileName;
+							//saveName = uuid.toString() + "_" + fileName;
 				            
-							if(saveName.length() > 255) {
+				            saveName = uuid.toString()+exp;
+				            
+							if(fileName.length() > 255) {
 							throw new InputException("fileName too Long");
 						}
-							logger.info("saveName : "+saveName);
+							logger.info("saveName uuid : "+saveName);
 				            
 			            	File target = new File(root_path +attach_path, saveName);
 			    			FileCopyUtils.copy(mFile.getBytes(), target);
 			    			
 			    			FileVO fileVO = new FileVO();
-			    			fileVO.setFileName(saveName);
+			    			fileVO.setFileName(fileName);
 			    			fileVO.setMemoID(Integer.parseInt(multi.getParameter("memoID")));
+			    			fileVO.setUuid(saveName);
 			    			int fileRowCount = fileService.registerFile(fileVO);
 			    			//logger.info("fileRowCount : "+fileRowCount);
 				        }	      
@@ -183,13 +187,13 @@ public class FileController {
 	
 	@RequestMapping(value="/file/{fileID}", method= RequestMethod.DELETE)
 	@ResponseBody
-	public int deleteFile(@PathVariable(value="fileID") int fileID, @RequestParam("fileName") String fileName, HttpServletRequest request) throws Exception {
+	public int deleteFile(@PathVariable(value="fileID") int fileID, @RequestParam("uuid") String uuid, HttpServletRequest request) throws Exception {
 		logger.info("fileID : "+fileID);
-		logger.info("fileName : "+fileName);
+		logger.info("uuid : "+uuid);
 		
-		fileName = new String(fileName.getBytes("8859_1"),"utf-8");
+		//fileName = new String(fileName.getBytes("8859_1"),"utf-8");
 		
-		return fileService.deleteFile(fileID, fileName, request);
+		return fileService.deleteFile(fileID, uuid, request);
 
 		
 	}

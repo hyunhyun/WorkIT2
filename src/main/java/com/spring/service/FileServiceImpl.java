@@ -55,19 +55,21 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public int deleteFile(int fileID, String fileName, HttpServletRequest request) throws Exception {
+	public int deleteFile(int fileID, String uuid, HttpServletRequest request) throws Exception {
 		
 		//업로드된 파일 위치에서 파일 지우기
 		logger.info("fileID : "+fileID);
-		logger.info("fileName : "+fileName);
+		logger.info("uuid + 확장자: "+uuid);
 		
 		 String root_path = request.getSession().getServletContext().getRealPath("/");  
 	
 	      String attach_path = "resources/upload/";
 	      
 //		new File();
+	      
+	    
 		
-		File fileToDelete = new File(root_path+attach_path+fileName);
+		File fileToDelete = new File(root_path+attach_path+uuid);
 	    
 //		try{
 			boolean success = fileToDelete.delete();  //not successful -> IOException}
