@@ -8,8 +8,8 @@
 	<!-- 이거에 접근할 때 namespace.id 로 접근한다. -->
 	<!-- resultType은 자바의 타입과 매핑되는 것이 있다. 여기선 string이 java.lang.String과 매핑 -->
 	<insert id="createMemo" useGeneratedKeys="true" keyProperty="memoID">
-		insert into Memo(topicID, title, content, date, writer, responsable)
-		values (#{topicID}, #{title}, #{content}, #{date}, #{writer}, #{responsable});
+		insert into Memo(topicID, title, content, date, writer, responsable, teamID)
+		values (#{topicID}, #{title}, #{content}, #{date}, #{writer}, #{responsable}, #{teamID});
 	</insert>
 	
 	
@@ -59,5 +59,12 @@
 		responsable = #{responsable} 
 		where memoID = #{memoID}
 	</update>
+	
+	<select id="searchTeamMemoContent" parameterType="java.util.HashMap" resultType="com.spring.model.MemoVO">
+		select * 
+		from Memo
+		where content LIKE CONCAT('%',#{content},'%') 
+		AND teamID = #{teamID} 
+	</select>
 
 </mapper>

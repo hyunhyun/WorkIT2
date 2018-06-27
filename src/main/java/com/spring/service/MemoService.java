@@ -32,4 +32,5 @@ public interface MemoService {
 
 //	public MemoVO createMemo(MemoVO memoVO, TeamMemberVO teamMemberVO, MultipartFile[] files, HttpServletRequest request)
 //			throws InputException, IOException;
+	public List<MemoVO> searchTeamMemoContent(String content, int teamID) throws InputException;
 }

@@ -1,5 +1,6 @@
 package com.spring.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,6 +72,7 @@ public class MemoController {
 		memoVO.setDate(new Timestamp(retryDate));
 		memoVO.setTopicID(topicID);
 		memoVO.setWriter(MemberID);
+		memoVO.setTeamID(teamID);
 		///file
 		
 
@@ -117,13 +119,6 @@ public class MemoController {
 		}
 	}
 	
-	
-	
-	
-//	@RequestMapping(value = "/memo", method = RequestMethod.POST)
-//	public ResponseEntity<MemoVO> createMemo(Model model){
-//			return new ResponseEntity<MemoVO>(HttpStatus.INTERNAL_SERVER_ERROR);
-//	}
 	
 	@RequestMapping(value = "/memo/list/{topicID}", method = RequestMethod.GET)
 	@ResponseBody
@@ -206,7 +201,7 @@ public class MemoController {
 		return memoList;
 	}
 
-	@RequestMapping(value = "/memo", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/memo", method = RequestMethod.GET)
 	@ResponseBody
 	public List<MemoVO> searchContentMemo(@RequestParam("searchContent") String search) {
 
@@ -222,6 +217,22 @@ public class MemoController {
 		//		}
 
 		return memoList;
-	}
+	}*/
 
+	@RequestMapping(value = "/memo", method = RequestMethod.GET)
+	@ResponseBody
+	public List<MemoVO> searchTeamContentMemo(@RequestParam("teamID") int teamID, @RequestParam("searchContent") String search) throws InputException, UnsupportedEncodingException {
+
+		search = new String(search.getBytes("ISO-8859-1"), "UTF-8");
+
+		logger.info("searchTeamContentMemo searchContent : "+search);
+		logger.info("searchTeamContentMemo teamID "+teamID);
+		//List<MemoVO> memoList = memoService.searchMemoContent(search);
+
+		List<MemoVO> memoList = memoService.searchTeamMemoContent(search, teamID);
+		logger.info("memoList search size : " + memoList.size());
+
+		return memoList;
+	}
+	
 }

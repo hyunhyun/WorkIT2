@@ -1,5 +1,6 @@
 package com.spring.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -44,6 +45,8 @@ public class MemoDAO {
 		return sqlSession.selectList(namespace + ".searchMemoContent", content);
 	}
 	
-	
+	public List<MemoVO> searchTeamMemoContent(HashMap map){
+		return sqlSession.selectList(namespace + ".searchTeamMemoContent", map);
+	}
 
 }

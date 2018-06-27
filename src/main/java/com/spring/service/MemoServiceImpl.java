@@ -3,6 +3,7 @@ package com.spring.service;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -112,7 +113,7 @@ public class MemoServiceImpl implements MemoService {
 
 	
 	@Override
-	@Transactional(rollbackFor = Exception.class)
+	//@Transactional(rollbackFor = Exception.class)
 	public MemoVO createMemo(MemoVO memoVO, TeamMemberVO teamMemberVO) throws Exception{		//return값  잘 생성 되었을때 생성된 Memo의 MemoID, 에러시 -1
 		
 		memoVOCheckLength(memoVO);
@@ -190,6 +191,19 @@ public class MemoServiceImpl implements MemoService {
 		if(memoVO.getTopicID() == -1) {
 			throw new InputException("Memo topicID required Bad Request");
 		}
+	}
+
+	@Override
+	public List<MemoVO> searchTeamMemoContent(String content, int teamID) throws InputException {
+			if(teamID == -1) {
+				throw new InputException("not in a team");
+			}
+			
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("content", content);
+			map.put("teamID", String.valueOf(teamID));
+			
+		return memoDao.searchTeamMemoContent(map);
 	}
 
 }

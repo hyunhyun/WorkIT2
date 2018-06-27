@@ -9,7 +9,8 @@ public class MemoVO {
 	private java.sql.Timestamp date;
 	private String writer;
 	private String responsable;
-
+	private int teamID;
+	
 	//	private file;
 	public int getMemoID() {
 		return memoID;
@@ -41,6 +42,14 @@ public class MemoVO {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public int getTeamID() {
+		return teamID;
+	}
+
+	public void setTeamID(int teamID) {
+		this.teamID = teamID;
 	}
 
 	public java.sql.Timestamp getDate() {

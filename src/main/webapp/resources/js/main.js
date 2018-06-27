@@ -1113,7 +1113,7 @@
 		
 	
 	  
-		$("#searchContent").autocomplete({
+		/*$("#searchContent").autocomplete({
 			source: function(request, response){
 				var search = $("#searchContent").val();
 				$.ajax({
@@ -1136,7 +1136,40 @@
 					}
 				})	
 			}
+		})*/
+		
+		
+		
+		$("#searchContent").autocomplete({
+			source: function(request, response){
+				var search = $("#searchContent").val();
+				$.ajax({
+					url: contextPath+"/memo",
+					method: "GET",
+					data: {searchContent: search, teamID: teamID},
+					contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+					success: function(data){
+						console.log(data);
+										
+						response($.map(data, function(item){
+							var index = item.content.indexOf(search);
+							
+							return {label: item.title+" Memo : "+item.content.substring(index), value: item.content};
+						}));
+					},
+					error : function(jqXHR,request, error){
+						console.log(jqXHR);
+						console.log(status);
+						console.log(error);
+						
+						if(jqXHR.status == 400){
+							alert(jqXHR.responseText);
+						}
+					}
+				})	
+			}
 		})
+		
 		
 	  
 	  function searchContent(){
