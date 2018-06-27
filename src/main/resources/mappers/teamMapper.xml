@@ -13,8 +13,8 @@
 	</insert>
 	
 	<insert id="registerTeamMember">
-		insert into TeamMember(teamID, memberID)
-		values( #{teamID}, #{memberID});
+		insert into TeamMember(teamID, memberID, nickname)
+		values( #{teamID}, #{memberID}, #{nickname});
 	</insert>
 	<!-- 
 			XML Mapper를 작성할 때 매번 resultType을 패키지까지 포함된 클래스명을 작성하는 일이 번거롭다면

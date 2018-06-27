@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.spring.dao.MemberDAO;
 import com.spring.dao.TeamDAO;
 import com.spring.dao.TeamMemberDAO;
+import com.spring.model.DBException;
 import com.spring.model.MemberVO;
 import com.spring.model.MyTeamVO;
 import com.spring.model.TeamMemberVO;
@@ -33,6 +34,25 @@ public class TeamMemberServiceImpl implements TeamMemberService {
 	@Override
 	public List<TeamMemberVO> teamMemberAutoComplete(TeamMemberVO teamMemberVO) {
 		return teamMemberDao.teamMemberAutoComplete(teamMemberVO);
+	}
+	
+	@Override
+	public int AddTeamMember(TeamMemberVO vo) throws DBException {
+		
+//		값이 있으면 추가하지 않음
+		int checkExists = teamDao.checkTeamMember(vo);
+		
+		if(checkExists > 0) {
+			return -1;
+		}
+		
+		int rowCount = teamDao.registerTeamMember(vo);
+
+		if(rowCount != 1) {
+			throw new DBException("teamMember register Error");
+		}
+		
+		return rowCount;
 	}
 
 }

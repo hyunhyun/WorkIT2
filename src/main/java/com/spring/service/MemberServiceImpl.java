@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.spring.dao.MemberDAO;
+import com.spring.model.InputException;
 import com.spring.model.MemberVO;
 
 @Service("memberService")
@@ -23,13 +24,53 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDAO memberDao;
 
 	@Override
-	public MemberVO getMember(String memberID) {
+	public MemberVO getMember(String memberID) throws InputException {
+		if(memberID == null) {
+			throw new InputException("no MemberID");
+		}
+		if(memberID.isEmpty()) {
+			throw new InputException("no MemberID");
+		}
+		
+		if(memberID.length() > 20) {
+			throw new InputException("MemberID too Long");
+		}
 		return memberDao.get(memberID);
 	}
 
 	@Override
-	public void register(MemberVO member) {
+	public void register(MemberVO member) throws InputException {
 
+		logger.info("memberID : "+member.getMemberID());
+		logger.info("password : "+member.getPassword());
+		logger.info("nickname : "+member.getNickname());
+		
+		if(member.getMemberID() == null) {
+			throw new InputException("memberID required");
+		}
+		if(member.getMemberID().isEmpty()) {
+			throw new InputException("memberID required");
+		}
+		if(member.getMemberID().length() > 20) {
+			throw new InputException("memberID too Long");
+		}
+		
+		if(member.getPassword() == null) {
+			throw new InputException("password required");
+		}
+		if(member.getPassword().isEmpty()) {
+			throw new InputException("password required");
+		}
+		if(member.getNickname() == null) {
+			throw new InputException("nickname required");
+		}
+		if(member.getNickname().isEmpty()) {
+			throw new InputException("nickname required");
+		}
+		if(member.getNickname().length() > 20) {
+			throw new InputException("nickname too Long");
+		}
+		
 		String hashedPW;
 
 		try {
@@ -55,6 +96,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public String login(MemberVO member) {
+		
 		String hashedPW = null;
 		try {
 			hashedPW = hashWith256(member.getPassword());

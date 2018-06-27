@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="true" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -9,6 +10,10 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"  rel="stylesheet">
 <html>
 <head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
 <style>body{
     padding-top: 100px;
 }
@@ -152,9 +157,12 @@ body{
 </form>
 </div>
 
-	<script>
-		
-	</script>
+<%-- <c:if test="${logintest != '' || logintest ne null}">
+
+	<script>alert(${logintest})</script>
+</c:if> --%>
+
+	
 	
 	<!-- <form action="auth/logout" method="get">
 	
@@ -219,11 +227,11 @@ body{
         
         $('#signup').prop("disabled", true);
         
-        /*  if(fr.memberID.value.length != 0 && 
-        		fr.password.value.length != 0 && fr.nickname.value.length!= 0
-        		&& IDchecked){
-        	 $('#signup').prop("disabled", false);
-        }   */
+        if("${logintest}" != ""){
+        //if("${logintest}" != null || "${logintest}" == ""){
+        	alert("${logintest}");
+        //}
+        }
     }); 
     
     
@@ -253,13 +261,27 @@ body{
     			 $('#signup').prop("disabled", false);
     			IDchecked = true;
     		},
-    		error: function(request, error){
+    		error(jqXHR, textStatus, errorThrown){
+    			console.log(jqXHR);
+    			console.log(textStatus);
+    			console.log(errorThrown);
+    			
+    			if(jqXHR.status == 400){
+    				alert(jqXHR.responseText);
+    				//no MemberID, memberID too long
+    			}
+    			if(jqXHR.status == 409){		//conflict
+    				alert("use another ID");
+    			}
+    		}
+    		/* error: function(request, error){
     			if(request.status = 409){
     				alert("use another ID");
     			}else{
     				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
     			}		
-    		}
+    		} */
+    		
     	})
     }
     
@@ -282,11 +304,12 @@ body{
     			alert("회원가입 완료");
     			console.log(result);
     		},
-    		error: function(request, error){
-    			console.log(request);
-    			console.log(error);
-    			if(request.status = 409){
-    				//alert();
+    		error: function(jqXHR, textStatus, errorThrown){
+    			console.log(jqXHR);
+    			console.log(textStatus);
+    			console.log(errorThrown);
+    			if(jqXHR.status = 409){
+    				alert("response : "+jqXHR.responseText);
     			}		
     		}
     	}) 	

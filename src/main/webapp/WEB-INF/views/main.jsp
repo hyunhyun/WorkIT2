@@ -515,9 +515,14 @@ verical-align:middle;
     padding: 1.25rem;
 }
 
+#deleteFileBtn_create{
+	display: none;
+}
 
-
-
+.ui-autocomplete { 
+	z-index:2147483647; 
+	background-color: #f0f3f5;
+	}
 
 
 /** =====================
@@ -638,17 +643,60 @@ verical-align:middle;
       </ul>
       <ul class="navbar-nav ml-auto">
        
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown"><!-- TODO 여기에 팀멤버 보이기 및 팀멤버 추가 -->
           <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-fw fa-bell"></i>
-            <span class="d-lg-none">Alerts
-              <span class="badge badge-pill badge-warning">6 New</span>
+            <!-- <i class="fa fa-fw fa-bell"></i> -->
+            <i class="fas fa-users"></i>
+            <span class="d-lg-none">TeamMember
+              <!-- <span class="badge badge-pill badge-warning">6 New</span> -->
+              <span class="badge badge-pill badge-warning"></span>
             </span>
             <span class="indicator text-warning d-none d-lg-block">
               <i class="fa fa-fw fa-circle"></i>
             </span>
           </a>
           
+          <div class="dropdown-menu" aria-labelledby="alertsDropdown" id="teamMemberDropDown">
+            <h6 class="dropdown-header">TeamMember :
+            <div class="input-group">
+            <input class="form-control" type="text" placeholder="Add TeamMember" id="teamMemberAdd">
+         		<button class="btn btn-primary" type="button" onclick="teamMemberAdd()">
+           	<i class="fa fa-search"></i>
+         </button>
+         </div>            
+            </h6>
+       
+          
+       <!--   <div class="form-inline my-2 my-lg-0 mr-lg-2">
+     <div class="input-group">
+       <input class="form-control" type="text" placeholder="Search by Content" id="searchContent">
+       <span class="input-group-append">
+         <button class="btn btn-primary" type="button" onclick="searchContent()">
+           <i class="fa fa-search"></i>
+         </button>
+       </span>
+     </div>
+  </div -->
+            
+            <c:if test="${memberList != '' || memberList ne null}">
+            <c:forEach var="member" items="${memberList}" varStatus="status">
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <span class="text-success">
+                <strong>
+                  <i class="fas fa-user-alt"></i>
+                  &nbsp ${member.memberID}
+                </strong>
+              </span>
+              <!-- <span class="small float-right text-muted">11:21 AM</span> -->
+              <div class="dropdown-message small">${member.nickname}</div>
+            </a>
+            </c:forEach>
+    		</c:if>
+           <!--  <div class="dropdown-divider"></div>	 -->
+    		
+            <!-- <a class="dropdown-item small" href="#">View all alerts</a> -->
+          </div>         
         </li>
        <!--  <li class="nav-item">
           <form class="form-inline my-2 my-lg-0 mr-lg-2">
@@ -825,7 +873,8 @@ verical-align:middle;
    <!--  첨부파일 등록영역 -->
     <div class="fileDrop">여기에 파일을 드롭해주세요</div>
     <!-- 첨부파일의 목록 출력영역 -->
-    <div id="uploadedList"></div>
+    <button class="btn btn-default" id="deleteFileBtn_create" onclick="deleteFileArray()">파일첨부 해제</button>
+    <div id="uploadedList_create"></div>
 </div> 
 
 <!-- 일반적 방식 파일업로드 -->

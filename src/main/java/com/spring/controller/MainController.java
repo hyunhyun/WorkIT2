@@ -50,10 +50,16 @@ public class MainController {
 
 		logger.info("Mainpage teamID : " + teamID);
 		logger.info("Mainpage session memberID"+memberID);
+		logger.info("memberList size : " + memberList.size());
 
+		for(int i=0; i<memberList.size(); i++) {
+			logger.info("memberList "+i+" memberID : "+memberList.get(i).getMemberID());
+			logger.info("memberList "+i+" nickname : "+memberList.get(i).getNickname());
+		}
+		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("topicList", topicList);
-		mv.addObject("members", memberList);
+		mv.addObject("memberList", memberList);
 		mv.addObject("teamID", teamID);
 		mv.addObject("memberID", memberID);
 		mv.setViewName("main");

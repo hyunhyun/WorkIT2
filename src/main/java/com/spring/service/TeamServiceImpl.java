@@ -28,6 +28,7 @@ public class TeamServiceImpl implements TeamService {
 
 	@Autowired
 	MemberDAO memberDao;
+	
 
 	@Override
 	public int registerTeam(TeamVO vo) throws Exception {		
@@ -74,7 +75,9 @@ public class TeamServiceImpl implements TeamService {
 			vo.setTeamID(teamID);
 
 			MemberVO checkvo = memberDao.get(memberID);
-			if (checkvo != null) {
+			if (checkvo != null) {		//teamMember should be a Member
+				
+				vo.setNickname(checkvo.getNickname());
 				int rowCount = teamDao.registerTeamMember(vo);
 				if(rowCount != 1) {
 					throw new Exception("TeamMember not registered");

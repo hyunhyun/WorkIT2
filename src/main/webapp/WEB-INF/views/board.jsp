@@ -200,7 +200,11 @@ nav{
  	position: relative;
  }
  
-.ui-autocomplete { z-index:2147483647; }
+.ui-autocomplete { 
+	z-index:2147483647; 
+	background-color: #f0f3f5;
+	/* width : inherit; */
+	}
 
 .ui-helper-hidden-accessible { 
     position: absolute

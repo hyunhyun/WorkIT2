@@ -11,6 +11,8 @@
 	
 	var filesArray = null;
 	
+	var globalNickname = null;
+	
 	$(document).ready(function(){
 		
 //		topicSelected(globalTopicID)
@@ -396,6 +398,7 @@
 //					$("#date_read").text(result.memo.date);
 					$("#writer_read").text(result.memo.writer);
 					
+					$("#uploadedList_read").empty();
 					//show files
 					if(result.files != null){
 						for(var i=0; i<result.files.length; i++){
@@ -403,7 +406,8 @@
 			                var originalName = result.files[i].fileName.substring(n+1);
 			                str = "<div><a href='resources/upload/"+result.files[i].fileName+"'>"+originalName+"</a>";
 			                // 삭제 버튼
-			                str += "<span data-src="+result.files[i].fileName+">[삭제]</span></div>";
+			                str += '<span data-src='+result.files[i].fileName+' onclick="deleteFile('+memoID+', '+result.files[i].fileID+', \''+result.files[i].fileName+'\')">[삭제]</span></div>';
+			                
 			                $("#uploadedList_read").append(str);
 						}
 					}
@@ -651,7 +655,12 @@
 				success: function(result, status, xhr){
 					console.log(result);
 					
-//					selectMemo(result.memoID);
+					filesArray.length = 0;
+					selectMemo(memoID);
+				},error(jqXHR, textStatus, errorThrown){
+					console.log(jqXHR);
+					console.log(textStatus);
+					console.log(errorThrown);
 				},
 				 contentType:false,
 			     processData:false
@@ -679,7 +688,8 @@
 //					var commentList = $("#comments-container");
 					var commentList = $(".comments-container");
 					commentList.empty();
-					commentList.append(`	<h1>Comentarios <a href="http://creaticode.com">creaticode.com</a></h1>`);
+					//commentList.append(`<h1>Comentarios <a href="http://creaticode.com">creaticode.com</a></h1>`);
+					commentList.append(`<h1>Comments</h1>`);
 //					commentList.append('<ul class="comments"></ul>');
 					commentList.append('<ul id="comments-list" class="comments-list"></ul>');
 					
@@ -734,24 +744,7 @@
 						var minute = date.getMinutes();
 						var seconds = date.getSeconds();
 						
-//						$(".comments").append(`<li class="clearfix" id="commentReadContainer_'+result[i].commentID+'">					  
-//						  <div class="post-comments">
-//						      <p class="meta" id="commentDateRead_`+result[i].commentID+`">`+year+` - `+month+` - `+day+` <a>`+result[i].writer+`</a> says : <i class="pull-right"><a href="#"><small>Reply</small></a></i></p>
-//						      <p class="commentContent" id="commentContentRead_`+result[i].commentID+`">`+result[i].content+`</p>				
-//						  </div
-//						</li>`);
-//						if(result[i].writer == memberID){
-//							$("#commentReadContainer_"+result[i].commentID).append(updateBtn);
-//							$("#commentReadContainer_"+result[i].commentID).append(deleteBtn);	
-//						}
-//						
-//						$(".comments").append(`<li class="clearfix" id="commentUpdateContainer_`+result[i].commentID+`" hidden="true">
-//								 
-//								  <div class="post-comments">
-//								      <input type="text" class="commentContent" id="commentContentUpdate_`+result[i].commentID+`" placeholder="`+result[i].content+`"/>
-//								      <input type="button" class="commentUpdateSend" onclick="updateComment(`+result[i].commentID+`)" value="저장"/>
-//								  </div>
-//								</li>`);
+
 						
 						//img 있는거 - 자꾸 화면 정렬 잘안되
 //					 사진 추가할라면 div class avatar 추가하면 되
@@ -775,50 +768,71 @@
 						</div>	
 					</li>*/
 						
-						
-						$("#comments-list").append(`
-			<li id="commentReadContainer_`+result[i].commentID+`">
-				<div class="comment-main-level">
-					<!-- Avatar -->
-					
-					<!-- Contenedor del Comentario -->
-					<div class="comment-box">
-						<div class="comment-head">
-							<h6 class="comment-name by-author"><a href="http://creaticode.com/blog">`+result[i].writer+`</a></h6>
-							<span>`+year+` - `+month+` - `+day+` `+hour+`: `+minute+`</span>
-							
-							<i class="fas fa-edit" onclick="showUpdateComment(`+result[i].commentID+`)"></i>
-							<i class="fa fa-trash" onclick="deleteComment(`+result[i].commentID+`)"></i>
-						</div>
-						<div class="comment-content" id="commentContentRead_`+result[i].commentID+`">
-							`+result[i].content+`
-						</div>
-					</div>
-				</div>	
-			</li>
-			<li id="commentUpdateContainer_`+result[i].commentID+`" class="commentUpdateDiv">
-				<div class="comment-main-level" id="commentReadContainer_`+result[i].commentID+`">
-					<!-- Avatar -->
-					
-					<!-- Contenedor del Comentario -->
-					<div class="comment-box">
-						<div class="comment-head">
-							<h6 class="comment-name by-author"><a href="http://creaticode.com/blog">`+result[i].writer+`</a></h6>
-							<span>`+year+` - `+month+` - `+day+`</span>
-							
-						</div>
-						<div class="comment-content">
-							<input type="text" id="commentContentUpdate_`+result[i].commentID+`" value="`+result[i].content+`"/>
-							<i class="fa fa-arrow-circle-right" onclick="updateComment(`+result[i].commentID+`)"></i>
-						</div>		
-					</div>
-				</div>
-			</li>
-			`);
-						
-		$(".commentUpdateDiv").hide();
+						if(result[i].writer == memberID){
+							$("#comments-list").append(`
+								<li id="commentReadContainer_`+result[i].commentID+`">
+									<div class="comment-main-level">
+										<!-- Avatar -->
 										
+										<!-- Contenedor del Comentario -->
+										<div class="comment-box">
+											<div class="comment-head">
+												<h6 class="comment-name by-author"><a>`+result[i].writer+`</a></h6>
+												<span>`+year+` - `+month+` - `+day+` `+hour+`: `+minute+`</span>
+											
+												
+												<i class="fas fa-edit" onclick="showUpdateComment(`+result[i].commentID+`)"></i>
+												<i class="fa fa-trash" onclick="deleteComment(`+result[i].commentID+`)"></i>
+											</div>
+											<div class="comment-content" id="commentContentRead_`+result[i].commentID+`">
+												`+result[i].content+`
+											</div>
+										</div>
+									</div>	
+								</li>
+								<li id="commentUpdateContainer_`+result[i].commentID+`" class="commentUpdateDiv">
+									<div class="comment-main-level" id="commentReadContainer_`+result[i].commentID+`">
+										<!-- Avatar -->
+										
+										<!-- Contenedor del Comentario -->
+										<div class="comment-box">
+											<div class="comment-head">
+												<h6 class="comment-name by-author"><a>`+result[i].writer+`</a></h6>
+												<span>`+year+` - `+month+` - `+day+`</span>
+												
+											</div>
+											<div class="comment-content">
+												<input type="text" id="commentContentUpdate_`+result[i].commentID+`" value="`+result[i].content+`"/>
+												<i class="fa fa-arrow-circle-right" onclick="updateComment(`+result[i].commentID+`)"></i>
+											</div>		
+										</div>
+									</div>
+								</li>
+							`);
 						
+							$(".commentUpdateDiv").hide();
+										
+						}else{
+						
+							$("#comments-list").append(`
+								<li id="commentReadContainer_`+result[i].commentID+`">
+										<div class="comment-main-level">
+											<!-- Avatar -->
+											
+											<!-- Contenedor del Comentario -->
+											<div class="comment-box">
+												<div class="comment-head">
+													<h6 class="comment-name by-author"><a>`+result[i].writer+`</a></h6>
+													<span>`+year+` - `+month+` - `+day+` `+hour+`: `+minute+`</span>
+												</div>
+												<div class="comment-content" id="commentContentRead_`+result[i].commentID+`">
+													`+result[i].content+`
+												</div>
+											</div>
+										</div>	
+									</li>`);		
+						
+						}		
 					}
 					
 					globalOpenComment = true;
@@ -1097,6 +1111,11 @@
 	            //var formData = new FormData();
 	            // 폼 객체에 파일추가, append("변수명", 값)
 	            //formData.append("file", file);
+	            
+                // 삭제 버튼
+	            var fileName= '<div>'+file.name+'</div>';
+	            $("#deleteFileBtn_create").show();
+                $("#uploadedList_create").append(fileName);
 	       
 	        });
 	        
@@ -1172,9 +1191,11 @@
 //						$("#memoContainer").append(div);
 						
 						
-						$("#insideMemoContainer > #CardContainer").empty();
+						$("#insideMemoContainer > #cardContainer").empty();
 						for(var i=0; i<result.length; i++){
 							var title = result[i].title;
+							
+//							$("#insideMemoContainer > #cardContainer").empty();
 //							 bg-primary -파, bg-warning-노, bg-success-초, bg-danger-빨
 							$("#insideMemoContainer > #cardContainer").append(`<div class="col-xl-3 col-sm-6 mb-3">
 							          <div class="card text-white bg-warning o-hidden h-100">
@@ -1270,6 +1291,121 @@
 				})
 			}
 		});
+		
+		
+		function deleteFile(memoID, fileID, fileName){
+			var totalObject = new Object;
+			totalObject.fileName = fileName;
+			
+			console.log("deleteFile start");
+			console.log("fileID : "+fileID);
+			console.log("fileName : "+fileName);
+			//file DB에서도 지우고, 업로드 된 위치에서도 지우고
+			$.ajax({
+				url:contextPath+"/file/"+fileID,
+				method: "DELETE",
+				data: totalObject,
+				success : function(result){
+					console.log("deleteFile result : "+result);
+					
+					selectMemo(memoID);
+				},
+				error: function(jqXHR,textStatus, errorThrown){
+//					jqXHR :브라우저 XMLHttpRequest Object의 집합
+//					if(jqXHR.status == 400){
+//						alert(jqXHR.responseText);
+//					}
+//					if(jqXHR.status == 500){//InternalServerError - file Not Deleted
+//						
+//					}
+					alert("file Deleted fail");
+					
+					console.log(jqXHR);
+					console.log(textStatus);
+					console.log(errorThrown);
+				}
+			})
+		}
+		
+		function deleteFileArray(){
+			filesArray.length = 0;
+			
+			$("#uploadedList_create").empty();
+		}
+		
+		function teamMemberAdd(){
+			var teamMemberID = $("#teamMemberAdd").val();
+			var totalObject = new Object();
+			
+			totalObject.memberID = teamMemberID;
+			totalObject.teamID = teamID;
+			totalObject.nickname = globalNickname;
+			
+			console.log("teamMemberAdd nickname : "+globalNickname);
+			
+			$.ajax({
+				url:contextPath+"/team/member",
+				method: "POST",
+				data: totalObject,
+				success : function(result){
+					//if result null 이미 있는 teamMember
+					if(result != null && result!= ""){
+					console.log("add TeamMember result : "+result);
+					
+					$("#teamMemberDropDown").append(
+			`<div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">
+              <span class="text-success">
+                <strong>
+                  <i class="fas fa-user-alt"></i>&nbsp ${result.memberID}</strong>
+              </span>
+              <div class="dropdown-message small">${result.nickname}</div>
+            </a>`);
+					}					
+				},
+				error: function(jqXHR,textStatus, errorThrown){
+
+					console.log(jqXHR);
+					console.log(textStatus);
+					console.log(errorThrown);
+					
+//					if(jqXHR.status ==){
+//						
+//					}
+				}
+			})
+		}
+		
+		
+		
+		
+$("#teamMemberAdd").autocomplete({			
+			source: function(request, response){
+				$.ajax({
+					url: contextPath+"/member",
+					method: "GET",
+					data: {search: $("#teamMemberAdd").val()},
+					success: function(data){
+						console.log(data);
+						
+						$(".ui-helper-hidden-accessible").hide();
+						response($.map(data, function(item){
+							return {label: item.memberID, value: item.memberID, nickname: item.nickname};
+						}));
+					},
+					error : function(jqXHR,request, error){
+						console.log(jqXHR);
+						console.log(status);
+						console.log(error);			
+					}
+				})	
+			},
+			select : function(event, ui){
+				globalNickname = ui.item.nickname;
+				
+				console.log("autocomplete select nickname : "+ui.item.nickname);
+			}
+		})
 		
 		
 		

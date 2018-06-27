@@ -123,7 +123,7 @@ public class MemoServiceImpl implements MemoService {
 		
 		String responsableID = memoVO.getResponsable();
 			
-		if(responsableID != null) {//responsable있을때만
+		if(responsableID != null && !responsableID.isEmpty()) {//responsable있을때만
 			int checkMemberCount = TeamMemberDao.checkTeamMember(teamMemberVO);
 			if(checkMemberCount == 0) {
 				throw new InputException("Responsable Must be a TeamMember");

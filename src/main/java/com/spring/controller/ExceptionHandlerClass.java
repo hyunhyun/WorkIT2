@@ -14,6 +14,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import com.mysql.jdbc.MysqlDataTruncation;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+import com.spring.model.DBException;
 import com.spring.model.InputException;
 
 @ControllerAdvice
@@ -70,8 +71,8 @@ public class ExceptionHandlerClass {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ResponseBody
 	public String typeMisMatch(MethodArgumentTypeMismatchException exception) {
-		//type mismatch�ε� topicID�� teamID �Ѱܾ� �Ǵµ�
-		//topicID�� teamID �ʱ�ȭ �ȵǸ� ""�Ǽ� ���ڰ� �ƴ� string �Ǽ� ����
+		//type mismatch�ε� topicID�� teamID �Ѱܾ� �Ǵµ�
+		//topicID�� teamID �ʱ�ȭ �ȵǸ� ""�Ǽ� ���ڰ� �ƴ� string �Ǽ� ����
 		logger.error(exception.getClass().getName() + " error :" + exception.getMessage());
 		
 		return exception.getMessage();
@@ -88,6 +89,15 @@ public class ExceptionHandlerClass {
 //	}
 //	
 	
+	@ExceptionHandler(value=DBException.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ResponseBody
+	public String badDBService(DBException exception) {
+		logger.error(exception.getClass().getName() + " error :" + exception.getMessage());
+		
+		return exception.getMessage();
+	}
+	
 	@ExceptionHandler(value = NullPointerException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ResponseBody
@@ -95,7 +105,7 @@ public class ExceptionHandlerClass {
 		
 		logger.error(exception.getClass().getName() + " error :" + exception.getMessage());
 		
-		return exception.getMessage();
+		return "잘못된 요청입니다";
 	}
 	
 	@ExceptionHandler(value=MysqlDataTruncation.class)
@@ -105,7 +115,7 @@ public class ExceptionHandlerClass {
 		logger.error(exception.getClass().getName() + " error :" + exception.getMessage());
 		exception.getCause();
 		
-		return exception.getMessage();
+		return "DB에 에러가 발생했습니다";
 	}
 	
 	@ExceptionHandler(value = Exception.class)
@@ -115,7 +125,7 @@ public class ExceptionHandlerClass {
 		
 		logger.error(exception.getClass().getName() + " error :" + exception.getMessage());
 		
-		return exception.getMessage();
+		return "서버상의 이유로 요청하신 서비스를 실행할 수 없습니다";
 	}
 
 	

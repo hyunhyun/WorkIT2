@@ -29,7 +29,7 @@ public class LoginController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		model.addAttribute("logintest", "login");
+		model.addAttribute("logintest", null);
 		return "login";
 	}
 
@@ -52,10 +52,11 @@ public class LoginController {
 
 		if (msg.equals("success")) {
 			session.setAttribute("memberID", memberID);
-			model.addAttribute("logintest", "login Succeed");
+			model.addAttribute("logintest", null);
 			return "redirect:/board";
 		} else {
 			model.addAttribute("logintest", msg);
+			
 			return "login";
 		}
 
@@ -72,27 +73,24 @@ public class LoginController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String register(Model model, @RequestParam("memberID") String memberID,
 		@RequestParam("password") String password,
-		@RequestParam("nickname") String nickname) {
+		@RequestParam("nickname") String nickname) throws InputException {
 		
-		if (!memberID.isEmpty() && !password.isEmpty() && !nickname.isEmpty()) {
+//		if (!memberID.isEmpty() && !password.isEmpty() && !nickname.isEmpty()) {
 			MemberVO vo = new MemberVO();
 			vo.setMemberID(memberID);
 			vo.setPassword(password);
 			vo.setNickname(nickname);
 
-			try {
-				memberService.register(vo);
-			} catch (Exception e) {
-
-			}
-		}
+			memberService.register(vo);
+//		}
 
 		return "redirect:/auth/login";
+//		return "login";
 	}
 
 	@RequestMapping(value = "/checkID", method = RequestMethod.GET)
 	public ResponseEntity<Void> checkID(Model model,
-		@RequestParam(value = "memberID", required = true) String memberID) {
+		@RequestParam(value = "memberID", required = true) String memberID) throws InputException {
 		logger.info("auth/checkID : GET");
 		logger.info("checkID Request memberID : "+memberID);
 		

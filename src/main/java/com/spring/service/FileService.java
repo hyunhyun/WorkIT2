@@ -2,6 +2,8 @@ package com.spring.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.ResponseEntity;
 
 import com.spring.model.CommentVO;
@@ -13,5 +15,5 @@ public interface FileService {
 	public int registerFile(FileVO vo) throws InputException;
 	public FileVO getFile(int fileID);
 	public List<FileVO> getFileList(int memoID) throws Exception;
-	public int deleteFile(int fileID);
+	public int deleteFile(int fileID, String fileName, HttpServletRequest request) throws Exception;
 }

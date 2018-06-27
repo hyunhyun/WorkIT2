@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.model.InputException;
 import com.spring.model.TeamVO;
+import com.spring.service.MemberService;
 import com.spring.service.TeamService;
 
 @Controller
@@ -28,6 +29,9 @@ public class TeamController {
 	
 	@Autowired
 	TeamService teamService;
+	
+	@Autowired
+	MemberService memberService;
 
 	@RequestMapping(value = "/team/page", method = RequestMethod.GET)
 	public String showTeamPage(Model model) {
@@ -60,6 +64,7 @@ public class TeamController {
 
 		logger.info("/team POST data: "+data);
 
+		
 		TeamVO teamvo = new TeamVO();
 		teamvo.setTeamName(teamName);
 		teamvo.setmadeBy(madeBy);

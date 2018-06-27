@@ -26,16 +26,16 @@ public class TeamDAO {
 		return sqlSession.insert(namespace + ".registerTeamMember", vo);
 	}
 
-	public TeamVO getTeam(String groupID) {
-		return sqlSession.selectOne(namespace + ".getTeam", groupID);
+	public TeamVO getTeam(String teamID) {
+		return sqlSession.selectOne(namespace + ".getTeam", teamID);
 	}
 
 	public List<TeamVO> teamDao(String memberID) {
 		return sqlSession.selectList(namespace + ".getmyTeamList");
 	}
 
-	public List<TeamMemberVO> getTeamMember(int groupID) {
-		return sqlSession.selectList(namespace + ".getTeamMember");
+	public List<TeamMemberVO> getTeamMember(int teamID) {		
+		return sqlSession.selectList(namespace + ".getTeamMember", teamID);
 	}
 
 	//	public int getTeamId(TeamVO vo) {
@@ -55,6 +55,10 @@ public class TeamDAO {
 
 	public int deleteTeam(int teamID) {
 		return sqlSession.delete(namespace + ".deleteTeam", teamID);
+	}
+	
+	public int checkTeamMember(TeamMemberVO teamMemberVO) {
+		return sqlSession.selectOne(namespace + ".checkTeamMember", teamMemberVO);
 	}
 	
 	

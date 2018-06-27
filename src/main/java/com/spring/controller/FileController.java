@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -126,81 +127,71 @@ public class FileController {
 	@ResponseBody
 	public String upload(MultipartHttpServletRequest multi) throws IOException, InputException{
 		
-	 //참고, String filePath=request.getSession().getServletContext().getRealPath("upload");
-	  //절대경로 : String filePath = "c:\\data\\" + file.getOriginalFilename();
+		//참고, String filePath=request.getSession().getServletContext().getRealPath("upload");
+		  //절대경로 : String filePath = "c:\\data\\" + file.getOriginalFilename();		
+		  // 파일을 실제 서버에 저장
+	
+		  // 웹서비스 root 경로​
+			 
+		      String root_path = multi.getSession().getServletContext().getRealPath("/");  
 		
-	  // 파일을 실제 서버에 저장
+		      String attach_path = "resources/upload/";
 	
-	  // 웹서비스 root 경로​
-		//logger.info("/fileUPload list file: "+file);
-		 
-//	      String root_path = request.getSession().getServletContext().getRealPath("/");  
-	      String root_path = multi.getSession().getServletContext().getRealPath("/");  
-	
-	      String attach_path = "resources/upload/";
-	      
-	      //String saveName = null;      
-	      
-//	      UUID 36자
-//			UUID uuid = UUID.randomUUID();
-//			saveName = uuid.toString() + "_" + originalName;
-			
-//			if(saveName.length() > 255) {
-//				throw new InputException("fileName too Long");
-//			}
-			
-	      String saveName = null;
-			
-			   Iterator<String> files = multi.getFileNames();	    
-			   
-			   
-			/*   while(files.hasNext()) {
-				   String uploadFile = files.next();
-                   
-		            MultipartFile mFile = multi.getFile(uploadFile);
-		            String fileName = mFile.getOriginalFilename();
-		            logger.info(" 실제 파일 이름 : " +fileName);
-			   }
-			   */
-			   
-			   
-			      while(files.hasNext()){
-			            String uploadFile = files.next();
-			                         
-			            logger.info("uploadFile : "+uploadFile);
-			            MultipartFile mFile = multi.getFile(uploadFile);
-			            String fileName = mFile.getOriginalFilename();
-			            logger.info(" 실제 파일 이름 : " +fileName);
-			            
-			            UUID uuid = UUID.randomUUID();
-						saveName = uuid.toString() + "_" + fileName;
-			            
-						logger.info("saveName : "+saveName);
-			            try {
-//			                mFile.transferTo(new File(root_path +attach_path, saveName));
+				
+		      String saveName = null;
+				
+				   Iterator<String> files = multi.getFileNames();	    
+				   
+				      while(files.hasNext()){
+				            String uploadFile = files.next();
+				                         
+				            logger.info("uploadFile : "+uploadFile);
+				            MultipartFile mFile = multi.getFile(uploadFile);
+				            String fileName = mFile.getOriginalFilename();
+
+				            
+
+				            fileName = new String(fileName.getBytes("8859_1"),"utf-8");
+
+
+				            logger.info(" 실제 파일 이름 : " +fileName);
+				            
+				            UUID uuid = UUID.randomUUID();
+							saveName = uuid.toString() + "_" + fileName;
+				            
+							if(saveName.length() > 255) {
+							throw new InputException("fileName too Long");
+						}
+							logger.info("saveName : "+saveName);
+				            
 			            	File target = new File(root_path +attach_path, saveName);
 			    			FileCopyUtils.copy(mFile.getBytes(), target);
-			    			
 			    			
 			    			FileVO fileVO = new FileVO();
 			    			fileVO.setFileName(saveName);
 			    			fileVO.setMemoID(Integer.parseInt(multi.getParameter("memoID")));
 			    			fileService.registerFile(fileVO);
-			    			
-			            } catch (Exception e) {
-			                e.printStackTrace();
-			            }
-			        }
-			      
-			      
+
+				        }	      
 			
 			//File target = new File(root_path +attach_path, saveName);
 			//FileCopyUtils.copy(file[i].getBytes(), target);
-			
-	
-			
-	     
+   
 			return saveName;
+	}
+	
+	
+	@RequestMapping(value="/file/{fileID}", method= RequestMethod.DELETE)
+	@ResponseBody
+	public int deleteFile(@PathVariable(value="fileID") int fileID, @RequestParam("fileName") String fileName, HttpServletRequest request) throws Exception {
+		logger.info("fileID : "+fileID);
+		logger.info("fileName : "+fileName);
+		
+		fileName = new String(fileName.getBytes("8859_1"),"utf-8");
+		
+		return fileService.deleteFile(fileID, fileName, request);
+
+		
 	}
 
 }
