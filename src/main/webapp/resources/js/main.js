@@ -1180,7 +1180,9 @@
 			//alert(searchContent);
 			var totalInfo = new Object();
 			totalInfo.searchContent = searchContent;
-
+			totalInfo.teamID = teamID;
+			
+			console.log("teamID : "+teamID);
 			$.ajax({
 				type: "GET",
 				url: contextPath+"/memo",

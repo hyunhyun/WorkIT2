@@ -57,6 +57,7 @@ public class BoardController {
 		return "board";
 	}
 
+	//TODO 애 안쓰이는거 같은데 확인
 	@RequestMapping(value = "/board", method = RequestMethod.POST)
 	public String selectTeam(Locale locale, Model model,
 		@RequestParam("topicID") int topicID) {

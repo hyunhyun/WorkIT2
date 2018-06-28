@@ -33,10 +33,10 @@ public class TeamController {
 	@Autowired
 	MemberService memberService;
 
-	@RequestMapping(value = "/team/page", method = RequestMethod.GET)
-	public String showTeamPage(Model model) {
-		return "teamRegister";
-	}
+//	@RequestMapping(value = "/team/page", method = RequestMethod.GET)
+//	public String showTeamPage(Model model) {
+//		return "teamRegister";
+//	}
 
 	@RequestMapping(value = "/team", method = RequestMethod.POST)
 	//	public String makeTeam(@RequestBody TeamRegister data) {
@@ -84,11 +84,11 @@ public class TeamController {
 		return "teamRegister";
 	}
 
-	@RequestMapping(value = "/team", method = RequestMethod.GET)
-	public String getTeam() {
-
-		return "teamRegister";
-	}
+//	@RequestMapping(value = "/team", method = RequestMethod.GET)
+//	public String getTeam() {
+//
+//		return "teamRegister";
+//	}
 
 	@RequestMapping(value = "/team", method = RequestMethod.PUT)
 	public ResponseEntity<Void> updateTeamName(@RequestParam("teamID") int teamID,

@@ -77,8 +77,8 @@ public class TopicController {
 		return topicService.updateTopic(topicID, topicName);
 	}
 
-	@RequestMapping(value = "/topic", method = RequestMethod.GET)
-	public void getTeamTopic() {}
+	/*@RequestMapping(value = "/topic", method = RequestMethod.GET)
+	public void getTeamTopic() {}*/
 
 	@RequestMapping(value = "/topic", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> deleteTopic(@RequestParam("topicID") int topicID) throws InputException {

@@ -77,12 +77,12 @@ public class TeamMemberController {
 		return teamMemberVO;
 	}
 	
-	@RequestMapping(value = "/team/member", method = RequestMethod.GET)
-	public void getTeamMember(
-		@RequestParam("teamID") int teamID,
-		@RequestParam("memberID") String memberID) {
-		
-	}
+//	@RequestMapping(value = "/team/member", method = RequestMethod.GET)
+//	public void getTeamMember(
+//		@RequestParam("teamID") int teamID,
+//		@RequestParam("memberID") String memberID) {
+//		
+//	}
 	
 	
 	@RequestMapping(value = "/team/member/auto", method = RequestMethod.GET)
