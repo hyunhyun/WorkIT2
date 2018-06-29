@@ -139,7 +139,7 @@ body{
 
 <form class="form-horizontal" action="login" method="post">
  	<br>
-      <h1 class="text-center">LOGO</h1>
+      <h1 class="text-center">WORK IT!</h1>
     <br>
      <input class="form-control" name="memberID" "placeholder="Username"/>
 	 <input class="form-control" name="password" placeholder="Password" type="password"/>

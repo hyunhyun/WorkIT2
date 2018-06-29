@@ -317,7 +317,7 @@
 				data: totalInfo,
 				success: function(result, status,xhr){
 			
-					alert("memo Created");
+					//alert("memo Created");
 					console.log(result);
 					//read로 바꿔놓아야함 - 해당글
 					
@@ -430,7 +430,7 @@
 				//datatype: "JSON",
 				//contentType : "application/json; charset=UTF-8",
 				success: function(){
-					alert("topic deleted");
+					//alert("topic deleted");
 					window.location.reload();
 				},
 				error :function(jqXHR,request, error){
@@ -606,7 +606,7 @@
 				type:"DELETE",
 				url: contextPath+"/memo/"+globalMemoID,
 				success: function(result, status,xhr){
-					alert("memo deleted");
+					alert("메모가 삭제 되었습니다");
 					
 					topicSelected(globalTopicID);
 				},
@@ -652,7 +652,7 @@
 				data: jObject,
 				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 				success: function(result, status,xhr){
-					alert("comment created");
+					//alert("comment created");
 					
 					globalOpenComment = false;
 					$("#commentList").empty();
@@ -967,7 +967,7 @@
 				type:"DELETE",
 				url: contextPath+"/comment/"+commentID,
 				success: function(result, status,xhr){
-					alert("comment deleted");
+					//alert("comment deleted");
 					
 					globalOpenComment = false;
 					$("#commentList").empty();
@@ -1014,7 +1014,7 @@
 				url: contextPath+"/comment/"+commentID,
 				data: jObject,
 				success: function(result, status,xhr){
-					alert("comment updated");	
+					//alert("comment updated");	
 					globalOpenComment = false;
 					$("#commentList").empty();
 					getMemoComment();

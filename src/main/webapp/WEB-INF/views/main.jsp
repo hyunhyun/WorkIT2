@@ -620,12 +620,31 @@ verical-align:middle;
         </li>
       </ul>
       <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-      <!-- <li class="nav-item" onclick="deleteMember()"> -->     
+    <%--   <li class="nav-item">    
+       <a class="nav-link">
+       	<!-- <script>memberID</script> -->
+       	<%= session.getAttribute("memberID") %>님
+       </a>
+       </li> --%>
+      
+      <!-- <li class="nav-item">
+      <li class="nav-item" onclick="deleteMember()">     
        <a class="nav-link" data-toggle="modal" data-target="#deleteMemberModal">
        <i class="fas fa-times-circle">회원탈퇴</i>
        </a>
-       </li>
+       </li> -->
+       
+       <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle mr-lg-2" id="memberDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <%= session.getAttribute("memberID") %>님
+          </a>
+          <div class="dropdown-menu" aria-labelledby="memberDropdown">     
+            <a class="dropdown-item" data-toggle="modal" data-target="#deleteMemberModal">
+       			<i class="fas fa-times-circle">회원탈퇴</i>
+       		</a>
+          </div>
+        </li>
+       
        
         <li class="nav-item dropdown"><!-- TODO 여기에 팀멤버 보이기 및 팀멤버 추가 -->
           <a class="nav-link dropdown-toggle mr-lg-2" id="alertsDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -643,9 +662,10 @@ verical-align:middle;
           <div class="dropdown-menu" aria-labelledby="alertsDropdown" id="teamMemberDropDown">
             <h6 class="dropdown-header">TeamMember :
             <div class="input-group">
-            <input class="form-control" type="text" placeholder="Add TeamMember" id="teamMemberAdd">
+            <input class="form-control" type="text" placeholder="Add" id="teamMemberAdd">
          		<button class="btn btn-primary" type="button" onclick="teamMemberAdd()">
-           	<i class="fa fa-search"></i>
+  
+           	<i class="fas fa-plus"></i>
          </button>
          </div>            
             </h6>
@@ -689,7 +709,7 @@ verical-align:middle;
         <li class="breadcrumb-item active">Cards</li>
       </ol>
       <!-- Breadcrumb End -->
-      <h1>MainPage</h1>
+      <!-- <h1>MainPage</h1> -->
 <hr>
 
 
@@ -837,9 +857,9 @@ verical-align:middle;
 <div id="readMemoDiv" class="card-read">
 
 <div class="card-header-read">Selected Memo</div>
-<div class="card-body-read">
-	<input type="button" onclick="updateBtn()" value="수정하기"/>
-	<input type="button" onclick="deleteMemo()" value="삭제하기"/>
+<div class="card-body-read"> 
+	<input type="button" class="btn btn-default" onclick="updateBtn()" value="수정하기"/>
+	<input type="button" class="btn btn-default" onclick="deleteMemo()" value="삭제하기"/>
 	<div class="blog-post">
 	<div id="readMemoDivBody">
 		<h2 class="blog-post-title mt-4" id="title_read">제목</h2>

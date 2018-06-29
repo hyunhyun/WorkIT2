@@ -441,7 +441,7 @@ nav{
 			
 			console.log(totalInfo);
 			var jsonInfo = JSON.stringify(totalInfo);
-			alert(JSON.stringify(totalInfo))
+			//alert(JSON.stringify(totalInfo))
 			
 			$.ajax({
 				type:"DELETE",
@@ -451,7 +451,8 @@ nav{
 				//datatype: "JSON",
 				contentType : "application/json; charset=UTF-8",
 				success: function(data){
-					alert("teamName deleted");
+					//alert("teamName deleted");
+					window.location.reload();
 				},
 				error :function(jqXHR,request, error){
 					console.log(jqXHR);
@@ -494,8 +495,8 @@ nav{
 			totalInfo.teamName = teamName; 
 			
 			console.log(totalInfo);
-			alert("teamID: "+ globalTeamID);
-			alert(JSON.stringify(totalInfo))
+			console.log("teamID: "+ globalTeamID);
+			console.log(JSON.stringify(totalInfo))
 			
 			$.ajax({
 				type:"PUT",
@@ -504,7 +505,8 @@ nav{
 				//datatype: "JSON",			//default
 				//contentType : "application/json; charset=UTF-8",		//default
 				success: function(data){
-					alert("teamName updated");
+					//alert("teamName updated");
+					window.location.reload();
 				},
 				error :function(jqXHR,request, error){
 					jqXHR.status
@@ -566,7 +568,7 @@ nav{
 			var jsonInfo =JSON.stringify(totalInfo);
 			
 			console.log(jsonInfo);
-			alert(jsonInfo);
+			
 			$.ajax({
 				url:contextPath+"/team",
 				method: "POST",
@@ -575,7 +577,7 @@ nav{
 				contentType : "application/json; charset=UTF-8",
 				success: function(result){
 					//alert("success");
-					alert("Team Created");
+					//alert("Team Created");
 					$("#createTeamModal").modal('hide');
 					window.location.reload();
 				},
@@ -584,7 +586,9 @@ nav{
 					console.log(status);
 					console.log(error);
 					
-					alert(jqXHR.responseText);
+					if(jqXHR.status == 400){
+						alert(jqXHR.responseText);
+					}
 				},
 				statusCode: {
 			        200: function () {
