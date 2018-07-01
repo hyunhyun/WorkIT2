@@ -105,6 +105,7 @@ public class ExceptionHandlerClass {
 		
 		logger.error(exception.getClass().getName() + " error :" + exception.getMessage());
 		
+		
 		return "잘못된 요청입니다";
 	}
 	

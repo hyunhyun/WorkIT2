@@ -10,6 +10,38 @@
 		</layout>
 	</appender>
 	
+	<appender name="fileAppender" class="org.apache.log4j.RollingFileAppender">
+      <param name="Threshold" value="INFO" />
+      <param name="File" value="/home1/irteam/jh/sample.log"/>
+      <layout class="org.apache.log4j.PatternLayout">
+         <param name="ConversionPattern" value="%d{yyyy MMM dd HH:mm:ss, SSS} %-5p: %c - %m%n" />
+      </layout>
+   </appender>
+   
+   
+   <appender name="dailyout" class="org.apache.log4j.DailyRollingFileAppender">  
+        <!-- 이것은 날짜별로  로그를 남김. 파일명.확장자.DatePattern으로 정의 함-->  
+        <param name="file" value="/home1/irteam/jh/ProjectManager2.log"/>  
+        <param name="Append" value="true"/>  
+        <param name="DatePattern" value="'.'yyMMdd"/>  
+        <layout class="org.apache.log4j.PatternLayout">  
+            <param name="ConversionPattern" value="%t> [%d{yyyy-MM-dd HH:mm:ss}] [%c{1}] [%L] [%p] %m %n"/>  
+        </layout>  
+    </appender> 
+   
+
+ <!--   <RollingFile name="RollingFile">
+  <FileName>/home1/irteam/jh/sample.log</FileName>
+  <FilePattern>/home1/irteam/jh/%d{yyyy-MM-dd-hh}.log</FilePattern>
+  <PatternLayout>
+    <Pattern>%d{yyyy-MMM-dd HH:mm:ss a} [%t] %-5level %logger{36} - %msg%n</Pattern>
+  </PatternLayout>
+  <Policies>
+    <TimeBasedTriggeringPolicy interval="2" modulate="true" />
+  </Policies>
+  <DefaultRolloverStrategy max="5" />
+</RollingFile> -->
+	
 	<!-- Application Loggers -->
 	<logger name="com.spring.sc30">
 		<level value="info" />
@@ -43,6 +75,8 @@
 	<root>
 		<priority value="warn" />
 		<appender-ref ref="console" />
+		<appender-ref ref="fileAppender" />
+		<appender-ref ref="dailyout"/>
 	</root>
 	
 </log4j:configuration>
