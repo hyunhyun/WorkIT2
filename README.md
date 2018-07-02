@@ -8,10 +8,10 @@ team들이 주제별로 업무 관련 글을 작성하고 담당자를 지정하
 업무 진행상황 및 업무 분할을 효율적으로 할 수 있게 도와주는 웹사이트입니다.
 </pre>
 
-<img width="48%" alt="login" src="https://media.oss.navercorp.com/user/9760/files/37a860a4-7e03-11e8-8f1a-3f0d5d57f102">
-<img width="48%" alt="team" src="https://media.oss.navercorp.com/user/9760/files/a65ff7ba-7e02-11e8-9da2-9649f228b535">
-<img width="48%" alt="main" src="https://media.oss.navercorp.com/user/9760/files/b78fd88e-7e02-11e8-94b6-d7f0da2c0c71">
-<img src="https://media.oss.navercorp.com/user/9760/files/ece91a3c-7e01-11e8-9a0b-898807cb967c" width="48%">
+<img width="40%" alt="login" src="https://media.oss.navercorp.com/user/9760/files/37a860a4-7e03-11e8-8f1a-3f0d5d57f102">
+<img width="40%" alt="team" src="https://media.oss.navercorp.com/user/9760/files/a65ff7ba-7e02-11e8-9da2-9649f228b535">
+<img width="40%" alt="main" src="https://media.oss.navercorp.com/user/9760/files/b78fd88e-7e02-11e8-94b6-d7f0da2c0c71">
+<img src="https://media.oss.navercorp.com/user/9760/files/ece91a3c-7e01-11e8-9a0b-898807cb967c" width="40%">
 
 ***
 
