@@ -135,7 +135,7 @@ public class TeamServiceImpl implements TeamService {
 		teamVO.setTeamName(teamName);
 		teamVO.setTeamID(teamID);
 
-		System.out.println("service update");
+		logger.info("service update");
 		int rowCount = teamDao.updateTeamName(teamVO);
 
 		if (rowCount > 0) {

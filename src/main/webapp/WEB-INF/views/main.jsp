@@ -744,7 +744,7 @@ verical-align:middle;
 
 <div id="createMemoDiv">
 
-	 -->
+	 
 	<section class="section">
 
     <!--Section heading-->

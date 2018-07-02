@@ -429,7 +429,7 @@ nav{
 			var hidden = $("<input type='hidden' value='"+ teamID+"' name='teamID'/>");
 			form.attr('action', 'main');
 			form.attr('method', 'get');
-			
+		
 			form.appendTo('body');
 			form.append(hidden);
 			form.submit();

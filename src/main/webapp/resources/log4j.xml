@@ -12,7 +12,7 @@
 	
 	<appender name="fileAppender" class="org.apache.log4j.RollingFileAppender">
       <param name="Threshold" value="INFO" />
-      <param name="File" value="/home1/irteam/jh/sample.log"/>
+      <param name="File" value="C:/hyun/sample.log"/>
       <layout class="org.apache.log4j.PatternLayout">
          <param name="ConversionPattern" value="%d{yyyy MMM dd HH:mm:ss, SSS} %-5p: %c - %m%n" />
       </layout>
@@ -21,7 +21,7 @@
    
    <appender name="dailyout" class="org.apache.log4j.DailyRollingFileAppender">  
         <!-- 이것은 날짜별로  로그를 남김. 파일명.확장자.DatePattern으로 정의 함-->  
-        <param name="file" value="/home1/irteam/jh/ProjectManager2.log"/>  
+        <param name="file" value="C:\hyun\ProjectManager2.log"/>  
         <param name="Append" value="true"/>  
         <param name="DatePattern" value="'.'yyMMdd"/>  
         <layout class="org.apache.log4j.PatternLayout">  
@@ -29,6 +29,10 @@
         </layout>  
     </appender> 
    
+
+
+
+
 
  <!--   <RollingFile name="RollingFile">
   <FileName>/home1/irteam/jh/sample.log</FileName>
@@ -51,6 +55,8 @@
 	<logger name="com.spring" >
 		<level value="info" />
 		<appender-ref ref="console" />
+		<appender-ref ref="fileAppender" />
+		<appender-ref ref="dailyout"/>
 	</logger>
 
 
