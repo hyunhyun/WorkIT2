@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.spring.model.MyTeamVO;
 import com.spring.service.TeamService;
 
-//git repository name changed
+//TEst
 @Controller
 public class BoardController {
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);

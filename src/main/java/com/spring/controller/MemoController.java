@@ -219,11 +219,12 @@ public class MemoController {
 		return memoList;
 	}*/
 
+	
 	@RequestMapping(value = "/memo", method = RequestMethod.GET)
 	@ResponseBody
 	public List<MemoVO> searchTeamContentMemo(@RequestParam("teamID") int teamID, @RequestParam("searchContent") String search) throws InputException, UnsupportedEncodingException {
 
-		search = new String(search.getBytes("ISO-8859-1"), "UTF-8");
+	//	search = new String(search.getBytes("ISO-8859-1"), "UTF-8");
 
 		logger.info("searchTeamContentMemo searchContent : "+search);
 		logger.info("searchTeamContentMemo teamID "+teamID);
