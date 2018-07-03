@@ -15,7 +15,7 @@ team들이 주제별로 업무 관련 글을 작성하고 담당자를 지정하
 
 ***
 
-데모페이지 : [demo](http://10.106.150.32:8080/ProjectManager2/auth/login)
+
 
 <pre>
   ID : jeonghyun
