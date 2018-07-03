@@ -22,13 +22,13 @@ team들이 주제별로 업무 관련 글을 작성하고 담당자를 지정하
   PW : pw
 </pre>
 ***
-1.개발 내용 : [feature list](https://oss.navercorp.com/2018-nbp-internship-team1/jeonghyun.yi/wiki/featurelist&milestone)  
+1.개발 내용 : [feature list](https://github.com/hyunhyun/WorkIT2/wiki/featurelist&milestone)  
 
 2.프로토타입 : [prototype](https://www.fluidui.com/editor/live/project/p_5gU7gCtkbfdNQPd5rsu1fqei5xvrXP1e)  
 
-3.api 설계: [api 설계](https://oss.navercorp.com/2018-nbp-internship-team1/jeonghyun.yi/wiki/API-%EC%84%A4%EA%B3%84)
+3.api 설계: [api 설계](https://github.com/hyunhyun/WorkIT2/wiki/API-%EC%84%A4%EA%B3%84)
 
-4.db 스키마 설계 : [db 스키마](https://oss.navercorp.com/2018-nbp-internship-team1/jeonghyun.yi/wiki/DB)
+4.db 스키마 설계 : [db 스키마](https://github.com/hyunhyun/WorkIT2/wiki/DB)
 
 
 
